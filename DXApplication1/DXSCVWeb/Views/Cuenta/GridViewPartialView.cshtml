@@ -1,0 +1,51 @@
+﻿@* DXCOMMENT: Configure GridView *@
+@Html.DevExpress().GridView(
+    settings =>
+    {
+        settings.Name = "GridView";
+        settings.CallbackRouteValues = new { Controller = "Home", Action = "GridViewPartialView" };
+        settings.CustomActionRouteValues = new { Controller = "Home", Action = "ChangeEditModePartial" };
+        settings.SettingsEditing.AddNewRowRouteValues = new { Controller = "Home", Action = "EditModesAddNewPartial" };
+        settings.SettingsEditing.UpdateRowRouteValues = new { Controller = "Home", Action = "EditModesUpdatePartial" };
+        settings.SettingsEditing.DeleteRowRouteValues = new { Controller = "Home", Action = "EditModesDeletePartial" };
+        settings.SettingsEditing.Mode = DXSCVWeb.Controllers.GridViewEditingDemosHelper.EditMode;
+        settings.SettingsBehavior.ConfirmDelete = true;
+        settings.SettingsPopup.EditForm.Width = 600;
+        settings.Width = Unit.Percentage(100);
+
+        settings.CommandColumn.Visible = true;
+        settings.CommandColumn.ShowNewButton = true;
+        settings.CommandColumn.ShowDeleteButton = true;
+        settings.CommandColumn.ShowEditButton = true;
+        settings.SettingsPager.PageSize = 50;
+        settings.ControlStyle.Paddings.Padding = System.Web.UI.WebControls.Unit.Pixel(0);
+        settings.ControlStyle.Border.BorderWidth = System.Web.UI.WebControls.Unit.Pixel(0);
+        settings.ControlStyle.BorderBottom.BorderWidth = System.Web.UI.WebControls.Unit.Pixel(1);
+
+        // DXCOMMENT: Specify the grid's key field name and define grid columns in accordance with data model fields
+        settings.KeyFieldName = "CuentaId";
+        settings.Columns.Add("UserName");
+        settings.Columns.Add("Password");
+        settings.Columns.Add(column =>
+        {
+            column.FieldName = "FechaAlta";
+            column.Caption = "Fecha Alta";
+
+            column.ColumnType = MVCxGridViewColumnType.DateEdit;
+            //var comboBoxProperties = column.PropertiesEdit as ComboBoxProperties;
+            //comboBoxProperties.DataSource = NorthwindDataProvider.GetCategories();
+            //comboBoxProperties.TextField = "CategoryName";
+            //comboBoxProperties.ValueField = "CategoryID";
+            //comboBoxProperties.ValueType = typeof(int);
+        });
+        settings.Columns.Add("Activo", MVCxGridViewColumnType.CheckBox);
+        //settings.PreRender = (sender, e) =>
+        //    {
+        //        ((MVCxGridView)sender).StartEdit(1);
+        //    };
+        settings.CellEditorInitialize = (s, e) =>
+        {
+            ASPxEdit editor = (ASPxEdit)e.Editor;
+            editor.ValidationSettings.Display = Display.Dynamic;
+        };
+    }).Bind(Model).GetHtml()

@@ -1,0 +1,227 @@
+﻿@model SCVData.SCV_Cuenta
+
+@{
+    ViewBag.Title = "SCV - Alta Cuenta";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div id="wrapper">
+   
+    <div id="page-wrapper">
+
+        <div class="container-fluid">
+            <div class="navbar navbar-default">
+                <div class="container">
+                    <div class="navbar-header">
+
+                        <a class="navbar-brand" href="#" title="Sistema de Control de Vehiculos">SCV</a>
+                    </div>
+                    <div class="navbar-collapse collapse">
+                        <ul class="nav navbar-nav">
+                            <li>
+                                <a href="#">Bienvenido: @ViewBag.CurrentUser</a>
+                            </li>
+                            <li class="active">
+                                <a href="#" data-toggle="modal" data-target="#myModal">Cuentas</a>
+                            </li>
+                            <li>
+                                <a href="#">Usuarios</a>
+                            </li>
+                            <li>
+                                <a href="#">Vehiculos</a>
+                            </li>
+                            <li>
+                                <a href="#">Eventos</a>
+                            </li>
+                            <li>
+                                <a href="#">Revisiones</a>
+                            </li>
+                            <li>
+                                @Html.ActionLink("Cerrar", "LogOut", "Map", null, null)
+                            </li>
+
+                        </ul>
+                    </div>
+                    <!--/.nav-collapse -->
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-sm-12">
+                    <div class="panel panel-primary">
+                        <div class="panel-heading">
+                            <h3 class="panel-title">Cuentas</h3>
+
+                        </div>
+                        <div class="panel-body">
+                            
+                            <table id="tblcuentas" class="display" cellspacing="0">
+                                <thead>
+                                    <tr>
+                                        <th>CuentaID</th>
+                                        <th>Usuario</th>
+                                        <th>Contraseña</th>
+                                        <th>Fecha<br />Alta</th>
+                                    </tr>
+                                </thead>
+                            </table>
+                        </div>
+                    </div>
+
+                </div>
+
+            </div>
+            <div class="row">
+                <div class="col-sm-12">
+                    <div class="panel panel-green" style="border: 1px solid #5cb85c;">
+                        <div class="panel-heading">
+                            <h3 class="panel-title">Alta Cuenta</h3>
+
+                        </div>
+                        <div class="panel-body">
+                            <form>
+                                <div class="form-group">
+                                    <div class="row">
+                                        <div class="col-sm-4" id="sandbox-1">
+                                            <label for="lblusuario">Usuario</label>
+                                            <input type="text" class="form-control" id="txtusuario" placeholder="Usuario">
+                                        </div>
+                                        <div class="col-sm-4" id="sandbox-2">
+                                            <label for="lblpassword">Contraseña</label>
+                                            <input type="password" class="form-control" id="txtpassword" placeholder="Contraseña">
+                                        </div>
+                                        <div class="col-sm-4" id="sandbox-3">
+                                            <label for="lblpasswordconfirm">Confirmar Contraseña</label>
+                                            <input type="password" class="form-control" id="txtpassword2" placeholder="Confirmar Contraseña">
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <button type="button" id="btnGuardarCta" class="btn btn-group">Guardar</button>
+                            </form>
+                        </div>
+                    </div>
+
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+
+</div>
+<script>
+    //var editor;
+    $(document).ready(function () {
+        @*editor = new $.fn.dataTable.Editor({
+            ajax: '@Url.Action("ObtieneCuentas", "Account")',
+            table: '#tblcuentas',
+            fields: [{
+                    label: 'Cuenta',
+                    name: 'CuentaId'
+                }, {
+                    label: 'User',
+                    name: 'UserName'
+                }, {
+                    label: 'Password',
+                    name: 'Password'
+                }, {
+                    label: 'Fecha',
+                    name: 'FechaAlta'
+                }
+            ]
+        });*@
+
+        oTable = $('#tblcuentas').dataTable({
+            "bProcessing": true,
+            "iDisplayLength": 10,
+            "bServerSide": true,
+            "sPaging": "pull-right",
+            "sAjaxSource": "@Url.Action("ObtieneCuentas", "Account")",
+            "sServerMethod": "POST",
+            //"fnServerParams": function (aoData) {
+            //    aoData.push(
+            //        { "name": "custnum", "value": $('#hdnCliente').val() },
+            //        { "name": "status", "value": $('#hdnStatus').val() },
+            //        { "name": "fechainicial", "value": $('#txtfinicial').val() },
+            //        { "name": "fechafinal", "value": $('#txtffinal').val() }
+            //        )
+            //},
+            "aaSorting": [[3, "asc"]],
+            "aoColumnDefs": [
+                { "mDataProp": "CuentaId", "aTargets": [0], bSortable: false },
+                { "mDataProp": "UserName", "aTargets": [1], bSortable: false },
+                { "mDataProp": "Password", "aTargets": [2], bSortable: false },
+                { "mDataProp": "FechaAlta", "aTargets": [3], bSortable: false }
+            ]
+        });
+
+        //$('#sandbox-1 input').datepicker({
+        //    format: 'yyyy/mm/dd'
+        //});
+        //$('#sandbox-2 input').datepicker({
+        //    format: 'yyyy/mm/dd'
+        //});
+        //$('.selectpicker').selectpicker({
+        //    style: 'btn-default',
+        //    size: 4
+        //});
+        //initialize();
+        //$('#myModal').modal('toggle');
+
+        //$("#ddlstatus").change(function () {
+        //    var status = $(".selectpicker option:selected").val();
+        //    $('#hdnStatus').val(status);
+        //});
+
+        //$("#ddlMagnitud").change(function () {
+        //    var magnitud = $("#ddlMagnitud option:selected").val();
+        //    $('#hdnMagnitud').val(magnitud);
+        //});
+
+        //$('#txttecnico').keypress(function (event) {
+
+        //    if (event.which != 8 && isNaN(String.fromCharCode(event.which))) {
+        //        event.preventDefault(); //stop character from entering input
+        //    }
+
+        //});
+
+        //$('#txtvendedor').keypress(function (event) {
+
+        //    if (event.which != 8 && isNaN(String.fromCharCode(event.which))) {
+        //        event.preventDefault(); //stop character from entering input
+        //    }
+
+        //});
+
+        //$('#txtcliente').keypress(function (event) {
+
+        //    if (event.which != 8 && isNaN(String.fromCharCode(event.which))) {
+        //        event.preventDefault(); //stop character from entering input
+        //    }
+
+        //});
+
+
+        $("#btnGuardarCta").click(function () {
+
+            var usuario = $('#txtusuario').val();
+            var password = $('#txtpassword').val();
+            var passwordconfirm = $('#txtpassword2').val();
+
+            //$('#myModal').modal('toggle');
+
+            //Call the controller
+            ScriptDynamic.GuardaDatosCuenta(usuario, password, passwordconfirm);
+        });
+    });
+
+
+   
+
+    function UpdateDataTable() {
+        //$('#hdnCliente').val(cliente);
+        //$('#hdnStatus').val(status);
+        oTable.fnDraw();
+    }
+</script>

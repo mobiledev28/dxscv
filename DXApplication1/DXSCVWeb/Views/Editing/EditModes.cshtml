@@ -1,0 +1,10 @@
+﻿@model System.Collections.IEnumerable
+@{
+    ViewBag.Title = "EditModes";
+    Layout = "~/Views/Shared/_mainLayout.cshtml";
+}
+
+@using (Html.BeginForm())
+{
+    @Html.Partial("EditModesPartial", Model)
+}

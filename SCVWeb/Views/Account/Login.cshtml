@@ -1,0 +1,58 @@
+﻿@model SCVWeb.Models.AccountViewModel.LoginModel
+
+@{
+    ViewBag.Title = "Login";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="cd-user-modal">
+    <!-- this is the entire modal form, including the background -->
+    <div class="cd-user-modal-container">
+        <!-- this is the container wrapper -->
+        <ul class="cd-switcher">
+            <li><img src="~/Images/logo-forem-web.png" /></li>
+        </ul>
+        <div id="cd-login">
+            <!-- log in form -->
+            @using (Html.BeginForm("Login", "Account", FormMethod.Post, new { @class = "cd-form" }))
+            {
+                @Html.AntiForgeryToken()
+                @Html.ValidationSummary(){
+                                             <p class="fieldset">
+                                                 <h1>SCV</h1><h3>Sistema de Control de Vehiculos</h3>
+                                                 </p>
+                                            <p class="fieldset">
+                                                <label class="image-replace cd-email" for="signin-email">Usuario</label>
+                                                <!--<input class="full-width has-padding has-border" id="suser"  name="suser" placeholder="Usuario">-->
+                                                @Html.TextBoxFor(m => m.User, new { @class = "full-width has-padding has-border", type = "text" })
+                                                @Html.ValidationMessageFor(m => m.User)
+                                                <span class="cd-error-message">El usuario es requerido.</span>
+                                            </p>
+                                            <p class="fieldset">
+                                                <label class="image-replace cd-password" for="signin-password">Contrase;a</label>
+
+                                                @Html.TextBoxFor(m => m.Password, new { @class = "full-width has-padding has-border", type = "password" })
+                                                @Html.ValidationMessageFor(m => m.Password)
+                                                <!--<input class="full-width has-padding has-border" id="spass" name="spass" type="text" placeholder="Password">
+                                                <a href="#0" class="hide-password">Hide</a>-->
+                                                <span class="cd-error-message">El password es requerido.</span>
+                                            </p>
+
+                                            <p class="fieldset">
+                                                <input type="submit" class="full-width" value="Entrar" />
+
+                                            </p>
+                                         }
+
+
+
+                                        <p class="cd-form-bottom-message"><span style="color:white;">Copyright 2016 - Grupo FOREM</span></p>
+            }
+
+            <!-- <a href="#0" class="cd-close-form">Close</a> -->
+        </div> <!-- cd-login -->
+
+
+        <a href="#0" class="cd-close-form">Close</a>
+    </div> <!-- cd-user-modal-container -->
+</div> <!-- cd-user-modal -->

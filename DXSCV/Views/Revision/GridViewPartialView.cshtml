@@ -1,0 +1,242 @@
+﻿@* DXCOMMENT: Configure GridView *@
+@Html.DevExpress().GridView(
+    settings =>
+    {
+        settings.Theme = "Glass";
+        settings.Name = "GridView";
+        settings.CallbackRouteValues = new { Controller = "Revision", Action = "GridViewPartialView" };
+        settings.CustomActionRouteValues = new { Controller = "Revision", Action = "CambiaVistaModoEdicion" };
+        settings.SettingsEditing.AddNewRowRouteValues = new { Controller = "Revision", Action = "AgregaRevision" };
+        settings.SettingsEditing.UpdateRowRouteValues = new { Controller = "Revision", Action = "ActualizaRevision" };
+        settings.SettingsEditing.DeleteRowRouteValues = new { Controller = "Revision", Action = "EliminaRevision" };
+        
+        settings.SettingsEditing.Mode = GridViewEditingMode.PopupEditForm;
+        settings.SettingsBehavior.ConfirmDelete = true;
+        settings.SettingsPopup.EditForm.Width = 600;
+        settings.SettingsPopup.EditForm.HorizontalAlign = PopupHorizontalAlign.Center;
+        settings.Width = Unit.Percentage(100);
+
+        settings.CommandColumn.Visible = true;
+        settings.CommandColumn.ShowNewButton = true;
+        settings.CommandColumn.ShowDeleteButton = true;
+        settings.CommandColumn.ShowEditButton = true;
+        settings.SettingsPager.PageSize = 10;
+        settings.ControlStyle.Paddings.Padding = System.Web.UI.WebControls.Unit.Pixel(0);
+        settings.ControlStyle.Border.BorderWidth = System.Web.UI.WebControls.Unit.Pixel(0);
+        settings.ControlStyle.BorderBottom.BorderWidth = System.Web.UI.WebControls.Unit.Pixel(1);
+        // DXCOMMENT: Specify the grid's key field name and define grid columns in accordance with data model fields
+        settings.KeyFieldName = "RevisionId";
+        settings.Columns.Add(column =>
+        {
+            
+            column.FieldName = "RevisionId";
+            column.Caption = "Documentos";
+            column.SetDataItemTemplateContent(container =>
+            {
+                Html.DevExpress().HyperLink(hlSettings =>
+                {
+                    hlSettings.Name = string.Format("hl_{0}", (container as GridViewDataItemTemplateContainer).VisibleIndex + 1);
+                    hlSettings.NavigateUrl = "javascript:void(0)";
+                    hlSettings.Properties.ClientSideEvents.Click = string.Format("function(s,e) {{ OnHyperLinkClick('{0}'); }}", (container as GridViewDataItemTemplateContainer).KeyValue.ToString());
+                    hlSettings.Properties.Text = "Adjuntar";
+                    
+                    
+                }).Render();
+                
+            });
+            //var hlprop = (HyperLinkProperties)column.PropertiesEdit;
+            //hlprop.RequiredField.IsRequired = false;
+            column.EditFormSettings.Visible = DevExpress.Utils.DefaultBoolean.False;
+        });
+        //settings.SetEditFormTemplateContent(c =>
+        //{
+        //    Html.DevExpress().RoundPanel(RoundPanelSettings =>
+        //    {
+        //        RoundPanelSettings.Name = "pnltest";
+        //        RoundPanelSettings.
+        //    });
+        //});
+        settings.Columns.Add(column =>
+        {
+            column.FieldName = "Comentarios";
+            column.Caption = "Comentarios";
+            column.ColumnType = MVCxGridViewColumnType.Memo;
+        });
+        settings.Columns.Add(column =>
+        {
+            column.FieldName = "Kilometraje";
+            column.Caption = "Kilometraje";
+            column.ColumnType = MVCxGridViewColumnType.SpinEdit;
+        });
+        settings.Columns.Add(column =>
+        {
+            column.FieldName = "FechaAlta";
+            column.Caption = "Fecha Registro";
+
+            column.ColumnType = MVCxGridViewColumnType.DateEdit;
+        });
+        settings.Columns.Add(column =>
+        {
+            column.FieldName = "UsuarioRevisa";
+            column.Caption = "Registrado Por";
+            column.ColumnType = MVCxGridViewColumnType.ComboBox;
+            var comboBoxProperties = (ComboBoxProperties)column.PropertiesEdit;
+            comboBoxProperties.DataSource = Model.Cuentas;
+            comboBoxProperties.TextField = "UserName";
+            comboBoxProperties.ValueField = "CuentaId";
+
+            comboBoxProperties.DropDownStyle = DropDownStyle.DropDown;
+        });
+        settings.Columns.Add(column =>
+        {
+            column.FieldName = "Calificacion";
+            column.Caption = "Calificación";
+            column.ColumnType = MVCxGridViewColumnType.SpinEdit;
+        });
+        settings.Columns.Add(column =>
+        {
+            column.FieldName = "VehiculoId";
+            column.Caption = "Vehiculo";
+            column.ColumnType = MVCxGridViewColumnType.ComboBox;
+            var comboBoxProperties = (ComboBoxProperties)column.PropertiesEdit;
+            comboBoxProperties.DataSource = Model.Vehiculos;
+            comboBoxProperties.TextField = "Apodo";
+            comboBoxProperties.ValueField = "VehiculoId";
+            comboBoxProperties.ValueType = typeof(int);
+            comboBoxProperties.DropDownStyle = DropDownStyle.DropDown;
+        });
+        settings.Columns.Add(column =>
+        {
+            column.FieldName = "UsuarioIdActual";
+            column.Caption = "Asignado";
+            column.ColumnType = MVCxGridViewColumnType.ComboBox;
+            var comboBoxProperties = (ComboBoxProperties)column.PropertiesEdit;
+            comboBoxProperties.DataSource = Model.Usuarios;
+            comboBoxProperties.TextField = "NombreCompleto";
+            comboBoxProperties.ValueField = "UsuarioId";
+            comboBoxProperties.ValueType = typeof(int);
+            comboBoxProperties.DropDownStyle = DropDownStyle.DropDown;
+        });
+        
+        settings.Columns.Add(column =>
+        {
+            column.FieldName = "FechaMod";
+            column.Caption = "Fecha Modificación";
+            column.ColumnType = MVCxGridViewColumnType.DateEdit;
+
+            var dateedit = (DateEditProperties)column.PropertiesEdit;
+            dateedit.ValidationSettings.RequiredField.IsRequired = false;
+        });
+        settings.Columns.Add(column =>
+        {
+            column.FieldName = "UsuarioIdMod";
+            column.Caption = "Actualizado Por";
+            column.ColumnType = MVCxGridViewColumnType.ComboBox;
+            var comboBoxProperties = (ComboBoxProperties)column.PropertiesEdit;
+            comboBoxProperties.DataSource = Model.Cuentas;
+            comboBoxProperties.TextField = "UserName";
+            comboBoxProperties.ValueField = "CuentaId";
+
+            comboBoxProperties.DropDownStyle = DropDownStyle.DropDown;
+            comboBoxProperties.ValidationSettings.RequiredField.IsRequired = false;
+        });
+        
+        settings.CellEditorInitialize = (s, e) =>
+        {
+            ASPxEdit editor = (ASPxEdit)e.Editor;
+            editor.ValidationSettings.Display = Display.Dynamic;
+            MVCxGridView g = s as MVCxGridView;
+
+            if (e.Column.FieldName == "UsuarioRevisa")
+            {
+                if (g.IsNewRowEditing)
+                {
+                    e.Editor.ReadOnly = false;
+                    e.Editor.Enabled = true;
+                }
+                else
+                {
+                    e.Editor.ReadOnly = true;
+                    e.Editor.Enabled = false;
+                }
+            }
+
+            if (e.Column.FieldName == "Documentos")
+            {
+                if (g.IsNewRowEditing)
+                {
+                    e.Editor.ReadOnly = false;
+                    e.Editor.Enabled = true;
+                    e.Editor.Visible = false;
+                }
+                else
+                {
+                    e.Editor.ReadOnly = true;
+                    e.Editor.Enabled = false;
+                    e.Editor.Visible = false;
+                }
+            }
+
+            if (e.Column.FieldName == "UsuarioRevisa")
+            {
+                if (g.IsNewRowEditing)
+                {
+                    e.Editor.ReadOnly = false;
+                    e.Editor.Enabled = true;
+                }
+                else
+                {
+                    e.Editor.ReadOnly = true;
+                    e.Editor.Enabled = false;
+                }
+            }
+
+            if (e.Column.FieldName == "FechaAlta")
+            {
+                if (g.IsNewRowEditing)
+                {
+                    e.Editor.ReadOnly = false;
+                    e.Editor.Enabled = true;
+                }
+                else
+                {
+                    e.Editor.ReadOnly = true;
+                    e.Editor.Enabled = false;
+                }
+            }
+            if (e.Column.FieldName == "FechaMod")
+            {
+                if (g.IsNewRowEditing)
+                {
+                    
+                    e.Editor.Visible = false;
+                    e.Editor.Enabled = false;
+                    e.Editor.ReadOnly = true;
+                }
+                else
+                {
+                    
+                    e.Editor.ReadOnly = false;
+                    e.Editor.Enabled = true;
+                    e.Editor.Visible = true;
+                }
+            }
+            if (e.Column.FieldName == "UsuarioIdMod")
+            {
+                if (g.IsNewRowEditing)
+                {
+                    
+                    e.Editor.Visible = false;
+                    e.Editor.Enabled = false;
+                    e.Editor.ReadOnly = true;
+                }
+                else
+                {
+                   
+                    e.Editor.ReadOnly = false;
+                    e.Editor.Enabled = true;
+                    e.Editor.Visible = true;
+                }
+            }
+        };
+    }).Bind(Model.Revisiones).GetHtml()

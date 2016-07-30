@@ -1,0 +1,91 @@
+﻿@using SCVData;
+@model DXSCV.Models.ProveedorViewModel
+
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_mainLayout.cshtml";
+}
+
+<script type="text/javascript">
+
+    function TipoDocSelected(s, e) {
+        var value = s.GetValue();//document.getElementById("cmbTipoDocumento");
+        $("#hdnTipoDoc").val(value);
+        //alert(value);
+    }
+    function OnClick(s, e) {
+        var tipodoc = $("#hdnTipoDoc").val();
+
+        //El tipo de documento es requerido
+        if (tipoc == "0") {
+            alert("No se cargo el documento, debes seleccionar el tipo de documento.");
+            return;
+        }
+
+        uc.Upload();
+    }
+
+    function OnFileUploadComplete(s, e) {
+        if (e.callbackData !== "") {
+            var tipodoc = $("#hdnTipoDoc").val();
+            //El tipo de documento el requerido
+            if (tipodoc == "0") {
+                return;
+            }
+
+            var ProveedorId = $("#hdProveedorId").val();
+            var url = e.callbackData;
+
+            UploadEvents.SaveInfoFile(ProveedorId, url, '/Proveedor/AddInfoFile', tipodoc);
+        } else {
+            alert("El archivo no pudo ser cargado.");
+        }
+    }
+
+    //Show popup for updload documents
+    var currentProveedorID;
+    function OnHyperLinkClick(ProveedorID) {
+        currentProveedorID = ProveedorID;
+        $("#hdProveedorId").val(currentProveedorID);
+
+        UploadEvents.GetFiles(currentProveedorID, '/Proveedor/GetFiles', 0);
+
+        if (!popup.IsVisible()) {
+            popup.Show();
+        }
+    }
+
+    function OnDetailGridBeginCallback(s, e) {
+        e.customArgs["_ProveedorID"] = currentProveedorID;
+    }
+
+    function OnDetailGridEndCallback(s, e) {
+
+        if (!popup.IsVisible()) {
+            popup.Show();
+        }
+    }
+
+
+</script>
+
+<div style="width:100%;position:relative;margin-bottom:10px;margin-top:10px;font-size:2em;">Proveedores</div>
+@Html.Partial("GridViewPartialView", Model)
+
+@Html.Hidden("hdProveedorId")
+
+
+@Html.DevExpress().PopupControl(settings =>
+{
+    settings.Name = "popup";
+    settings.PopupVerticalAlign = PopupVerticalAlign.WindowCenter;
+    settings.PopupHorizontalAlign = PopupHorizontalAlign.WindowCenter;
+    settings.Width = System.Web.UI.WebControls.Unit.Pixel(360);
+    settings.Height = System.Web.UI.WebControls.Unit.Pixel(170);
+    settings.HeaderText = "Carga de Documentos";
+    settings.SetContent(() =>
+    {
+        Html.RenderPartial("LoadDocumentsPartialView", Model);
+    });
+
+}).GetHtml()

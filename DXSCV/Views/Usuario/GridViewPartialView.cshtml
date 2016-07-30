@@ -1,0 +1,159 @@
+﻿@using SCVData;
+
+@model DXSCV.Models.UsuarioViewModel
+
+
+@Html.DevExpress().GridView(
+    settings =>
+    {
+        
+        settings.Theme = "Glass";
+        settings.Name = "GridView";
+        settings.CallbackRouteValues = new { Controller = "Usuario", Action = "GridViewPartialView" };
+        settings.CustomActionRouteValues = new { Controller = "Usuario", Action = "ChangeEditModePartial" };
+        settings.SettingsEditing.AddNewRowRouteValues = new { Controller = "Usuario", Action = "AgregaUsuario" };
+        settings.SettingsEditing.UpdateRowRouteValues = new { Controller = "Usuario", Action = "ActualizaUsuario" };
+        settings.SettingsEditing.DeleteRowRouteValues = new { Controller = "Usuario", Action = "EliminaUsuario" };
+        settings.SettingsEditing.Mode = GridViewEditingMode.PopupEditForm;
+        settings.SettingsBehavior.ConfirmDelete = true;
+        settings.SettingsPopup.EditForm.Width = 600;
+        settings.Width = Unit.Percentage(100);
+
+        settings.CommandColumn.Visible = true;
+        settings.CommandColumn.ShowNewButton = true;
+        settings.CommandColumn.ShowDeleteButton = true;
+        settings.CommandColumn.ShowEditButton = true;
+        settings.SettingsPager.PageSize = 50;
+        settings.ControlStyle.Paddings.Padding = System.Web.UI.WebControls.Unit.Pixel(0);
+        settings.ControlStyle.Border.BorderWidth = System.Web.UI.WebControls.Unit.Pixel(0);
+        settings.ControlStyle.BorderBottom.BorderWidth = System.Web.UI.WebControls.Unit.Pixel(1);
+
+        // DXCOMMENT: Specify the grid's key field name and define grid columns in accordance with data model fields
+        settings.KeyFieldName = "UsuarioId";
+        settings.Columns.Add(column =>
+        {
+
+            column.FieldName = "UsuarioId";
+            column.Caption = "Documentos";
+            column.SetDataItemTemplateContent(container =>
+            {
+                Html.DevExpress().HyperLink(hlSettings =>
+                {
+                    hlSettings.Name = string.Format("hl_{0}", (container as GridViewDataItemTemplateContainer).VisibleIndex + 1);
+                    hlSettings.NavigateUrl = "javascript:void(0)";
+                    hlSettings.Properties.ClientSideEvents.Click = string.Format("function(s,e) {{ OnHyperLinkClick('{0}'); }}", (container as GridViewDataItemTemplateContainer).KeyValue.ToString());
+                    hlSettings.Properties.Text = "Adjuntar";
+
+
+                }).Render();
+
+            });
+            //var hlprop = (HyperLinkProperties)column.PropertiesEdit;
+            //hlprop.RequiredField.IsRequired = false;
+            column.EditFormSettings.Visible = DevExpress.Utils.DefaultBoolean.False;
+        });
+        settings.Columns.Add("Nombre");
+        settings.Columns.Add("ApPaterno");
+        settings.Columns.Add("ApMaterno");
+        
+        settings.Columns.Add(column =>
+        {
+            column.FieldName = "FechaNac";
+            column.Caption = "Fecha Nac";
+
+            column.ColumnType = MVCxGridViewColumnType.DateEdit;
+        });
+        settings.Columns.Add("NoLicencia");
+        settings.Columns.Add("EstatusLicencia");
+        settings.Columns.Add(column =>
+        {
+            column.FieldName = "AnioVigenciaLicencia";
+            column.Caption = "Año Vigencia";
+        });
+        settings.Columns.Add(column =>
+        {
+            column.FieldName = "MesVigenciaLicencia";
+            column.Caption = "Mes Vigencia";
+        });
+        settings.Columns.Add("NoINE");
+        settings.Columns.Add(column =>
+        {
+            column.FieldName = "EmpresaId";
+            column.Caption = "Sucursal";
+            column.ColumnType = MVCxGridViewColumnType.ComboBox;
+            var comboBoxProperties = (ComboBoxProperties)column.PropertiesEdit;
+            comboBoxProperties.DataSource = Model.Sucursales;
+            comboBoxProperties.TextField = "Nombre";
+            comboBoxProperties.ValueField = "EmpresaId";
+            comboBoxProperties.ValueType = typeof(int);
+            comboBoxProperties.DropDownStyle = DropDownStyle.DropDown;
+        });
+        settings.AutoFilterCellEditorInitialize = (sender, e) =>
+        {
+            ASPxComboBox cmb = (ASPxComboBox)e.Editor;
+            cmb.TextField = "Nombre";
+            cmb.ValueField = "EmpresaId";
+            cmb.DataSource = Model.Sucursales;
+            cmb.DataBindItems();
+        };
+        settings.CellEditorInitialize = (sender, e) =>
+        {
+            ASPxComboBox cmb = (ASPxComboBox)e.Editor;
+            cmb.TextField = "Nombre";
+            cmb.ValueField = "EmpresaId";
+            cmb.DataSource = Model.Sucursales;
+            cmb.DataBindItems();
+        };
+        settings.Columns.Add(column =>
+        {
+            column.FieldName = "FechaAlta";
+            column.Caption = "Fecha Alta";
+
+            column.ColumnType = MVCxGridViewColumnType.DateEdit;
+        });
+        settings.Columns.Add(column =>
+        {
+            column.FieldName = "UsuarioIdAlta";
+            column.Caption = "Registrado Por";
+            column.ColumnType = MVCxGridViewColumnType.ComboBox;
+            var comboBoxProperties = (ComboBoxProperties)column.PropertiesEdit;
+            comboBoxProperties.DataSource = Model.Cuentas;
+            comboBoxProperties.TextField = "UserName";
+            comboBoxProperties.ValueField = "CuentaId";
+            comboBoxProperties.DropDownStyle = DropDownStyle.DropDown;
+        });
+        settings.CellEditorInitialize = (s, e) =>
+        {
+            ASPxEdit editor = (ASPxEdit)e.Editor;
+            editor.ValidationSettings.Display = Display.Dynamic;
+            MVCxGridView g = s as MVCxGridView;
+
+            if (e.Column.FieldName == "UsuarioIdAlta")
+            {
+                if (g.IsNewRowEditing)
+                {
+                    e.Editor.ReadOnly = false;
+                    e.Editor.Enabled = true;
+                }
+                else
+                {
+                    e.Editor.ReadOnly = true;
+                    e.Editor.Enabled = false;
+                }
+            }
+
+            if (e.Column.FieldName == "FechaAlta")
+            {
+                if (g.IsNewRowEditing)
+                {
+                    e.Editor.ReadOnly = false;
+                    e.Editor.Enabled = true;
+                }
+                else
+                {
+                    e.Editor.ReadOnly = true;
+                    e.Editor.Enabled = false;
+                }
+            }
+        };
+    }).Bind(Model.Usuarios).GetHtml()

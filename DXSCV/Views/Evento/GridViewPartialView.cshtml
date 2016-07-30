@@ -1,0 +1,197 @@
+﻿@* DXCOMMENT: Configure GridView *@
+@Html.DevExpress().GridView(
+    settings =>
+    {
+        settings.Theme = "Glass";
+        settings.Name = "GridView";
+        settings.CallbackRouteValues = new { Controller = "Evento", Action = "GridViewPartialView" };
+        settings.CustomActionRouteValues = new { Controller = "Evento", Action = "ChangeEditModePartial" };
+        settings.SettingsEditing.AddNewRowRouteValues = new { Controller = "Evento", Action = "AgregaEvento" };
+        settings.SettingsEditing.UpdateRowRouteValues = new { Controller = "Evento", Action = "ActualizaEvento" };
+        settings.SettingsEditing.DeleteRowRouteValues = new { Controller = "Evento", Action = "EliminaEvento" };
+        settings.SettingsEditing.Mode = GridViewEditingMode.PopupEditForm;
+        settings.SettingsBehavior.ConfirmDelete = true;
+        settings.SettingsPopup.EditForm.Width = 600;
+        settings.SettingsPopup.EditForm.HorizontalAlign = PopupHorizontalAlign.Center;
+        settings.Width = Unit.Percentage(100);
+
+        settings.CommandColumn.Visible = true;
+        settings.CommandColumn.ShowNewButton = true;
+        settings.CommandColumn.ShowDeleteButton = true;
+        settings.CommandColumn.ShowEditButton = true;
+        settings.SettingsPager.PageSize = 10;
+        settings.ControlStyle.Paddings.Padding = System.Web.UI.WebControls.Unit.Pixel(0);
+        settings.ControlStyle.Border.BorderWidth = System.Web.UI.WebControls.Unit.Pixel(0);
+        settings.ControlStyle.BorderBottom.BorderWidth = System.Web.UI.WebControls.Unit.Pixel(1);
+        // DXCOMMENT: Specify the grid's key field name and define grid columns in accordance with data model fields
+        settings.KeyFieldName = "BitacoraEventoId";
+        settings.Columns.Add(column =>
+        {
+
+            column.FieldName = "BitacoraEventoId";
+            column.Caption = "Documentos";
+            column.SetDataItemTemplateContent(container =>
+            {
+                Html.DevExpress().HyperLink(hlSettings =>
+                {
+                    hlSettings.Name = string.Format("hl_{0}", (container as GridViewDataItemTemplateContainer).VisibleIndex + 1);
+                    hlSettings.NavigateUrl = "javascript:void(0)";
+                    hlSettings.Properties.ClientSideEvents.Click = string.Format("function(s,e) {{ OnHyperLinkClick('{0}'); }}", (container as GridViewDataItemTemplateContainer).KeyValue.ToString());
+                    hlSettings.Properties.Text = "Adjuntar";
+
+
+                }).Render();
+
+            });
+            //var hlprop = (HyperLinkProperties)column.PropertiesEdit;
+            //hlprop.RequiredField.IsRequired = false;
+            column.EditFormSettings.Visible = DevExpress.Utils.DefaultBoolean.False;
+        });
+        settings.Columns.Add(column =>
+        {
+            column.FieldName = "Comentarios";
+            column.Caption = "Comentarios";
+            column.ColumnType = MVCxGridViewColumnType.Memo;
+        });
+        settings.Columns.Add(column =>
+        {
+            column.FieldName = "Monto";
+            column.Caption = "Monto";
+            column.ColumnType = MVCxGridViewColumnType.SpinEdit;
+        });
+        settings.Columns.Add(column =>
+        {
+            column.FieldName = "ProveedorId";
+            column.Caption = "Proveedor";
+            column.ColumnType = MVCxGridViewColumnType.ComboBox;
+            var comboBoxProperties = (ComboBoxProperties)column.PropertiesEdit;
+            comboBoxProperties.DataSource = Model.Proveedores;
+            comboBoxProperties.TextField = "RazonSocial";
+            comboBoxProperties.ValueField = "ProveedorId";
+            comboBoxProperties.ValueType = typeof(long);
+            comboBoxProperties.DropDownStyle = DropDownStyle.DropDown;
+        });
+        settings.AutoFilterCellEditorInitialize = (sender, e) =>
+        {
+            ASPxComboBox cmb = (ASPxComboBox)e.Editor;
+            cmb.TextField = "RazonSocial";
+            cmb.ValueField = "ProveedorId";
+            cmb.DataSource = Model.Proveedores;
+            cmb.DataBindItems();
+        };
+        settings.CellEditorInitialize = (sender, e) =>
+        {
+            ASPxComboBox cmb = (ASPxComboBox)e.Editor;
+            cmb.TextField = "RazonSocial";
+            cmb.ValueField = "ProveedorId";
+            cmb.DataSource = Model.Proveedores;
+            cmb.DataBindItems();
+        };
+        settings.Columns.Add(column =>
+        {
+            column.FieldName = "TipoEventoId";
+            column.Caption = "Tipo Evento";
+            column.ColumnType = MVCxGridViewColumnType.ComboBox;
+            var comboBoxProperties = (ComboBoxProperties)column.PropertiesEdit;
+            comboBoxProperties.DataSource = Model.TiposEventos;
+            comboBoxProperties.TextField = "Descripcion";
+            comboBoxProperties.ValueField = "TipoEventoId";
+            comboBoxProperties.ValueType = typeof(int);
+            comboBoxProperties.DropDownStyle = DropDownStyle.DropDown;
+        });
+        settings.AutoFilterCellEditorInitialize = (sender, e) =>
+        {
+            ASPxComboBox cmb = (ASPxComboBox)e.Editor;
+            cmb.TextField = "Descripcion";
+            cmb.ValueField = "TipoEventoId";
+            cmb.DataSource = Model.TiposEventos;
+            cmb.DataBindItems();
+        };
+        settings.CellEditorInitialize = (sender, e) =>
+        {
+            ASPxComboBox cmb = (ASPxComboBox)e.Editor;
+            cmb.TextField = "Descripcion";
+            cmb.ValueField = "TipoEventoId";
+            cmb.DataSource = Model.TiposEventos;
+            cmb.DataBindItems();
+        };
+        settings.Columns.Add(column =>
+        {
+            column.FieldName = "FechaIncidente";
+            column.Caption = "Fecha Incidente";
+
+            column.ColumnType = MVCxGridViewColumnType.DateEdit;
+
+        });
+        settings.Columns.Add(column =>
+        { 
+            column.FieldName = "VehiculoId";
+            column.Caption = "Vehiculo";
+            column.ColumnType = MVCxGridViewColumnType.ComboBox;
+            var comboBoxProperties = (ComboBoxProperties)column.PropertiesEdit;
+            comboBoxProperties.DataSource = Model.Vehiculos;
+            comboBoxProperties.TextField = "Apodo";
+            comboBoxProperties.ValueField = "VehiculoId";
+            comboBoxProperties.ValueType = typeof(int);
+            comboBoxProperties.DropDownStyle = DropDownStyle.DropDown;
+        });
+        settings.AutoFilterCellEditorInitialize = (sender, e) =>
+        {
+            ASPxComboBox cmb = (ASPxComboBox)e.Editor;
+            cmb.TextField = "Apodo";
+            cmb.ValueField = "VehiculoId";
+            cmb.DataSource = Model.Vehiculos;
+            cmb.DataBindItems();
+        };
+        settings.CellEditorInitialize = (sender, e) =>
+        {
+            ASPxComboBox cmb = (ASPxComboBox)e.Editor;
+            cmb.TextField = "Apodo";
+            cmb.ValueField = "VehiculoId";
+            cmb.DataSource = Model.Vehiculos;
+            cmb.DataBindItems();
+        };
+        settings.Columns.Add(column =>
+        {
+            column.FieldName = "FechaAlta";
+            column.Caption = "Fecha Registro";
+
+            column.ColumnType = MVCxGridViewColumnType.DateEdit;
+        });
+        settings.Columns.Add(column =>
+        {
+            column.FieldName = "UsuarioIdAlta";
+            column.Caption = "Registrado Por";
+            column.ColumnType = MVCxGridViewColumnType.ComboBox;
+            var comboBoxProperties = (ComboBoxProperties)column.PropertiesEdit;
+            comboBoxProperties.DataSource = Model.Cuentas;
+            comboBoxProperties.TextField = "UserName";
+            comboBoxProperties.ValueField = "CuentaId";
+
+            comboBoxProperties.DropDownStyle = DropDownStyle.DropDown;
+        });
+        settings.AutoFilterCellEditorInitialize = (sender, e) =>
+        {
+            ASPxComboBox cmb = (ASPxComboBox)e.Editor;
+            cmb.TextField = "UserName";
+            cmb.ValueField = "CuentaId";
+            cmb.DataSource = Model.Cuentas;
+            cmb.DataBindItems();
+        };
+        settings.CellEditorInitialize = (sender, e) =>
+        {
+            ASPxComboBox cmb = (ASPxComboBox)e.Editor;
+            cmb.TextField = "UserName";
+            cmb.ValueField = "CuentaId";
+            cmb.DataSource = Model.Cuentas;
+            cmb.DataBindItems();
+        };
+        
+        
+        
+        settings.CellEditorInitialize = (s, e) =>
+        {
+            ASPxEdit editor = (ASPxEdit)e.Editor;
+            editor.ValidationSettings.Display = Display.Dynamic;
+        };
+    }).Bind(Model.Eventos).GetHtml()

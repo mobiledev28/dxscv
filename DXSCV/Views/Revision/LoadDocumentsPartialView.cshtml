@@ -1,0 +1,87 @@
+﻿
+@*@Html.Partial("MultiFileSelection")*@
+
+
+@using (Html.BeginForm("UploadControlCallbackAction", "Revision", FormMethod.Post, new { @class = "multiSelection" }))
+{
+    <div class="uploadContainer">
+        <br />
+        @Html.DevExpress().Label(
+            settings =>
+            {
+                settings.Name = "AllowedFileExtensionsLabel";
+                settings.Text = "Tipos de archivos permitidos: jpg, jpeg, gif, png, doc, docx, pdf, xls, xlsx, txt.";
+                settings.ControlStyle.Font.Size = FontUnit.Point(8);
+            }).GetHtml()
+        <br />
+        @Html.DevExpress().Label(
+            settings =>
+            {
+                settings.Name = "MaxFileSizeLabel";
+                settings.Text = "Tamaño maximo del archivo: 4 MB.";
+                settings.ControlStyle.Font.Size = FontUnit.Point(8);
+            }).GetHtml()
+
+        <br />
+        <br />
+        <br />
+        <div>
+            <span>Tipo de Documento:</span>
+            <br />
+            @Html.DevExpress().ComboBox(
+              settings =>
+              {
+                  settings.Name = "cmbTipoDocumento";
+                  settings.Width = 180;
+                  settings.SelectedIndex = 0;
+                  settings.Properties.IncrementalFilteringMode = IncrementalFilteringMode.StartsWith;
+                  settings.Properties.DropDownStyle = DropDownStyle.DropDownList;
+                  settings.Properties.TextField = "Descripcion";
+                  settings.Properties.ValueField = "TipoDocumentoId";
+                  settings.Properties.ValueType = typeof(int);
+                  settings.Properties.ClientSideEvents.SelectedIndexChanged = "function(s, e){TipoDocSelected(s,e)}";
+                  
+              }
+         ).BindList(Model.TiposDocumentos).GetHtml()
+            <input type="hidden" id="hdnTipoDoc" value="1" />
+            @*<button type="button" onclick="showselectedvalue();">Show Value</button>*@
+        </div>
+        <br />
+        <span>Selecciona el documento:</span>
+        <br />
+        @Html.DevExpress().UploadControl(
+            settings =>
+            {
+                settings.Name = "uc";
+                settings.CallbackRouteValues = new { Controller = "Revision", Action = "UploadControlCallbackAction" };
+
+                settings.Width = Unit.Pixel(320);
+                settings.ShowProgressPanel = true;
+                settings.ShowUploadButton = true;
+                settings.AdvancedModeSettings.EnableMultiSelect = true;
+                settings.AdvancedModeSettings.EnableFileList = true;
+                settings.AdvancedModeSettings.EnableDragAndDrop = true;
+                settings.NullText = "Selecciona los documentos...";
+
+                settings.ValidationSettings.Assign(DXSCV.Helpers.UCHelper.ValidationSettings);
+
+                settings.ClientSideEvents.FileUploadComplete = "OnFileUploadComplete";
+            }).GetHtml()
+
+        
+    </div>
+    <br />
+    <div>
+        @Html.DevExpress().RoundPanel(
+    settings =>
+    {
+        settings.Name = "FilesRoundPanel";
+        settings.EnableClientSideAPI = true;
+        settings.HeaderText = "Documentos Almacenados";
+        settings.Width = Unit.Pixel(380);
+        settings.Height = Unit.Pixel(180);
+    }).GetHtml()
+
+
+    </div>
+}

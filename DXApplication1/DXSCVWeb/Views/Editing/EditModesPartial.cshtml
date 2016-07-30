@@ -1,0 +1,80 @@
+﻿@{
+    Html.EnableClientValidation();
+    Html.EnableUnobtrusiveJavaScript();
+
+    var grid = Html.DevExpress().GridView(
+        settings =>
+        {
+            settings.Name = "gvEditing";
+            settings.KeyFieldName = "CuentaId";
+            settings.CallbackRouteValues = new { Controller = "Editing", Action = "EditModesPartial" };
+            settings.CustomActionRouteValues = new { Controller = "Editing", Action = "ChangeEditModePartial" };
+            settings.SettingsEditing.AddNewRowRouteValues = new { Controller = "Editing", Action = "EditModesAddNewPartial" };
+            settings.SettingsEditing.UpdateRowRouteValues = new { Controller = "Editing", Action = "EditModesUpdatePartial" };
+            settings.SettingsEditing.DeleteRowRouteValues = new { Controller = "Editing", Action = "EditModesDeletePartial" };
+            settings.SettingsEditing.Mode = DXSCVWeb.Controllers.GridViewEditingDemosHelper.EditMode;
+            settings.SettingsBehavior.ConfirmDelete = true;
+            settings.SettingsPopup.EditForm.Width = 600;
+            settings.Width = Unit.Percentage(100);
+
+            settings.CommandColumn.Visible = true;
+            settings.CommandColumn.ShowNewButton = true;
+            settings.CommandColumn.ShowDeleteButton = true;
+            settings.CommandColumn.ShowEditButton = true;
+
+            settings.Columns.Add("UserName");
+            //settings.Columns.Add(column =>
+            //{
+            //    column.FieldName = "CategoryID";
+            //    column.Caption = "Category";
+
+            //    column.ColumnType = MVCxGridViewColumnType.ComboBox;
+            //    var comboBoxProperties = column.PropertiesEdit as ComboBoxProperties;
+            //    comboBoxProperties.DataSource = NorthwindDataProvider.GetCategories();
+            //    comboBoxProperties.TextField = "CategoryName";
+            //    comboBoxProperties.ValueField = "CategoryID";
+            //    comboBoxProperties.ValueType = typeof(int);
+            //});
+            settings.Columns.Add("Password");
+            settings.Columns.Add("FechaAlta");
+            //settings.Columns.Add(column =>
+            //{
+            //    column.FieldName = "UnitPrice";
+
+            //    column.ColumnType = MVCxGridViewColumnType.SpinEdit;
+            //    var spinEditProperties = column.PropertiesEdit as SpinEditProperties;
+            //    spinEditProperties.DisplayFormatString = "c";
+            //    spinEditProperties.DisplayFormatInEditMode = true;
+            //    spinEditProperties.MinValue = 0;
+            //    spinEditProperties.MaxValue = 1000000;
+            //    spinEditProperties.SpinButtons.ShowLargeIncrementButtons = true;
+            //});
+            //settings.Columns.Add(column =>
+            //{
+            //    column.FieldName = "UnitsInStock";
+
+            //    column.ColumnType = MVCxGridViewColumnType.SpinEdit;
+            //    var spinEditProperties = column.PropertiesEdit as SpinEditProperties;
+            //    spinEditProperties.NumberType = SpinEditNumberType.Integer;
+            //    spinEditProperties.MinValue = 0;
+            //    spinEditProperties.MaxValue = 10000;
+            //});
+            settings.Columns.Add("Activo", MVCxGridViewColumnType.CheckBox);
+
+            settings.PreRender = (sender, e) =>
+            {
+                ((MVCxGridView)sender).StartEdit(1);
+            };
+            settings.CellEditorInitialize = (s, e) =>
+            {
+                ASPxEdit editor = (ASPxEdit)e.Editor;
+                editor.ValidationSettings.Display = Display.Dynamic;
+            };
+        });
+
+    if (ViewData["EditError"] != null)
+    {
+        grid.SetEditErrorText((string)ViewData["EditError"]);
+    }
+}
+@grid.Bind(Model).GetHtml()

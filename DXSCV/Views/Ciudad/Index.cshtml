@@ -1,0 +1,10 @@
+﻿@using SCVData;
+@model DXSCV.Models.CiudadViewModel
+
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_mainLayout.cshtml";
+}
+
+<div style="width:100%;position:relative;margin-bottom:10px;margin-top:10px;font-size:2em;">Ciudades</div>
+@Html.Partial("GridViewPartialView", Model)
