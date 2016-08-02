@@ -14,5 +14,10 @@ namespace DXSCV.Controllers
             return View();
         }
 
+        public ActionResult RptVehiculos()
+        {
+            return View(new RptVehiculo());
+        }
+
     }
 }
