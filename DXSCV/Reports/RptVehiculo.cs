@@ -107,6 +107,9 @@ public class RptVehiculo : DevExpress.XtraReports.UI.XtraReport
     private XRPictureBox xrPictureBox1;
     private XRLabel xrLabel40;
     private CalculatedField cfUsuario;
+    private DevExpress.DataAccess.Sql.SqlDataSource sqlDataSource5;
+    private DevExpress.DataAccess.Sql.SqlDataSource sqlDataSource7;
+    private DevExpress.DataAccess.Sql.SqlDataSource sqlDataSource6;
     /// <summary>
     /// Required designer variable.
     /// </summary>
@@ -193,6 +196,52 @@ public class RptVehiculo : DevExpress.XtraReports.UI.XtraReport
             DevExpress.DataAccess.Sql.ColumnInfo columnInfo24 = new DevExpress.DataAccess.Sql.ColumnInfo();
             DevExpress.XtraReports.Parameters.DynamicListLookUpSettings dynamicListLookUpSettings1 = new DevExpress.XtraReports.Parameters.DynamicListLookUpSettings();
             DevExpress.XtraReports.Parameters.DynamicListLookUpSettings dynamicListLookUpSettings2 = new DevExpress.XtraReports.Parameters.DynamicListLookUpSettings();
+            DevExpress.DataAccess.Sql.TableQuery tableQuery6 = new DevExpress.DataAccess.Sql.TableQuery();
+            DevExpress.DataAccess.Sql.RelationInfo relationInfo6 = new DevExpress.DataAccess.Sql.RelationInfo();
+            DevExpress.DataAccess.Sql.RelationColumnInfo relationColumnInfo6 = new DevExpress.DataAccess.Sql.RelationColumnInfo();
+            DevExpress.DataAccess.Sql.RelationInfo relationInfo7 = new DevExpress.DataAccess.Sql.RelationInfo();
+            DevExpress.DataAccess.Sql.RelationColumnInfo relationColumnInfo7 = new DevExpress.DataAccess.Sql.RelationColumnInfo();
+            DevExpress.DataAccess.Sql.RelationInfo relationInfo8 = new DevExpress.DataAccess.Sql.RelationInfo();
+            DevExpress.DataAccess.Sql.RelationColumnInfo relationColumnInfo8 = new DevExpress.DataAccess.Sql.RelationColumnInfo();
+            DevExpress.DataAccess.Sql.RelationInfo relationInfo9 = new DevExpress.DataAccess.Sql.RelationInfo();
+            DevExpress.DataAccess.Sql.RelationColumnInfo relationColumnInfo9 = new DevExpress.DataAccess.Sql.RelationColumnInfo();
+            DevExpress.DataAccess.Sql.RelationInfo relationInfo10 = new DevExpress.DataAccess.Sql.RelationInfo();
+            DevExpress.DataAccess.Sql.RelationColumnInfo relationColumnInfo10 = new DevExpress.DataAccess.Sql.RelationColumnInfo();
+            DevExpress.DataAccess.Sql.TableInfo tableInfo11 = new DevExpress.DataAccess.Sql.TableInfo();
+            DevExpress.DataAccess.Sql.ColumnInfo columnInfo29 = new DevExpress.DataAccess.Sql.ColumnInfo();
+            DevExpress.DataAccess.Sql.ColumnInfo columnInfo30 = new DevExpress.DataAccess.Sql.ColumnInfo();
+            DevExpress.DataAccess.Sql.ColumnInfo columnInfo31 = new DevExpress.DataAccess.Sql.ColumnInfo();
+            DevExpress.DataAccess.Sql.ColumnInfo columnInfo32 = new DevExpress.DataAccess.Sql.ColumnInfo();
+            DevExpress.DataAccess.Sql.ColumnInfo columnInfo33 = new DevExpress.DataAccess.Sql.ColumnInfo();
+            DevExpress.DataAccess.Sql.ColumnInfo columnInfo34 = new DevExpress.DataAccess.Sql.ColumnInfo();
+            DevExpress.DataAccess.Sql.ColumnInfo columnInfo35 = new DevExpress.DataAccess.Sql.ColumnInfo();
+            DevExpress.DataAccess.Sql.ColumnInfo columnInfo36 = new DevExpress.DataAccess.Sql.ColumnInfo();
+            DevExpress.DataAccess.Sql.ColumnInfo columnInfo37 = new DevExpress.DataAccess.Sql.ColumnInfo();
+            DevExpress.DataAccess.Sql.ColumnInfo columnInfo38 = new DevExpress.DataAccess.Sql.ColumnInfo();
+            DevExpress.DataAccess.Sql.TableInfo tableInfo12 = new DevExpress.DataAccess.Sql.TableInfo();
+            DevExpress.DataAccess.Sql.ColumnInfo columnInfo39 = new DevExpress.DataAccess.Sql.ColumnInfo();
+            DevExpress.DataAccess.Sql.ColumnInfo columnInfo40 = new DevExpress.DataAccess.Sql.ColumnInfo();
+            DevExpress.DataAccess.Sql.ColumnInfo columnInfo41 = new DevExpress.DataAccess.Sql.ColumnInfo();
+            DevExpress.DataAccess.Sql.TableInfo tableInfo13 = new DevExpress.DataAccess.Sql.TableInfo();
+            DevExpress.DataAccess.Sql.ColumnInfo columnInfo42 = new DevExpress.DataAccess.Sql.ColumnInfo();
+            DevExpress.DataAccess.Sql.ColumnInfo columnInfo43 = new DevExpress.DataAccess.Sql.ColumnInfo();
+            DevExpress.DataAccess.Sql.ColumnInfo columnInfo44 = new DevExpress.DataAccess.Sql.ColumnInfo();
+            DevExpress.DataAccess.Sql.ColumnInfo columnInfo45 = new DevExpress.DataAccess.Sql.ColumnInfo();
+            DevExpress.DataAccess.Sql.ColumnInfo columnInfo46 = new DevExpress.DataAccess.Sql.ColumnInfo();
+            DevExpress.DataAccess.Sql.TableInfo tableInfo14 = new DevExpress.DataAccess.Sql.TableInfo();
+            DevExpress.DataAccess.Sql.ColumnInfo columnInfo47 = new DevExpress.DataAccess.Sql.ColumnInfo();
+            DevExpress.DataAccess.Sql.TableInfo tableInfo15 = new DevExpress.DataAccess.Sql.TableInfo();
+            DevExpress.DataAccess.Sql.ColumnInfo columnInfo48 = new DevExpress.DataAccess.Sql.ColumnInfo();
+            DevExpress.DataAccess.Sql.TableInfo tableInfo16 = new DevExpress.DataAccess.Sql.TableInfo();
+            DevExpress.DataAccess.Sql.ColumnInfo columnInfo49 = new DevExpress.DataAccess.Sql.ColumnInfo();
+            DevExpress.DataAccess.Sql.TableQuery tableQuery5 = new DevExpress.DataAccess.Sql.TableQuery();
+            DevExpress.DataAccess.Sql.TableInfo tableInfo10 = new DevExpress.DataAccess.Sql.TableInfo();
+            DevExpress.DataAccess.Sql.ColumnInfo columnInfo27 = new DevExpress.DataAccess.Sql.ColumnInfo();
+            DevExpress.DataAccess.Sql.ColumnInfo columnInfo28 = new DevExpress.DataAccess.Sql.ColumnInfo();
+            DevExpress.DataAccess.Sql.TableQuery tableQuery4 = new DevExpress.DataAccess.Sql.TableQuery();
+            DevExpress.DataAccess.Sql.TableInfo tableInfo9 = new DevExpress.DataAccess.Sql.TableInfo();
+            DevExpress.DataAccess.Sql.ColumnInfo columnInfo25 = new DevExpress.DataAccess.Sql.ColumnInfo();
+            DevExpress.DataAccess.Sql.ColumnInfo columnInfo26 = new DevExpress.DataAccess.Sql.ColumnInfo();
             this.sqlDataSource3 = new DevExpress.DataAccess.Sql.SqlDataSource(this.components);
             this.sqlDataSource4 = new DevExpress.DataAccess.Sql.SqlDataSource(this.components);
             this.Detail = new DevExpress.XtraReports.UI.DetailBand();
@@ -244,6 +293,9 @@ public class RptVehiculo : DevExpress.XtraReports.UI.XtraReport
             this.Empresa = new DevExpress.XtraReports.Parameters.Parameter();
             this.Ciudad = new DevExpress.XtraReports.Parameters.Parameter();
             this.cfUsuario = new DevExpress.XtraReports.UI.CalculatedField();
+            this.sqlDataSource5 = new DevExpress.DataAccess.Sql.SqlDataSource(this.components);
+            this.sqlDataSource6 = new DevExpress.DataAccess.Sql.SqlDataSource(this.components);
+            this.sqlDataSource7 = new DevExpress.DataAccess.Sql.SqlDataSource(this.components);
             ((System.ComponentModel.ISupportInitialize)(this)).BeginInit();
             // 
             // sqlDataSource3
@@ -814,8 +866,8 @@ public class RptVehiculo : DevExpress.XtraReports.UI.XtraReport
             // 
             // xrLabel74
             // 
-            this.xrLabel74.Font = new System.Drawing.Font("Verdana", 16F, System.Drawing.FontStyle.Bold);
-            this.xrLabel74.LocationFloat = new DevExpress.Utils.PointFloat(5.999994F, 1.999998F);
+            this.xrLabel74.Font = new System.Drawing.Font("Arial Narrow", 18F, System.Drawing.FontStyle.Bold);
+            this.xrLabel74.LocationFloat = new DevExpress.Utils.PointFloat(5.999994F, 10F);
             this.xrLabel74.Name = "xrLabel74";
             this.xrLabel74.Padding = new DevExpress.XtraPrinting.PaddingInfo(2, 2, 0, 0, 100F);
             this.xrLabel74.SizeF = new System.Drawing.SizeF(638F, 29.45834F);
@@ -856,8 +908,7 @@ public class RptVehiculo : DevExpress.XtraReports.UI.XtraReport
             // 
             // xrPictureBox2
             // 
-            this.xrPictureBox2.ImageUrl = "C:\\Users\\Home\\Documents\\Visual Studio 2013\\Projects\\SCVSolution\\DXSCV\\Content\\Ima" +
-    "ges\\log_metrolab_top.gif";
+            this.xrPictureBox2.Image = ((System.Drawing.Image)(resources.GetObject("xrPictureBox2.Image")));
             this.xrPictureBox2.LocationFloat = new DevExpress.Utils.PointFloat(264.6667F, 10.00001F);
             this.xrPictureBox2.Name = "xrPictureBox2";
             this.xrPictureBox2.SizeF = new System.Drawing.SizeF(241.6717F, 56.00001F);
@@ -865,8 +916,7 @@ public class RptVehiculo : DevExpress.XtraReports.UI.XtraReport
             // 
             // xrPictureBox1
             // 
-            this.xrPictureBox1.ImageUrl = "C:\\Users\\Home\\Documents\\Visual Studio 2013\\Projects\\SCVSolution\\DXSCV\\Content\\Ima" +
-    "ges\\logo-herramental.png";
+            this.xrPictureBox1.Image = ((System.Drawing.Image)(resources.GetObject("xrPictureBox1.Image")));
             this.xrPictureBox1.LocationFloat = new DevExpress.Utils.PointFloat(9.999998F, 10.00001F);
             this.xrPictureBox1.Name = "xrPictureBox1";
             this.xrPictureBox1.SizeF = new System.Drawing.SizeF(241.6667F, 56F);
@@ -882,7 +932,7 @@ public class RptVehiculo : DevExpress.XtraReports.UI.XtraReport
             this.Empresa.Description = "Empresa";
             dynamicListLookUpSettings1.DataAdapter = null;
             dynamicListLookUpSettings1.DataMember = "SCV_Empresa";
-            dynamicListLookUpSettings1.DataSource = this.sqlDataSource3;
+            dynamicListLookUpSettings1.DataSource = this.sqlDataSource7;
             dynamicListLookUpSettings1.DisplayMember = "Nombre";
             dynamicListLookUpSettings1.ValueMember = "EmpresaId";
             this.Empresa.LookUpSettings = dynamicListLookUpSettings1;
@@ -895,7 +945,7 @@ public class RptVehiculo : DevExpress.XtraReports.UI.XtraReport
             this.Ciudad.Description = "Ciudad";
             dynamicListLookUpSettings2.DataAdapter = null;
             dynamicListLookUpSettings2.DataMember = "SCV_Ciudad";
-            dynamicListLookUpSettings2.DataSource = this.sqlDataSource4;
+            dynamicListLookUpSettings2.DataSource = this.sqlDataSource6;
             dynamicListLookUpSettings2.DisplayMember = "Descripcion";
             dynamicListLookUpSettings2.ValueMember = "CiudadId";
             this.Ciudad.LookUpSettings = dynamicListLookUpSettings2;
@@ -910,6 +960,149 @@ public class RptVehiculo : DevExpress.XtraReports.UI.XtraReport
     ".ApMaterno])";
             this.cfUsuario.FieldType = DevExpress.XtraReports.UI.FieldType.String;
             this.cfUsuario.Name = "cfUsuario";
+            // 
+            // sqlDataSource5
+            // 
+            this.sqlDataSource5.ConnectionName = "10.1.2.25_TCADBHMT_Connection";
+            this.sqlDataSource5.Name = "sqlDataSource5";
+            tableQuery6.Name = "SCV_Vehiculo";
+            relationColumnInfo6.NestedKeyColumn = "UsuarioId";
+            relationColumnInfo6.ParentKeyColumn = "UsuarioIdAsignado";
+            relationInfo6.KeyColumns.AddRange(new DevExpress.DataAccess.Sql.RelationColumnInfo[] {
+            relationColumnInfo6});
+            relationInfo6.NestedTable = "SCV_Usuario";
+            relationInfo6.ParentTable = "SCV_Vehiculo";
+            relationColumnInfo7.NestedKeyColumn = "VehiculoId";
+            relationColumnInfo7.ParentKeyColumn = "VehiculoId";
+            relationInfo7.KeyColumns.AddRange(new DevExpress.DataAccess.Sql.RelationColumnInfo[] {
+            relationColumnInfo7});
+            relationInfo7.NestedTable = "SCV_Mantenimiento";
+            relationInfo7.ParentTable = "SCV_Vehiculo";
+            relationColumnInfo8.NestedKeyColumn = "ProveedorId";
+            relationColumnInfo8.ParentKeyColumn = "ProveedorId";
+            relationInfo8.KeyColumns.AddRange(new DevExpress.DataAccess.Sql.RelationColumnInfo[] {
+            relationColumnInfo8});
+            relationInfo8.NestedTable = "SCV_Proveedor";
+            relationInfo8.ParentTable = "SCV_Mantenimiento";
+            relationColumnInfo9.NestedKeyColumn = "EmpresaId";
+            relationColumnInfo9.ParentKeyColumn = "EmpresaId";
+            relationInfo9.KeyColumns.AddRange(new DevExpress.DataAccess.Sql.RelationColumnInfo[] {
+            relationColumnInfo9});
+            relationInfo9.NestedTable = "SCV_Empresa";
+            relationInfo9.ParentTable = "SCV_Vehiculo";
+            relationColumnInfo10.NestedKeyColumn = "CiudadId";
+            relationColumnInfo10.ParentKeyColumn = "CiudadId";
+            relationInfo10.KeyColumns.AddRange(new DevExpress.DataAccess.Sql.RelationColumnInfo[] {
+            relationColumnInfo10});
+            relationInfo10.NestedTable = "SCV_Ciudad";
+            relationInfo10.ParentTable = "SCV_Vehiculo";
+            tableQuery6.Relations.AddRange(new DevExpress.DataAccess.Sql.RelationInfo[] {
+            relationInfo6,
+            relationInfo7,
+            relationInfo8,
+            relationInfo9,
+            relationInfo10});
+            tableInfo11.Name = "SCV_Vehiculo";
+            columnInfo29.Name = "VehiculoId";
+            columnInfo30.Name = "Marca";
+            columnInfo31.Name = "Modelo";
+            columnInfo32.Name = "Anio";
+            columnInfo33.Name = "NoSerie";
+            columnInfo34.Name = "Apodo";
+            columnInfo35.Name = "Placa";
+            columnInfo36.Name = "UsuarioIdAsignado";
+            columnInfo37.Name = "CiudadId";
+            columnInfo38.Name = "EmpresaId";
+            tableInfo11.SelectedColumns.AddRange(new DevExpress.DataAccess.Sql.ColumnInfo[] {
+            columnInfo29,
+            columnInfo30,
+            columnInfo31,
+            columnInfo32,
+            columnInfo33,
+            columnInfo34,
+            columnInfo35,
+            columnInfo36,
+            columnInfo37,
+            columnInfo38});
+            tableInfo12.Name = "SCV_Usuario";
+            columnInfo39.Name = "Nombre";
+            columnInfo40.Name = "ApPaterno";
+            columnInfo41.Name = "ApMaterno";
+            tableInfo12.SelectedColumns.AddRange(new DevExpress.DataAccess.Sql.ColumnInfo[] {
+            columnInfo39,
+            columnInfo40,
+            columnInfo41});
+            tableInfo13.Name = "SCV_Mantenimiento";
+            columnInfo42.Name = "MantenimientoId";
+            columnInfo43.Name = "TipoServicio";
+            columnInfo44.Name = "DescripcionMtto";
+            columnInfo45.Name = "NumFactura";
+            columnInfo46.Name = "EstatusFactura";
+            tableInfo13.SelectedColumns.AddRange(new DevExpress.DataAccess.Sql.ColumnInfo[] {
+            columnInfo42,
+            columnInfo43,
+            columnInfo44,
+            columnInfo45,
+            columnInfo46});
+            tableInfo14.Name = "SCV_Proveedor";
+            columnInfo47.Name = "RazonSocial";
+            tableInfo14.SelectedColumns.AddRange(new DevExpress.DataAccess.Sql.ColumnInfo[] {
+            columnInfo47});
+            tableInfo15.Name = "SCV_Empresa";
+            columnInfo48.Alias = "SCV_Empresa_Nombre";
+            columnInfo48.Name = "Nombre";
+            tableInfo15.SelectedColumns.AddRange(new DevExpress.DataAccess.Sql.ColumnInfo[] {
+            columnInfo48});
+            tableInfo16.Name = "SCV_Ciudad";
+            columnInfo49.Name = "Descripcion";
+            tableInfo16.SelectedColumns.AddRange(new DevExpress.DataAccess.Sql.ColumnInfo[] {
+            columnInfo49});
+            tableQuery6.Tables.AddRange(new DevExpress.DataAccess.Sql.TableInfo[] {
+            tableInfo11,
+            tableInfo12,
+            tableInfo13,
+            tableInfo14,
+            tableInfo15,
+            tableInfo16});
+            this.sqlDataSource5.Queries.AddRange(new DevExpress.DataAccess.Sql.SqlQuery[] {
+            tableQuery6});
+            this.sqlDataSource5.ResultSchemaSerializable = resources.GetString("sqlDataSource5.ResultSchemaSerializable");
+            // 
+            // sqlDataSource6
+            // 
+            this.sqlDataSource6.ConnectionName = "10.1.2.25_TCADBHMT_Connection";
+            this.sqlDataSource6.Name = "sqlDataSource6";
+            tableQuery5.Name = "SCV_Ciudad";
+            tableInfo10.Name = "SCV_Ciudad";
+            columnInfo27.Name = "CiudadId";
+            columnInfo28.Name = "Descripcion";
+            tableInfo10.SelectedColumns.AddRange(new DevExpress.DataAccess.Sql.ColumnInfo[] {
+            columnInfo27,
+            columnInfo28});
+            tableQuery5.Tables.AddRange(new DevExpress.DataAccess.Sql.TableInfo[] {
+            tableInfo10});
+            this.sqlDataSource6.Queries.AddRange(new DevExpress.DataAccess.Sql.SqlQuery[] {
+            tableQuery5});
+            this.sqlDataSource6.ResultSchemaSerializable = resources.GetString("sqlDataSource6.ResultSchemaSerializable");
+            // 
+            // sqlDataSource7
+            // 
+            this.sqlDataSource7.ConnectionName = "10.1.2.25_TCADBHMT_Connection";
+            this.sqlDataSource7.Name = "sqlDataSource7";
+            tableQuery4.Name = "SCV_Empresa";
+            tableInfo9.Name = "SCV_Empresa";
+            columnInfo25.Name = "EmpresaId";
+            columnInfo26.Name = "Nombre";
+            tableInfo9.SelectedColumns.AddRange(new DevExpress.DataAccess.Sql.ColumnInfo[] {
+            columnInfo25,
+            columnInfo26});
+            tableQuery4.Tables.AddRange(new DevExpress.DataAccess.Sql.TableInfo[] {
+            tableInfo9});
+            this.sqlDataSource7.Queries.AddRange(new DevExpress.DataAccess.Sql.SqlQuery[] {
+            tableQuery4});
+            this.sqlDataSource7.ResultSchemaSerializable = "PERhdGFTZXQgTmFtZT0ic3FsRGF0YVNvdXJjZTciPjxWaWV3IE5hbWU9IlNDVl9FbXByZXNhIj48Rmllb" +
+    "GQgTmFtZT0iRW1wcmVzYUlkIiBUeXBlPSJJbnQzMiIgLz48RmllbGQgTmFtZT0iTm9tYnJlIiBUeXBlP" +
+    "SJTdHJpbmciIC8+PC9WaWV3PjwvRGF0YVNldD4=";
             // 
             // RptVehiculo
             // 
@@ -926,9 +1119,12 @@ public class RptVehiculo : DevExpress.XtraReports.UI.XtraReport
             this.ComponentStorage.AddRange(new System.ComponentModel.IComponent[] {
             this.sqlDataSource2,
             this.sqlDataSource3,
-            this.sqlDataSource4});
+            this.sqlDataSource4,
+            this.sqlDataSource5,
+            this.sqlDataSource6,
+            this.sqlDataSource7});
             this.DataMember = "SCV_Vehiculo";
-            this.DataSource = this.sqlDataSource2;
+            this.DataSource = this.sqlDataSource5;
             this.Font = new System.Drawing.Font("Arial Narrow", 9.75F);
             this.Landscape = true;
             this.Margins = new System.Drawing.Printing.Margins(11, 15, 84, 27);
