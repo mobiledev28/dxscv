@@ -18,10 +18,12 @@
         settings.CommandColumn.ShowNewButton = true;
         settings.CommandColumn.ShowDeleteButton = true;
         settings.CommandColumn.ShowEditButton = true;
+        settings.CommandColumn.Width = 150;
         settings.SettingsPager.PageSize = 10;
         settings.ControlStyle.Paddings.Padding = System.Web.UI.WebControls.Unit.Pixel(0);
         settings.ControlStyle.Border.BorderWidth = System.Web.UI.WebControls.Unit.Pixel(0);
         settings.ControlStyle.BorderBottom.BorderWidth = System.Web.UI.WebControls.Unit.Pixel(1);
+        settings.Settings.HorizontalScrollBarMode = ScrollBarMode.Auto;
 
         // DXCOMMENT: Specify the grid's key field name and define grid columns in accordance with data model fields
         settings.KeyFieldName = "ProveedorId";
@@ -75,6 +77,27 @@
         });
         settings.Columns.Add(column =>
         {
+            column.FieldName = "RFC";
+            column.Caption = "RFC";
+        });
+        settings.Columns.Add(column =>
+        {
+            column.FieldName = "DiasCredito";
+            column.Caption = "Días Credito";
+            column.ColumnType = MVCxGridViewColumnType.SpinEdit;
+        });
+        settings.Columns.Add(column =>
+        {
+            column.FieldName = "Extencion";
+            column.Caption = "Extención";
+        });
+        settings.Columns.Add(column =>
+        {
+            column.FieldName = "Celular";
+            column.Caption = "Celular";
+        });
+        settings.Columns.Add(column =>
+        {
             column.FieldName = "FechaAlta";
             column.Caption = "Fecha Alta";
 
@@ -98,7 +121,7 @@
         settings.Columns.Add(column =>
         {
             column.FieldName = "FechaMod";
-            column.Caption = "Fecha Modificación";
+            column.Caption = "Fecha Mod.";
             column.ColumnType = MVCxGridViewColumnType.DateEdit;
 
             var dateedit = (DateEditProperties)column.PropertiesEdit;

@@ -1,0 +1,15 @@
+﻿@{
+    ViewBag.Title = "OrdenMtto";
+    Layout = "~/Views/Shared/_mainLayout.cshtml";
+}
+
+<h2>Orden de Mantenimiento</h2>
+
+
+
+@Html.DevExpress().WebDocumentViewer(settings =>
+{
+    settings.Name = "WebDocumentViewer";
+}).Bind(new OrdenMtto()).GetHtml()
+
+

@@ -19,5 +19,8 @@ namespace DXSCV.Controllers
             return View(new RptVehiculo());
         }
 
+        public ActionResult OrdenMtto(){
+            return View(new OrdenMtto());
+        }
     }
 }

@@ -489,6 +489,7 @@
     <Content Include="Views\Reports\RptVehiculos.cshtml" />
     <Content Include="Views\Reports\Index.cshtml" />
     <None Include="Scripts\jquery.validate-vsdoc.js" />
+    <Content Include="Views\Reports\OrdenMtto.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

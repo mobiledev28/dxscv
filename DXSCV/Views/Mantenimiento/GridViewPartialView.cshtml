@@ -52,28 +52,28 @@
             //hlprop.RequiredField.IsRequired = false;
             column.EditFormSettings.Visible = DevExpress.Utils.DefaultBoolean.False;
         });
-        settings.Columns.Add(column =>
-        {
+        //settings.Columns.Add(column =>
+        //{
 
-            column.FieldName = "MantenimientoId";
-            column.Caption = "Orden Mtto";
-            column.SetDataItemTemplateContent(container =>
-            {
-                Html.DevExpress().HyperLink(hlSettings =>
-                {
-                    hlSettings.Name = string.Format("hlom_{0}", (container as GridViewDataItemTemplateContainer).VisibleIndex + 1);
-                    hlSettings.NavigateUrl = "javascript:void(0)";
-                    hlSettings.Properties.ClientSideEvents.Click = string.Format("function(s,e) {{ GeneraOM('{0}'); }}", (container as GridViewDataItemTemplateContainer).KeyValue.ToString());
-                    hlSettings.Properties.Text = "Generar Orden";
+        //    column.FieldName = "MantenimientoId";
+        //    column.Caption = "Orden Mtto";
+        //    column.SetDataItemTemplateContent(container =>
+        //    {
+        //        Html.DevExpress().HyperLink(hlSettings =>
+        //        {
+        //            hlSettings.Name = string.Format("hlom_{0}", (container as GridViewDataItemTemplateContainer).VisibleIndex + 1);
+        //            hlSettings.NavigateUrl = "javascript:void(0)";
+        //            hlSettings.Properties.ClientSideEvents.Click = string.Format("function(s,e) {{ GeneraOM('{0}'); }}", (container as GridViewDataItemTemplateContainer).KeyValue.ToString());
+        //            hlSettings.Properties.Text = "Generar Orden";
 
 
-                }).Render();
+        //        }).Render();
 
-            });
-            //var hlprop = (HyperLinkProperties)column.PropertiesEdit;
-            //hlprop.RequiredField.IsRequired = false;
-            column.EditFormSettings.Visible = DevExpress.Utils.DefaultBoolean.False;
-        });
+        //    });
+        //    //var hlprop = (HyperLinkProperties)column.PropertiesEdit;
+        //    //hlprop.RequiredField.IsRequired = false;
+        //    column.EditFormSettings.Visible = DevExpress.Utils.DefaultBoolean.False;
+        //});
         settings.Columns.Add("TipoServicio");
         settings.Columns.Add(column =>
         {
@@ -240,7 +240,21 @@
             column.FieldName = "EstatusFactura";
             column.Caption = "Estatus Factura";
         });
-
+        settings.Columns.Add(column =>
+        {
+            column.FieldName = "Subtotal";
+            column.Caption = "Subtotal";
+        });
+        settings.Columns.Add(column =>
+        {
+            column.FieldName = "IVA";
+            column.Caption = "IVA";
+        });
+        settings.Columns.Add(column =>
+        {
+            column.FieldName = "Total";
+            column.Caption = "Total";
+        });
         settings.Columns.Add(column =>
         {
             column.FieldName = "FechaAlta";
@@ -306,6 +320,34 @@
             }
 
             if (e.Column.FieldName == "FechaAlta")
+            {
+                if (g.IsNewRowEditing)
+                {
+                    e.Editor.ReadOnly = false;
+                    e.Editor.Enabled = true;
+                }
+                else
+                {
+                    e.Editor.ReadOnly = true;
+                    e.Editor.Enabled = false;
+                }
+            }
+
+            if (e.Column.FieldName == "IVA")
+            {
+                if (g.IsNewRowEditing)
+                {
+                    e.Editor.ReadOnly = false;
+                    e.Editor.Enabled = true;
+                }
+                else
+                {
+                    e.Editor.ReadOnly = true;
+                    e.Editor.Enabled = false;
+                }
+            }
+
+            if (e.Column.FieldName == "Total")
             {
                 if (g.IsNewRowEditing)
                 {

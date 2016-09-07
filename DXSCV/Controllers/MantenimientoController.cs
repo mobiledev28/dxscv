@@ -635,16 +635,22 @@ namespace DXSCV.Controllers
                 server.Options.Export.Html.EmbedImages = true;
                 MemoryStream ms = new MemoryStream();
                 server.ExportToPdf(ms);
+                //server.LoadDocument(ms, DocumentFormat.pdf)
 
                 string sfileName = string.Format("OrdenMantenimiento_{0}", DateTime.Now.ToString("yyyyMMddHHmmss"));
                 HttpContext.Response.Buffer = true;
+                HttpContext.Response.ClearContent();
                 HttpContext.Response.Clear();
-                HttpContext.Response.ContentType = "pdf document/pdf";
+                //HttpContext.Response.ContentType = "pdf document/pdf";
+                HttpContext.Response.ContentType = "application/pdf";
                 HttpContext.Response.AddHeader("Accept-Header", ms.Length.ToString());
-                HttpContext.Response.AddHeader("Content-Disposition", ("Attachment") + "; filename=" + sfileName + ".pdf");
+                HttpContext.Response.AddHeader("Content-Disposition", "attachment; filename=" + sfileName + ".pdf");
                 HttpContext.Response.AddHeader("Content-Length", ms.Length.ToString());
+                ms.WriteTo(HttpContext.Response.OutputStream);
+                HttpContext.Response.Flush();
                 HttpContext.Response.BinaryWrite(ms.ToArray());
-                HttpContext.Response.End();
+
+                //HttpContext.Response.End();
 
                
             }
