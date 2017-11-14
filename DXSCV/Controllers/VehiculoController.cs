@@ -21,7 +21,7 @@ namespace DXSCV.Controllers
             Ciudades = VehiculosList.GetCiudades(),
             Empresas = VehiculosList.GetEmpresas(),
             Usuarios = VehiculosList.GetUsuarios(),
-            Vehiculos = VehiculosList.GetVehiculos(),
+            Vehiculos = new List<SCV_Vehiculo>(),
             Cuentas = VehiculosList.GetCuentas(),
             TiposDocumentos = VehiculosList.GetTiposDocumentos()
         };
@@ -34,36 +34,55 @@ namespace DXSCV.Controllers
         [SessionAuthorize]
         public ActionResult Index(string Filterby)
         {
-            if (!string.IsNullOrEmpty(Filterby))
+            SessionUserViewModel suvm = new SessionUserViewModel();
+            if (Session["_UserLogged"] != null)
             {
-                int empresaId = 0;
-                switch (Filterby)
-                {
-                    case "1":
-                        empresaId = 1; //Herramental Monterrey
-                        break;
-                    case "2":
-                        empresaId = 2; //Metalisnpec
-                        break;
-                    case "3":
-                        empresaId = 3; //Metalisnpec Laboratorios
-                        break;
-                    case "4":
-                        empresaId = 4; //MetroLab
-                        break;
-                }
-
-                vvm = new VehiculoViewModel
-                {
-                    Ciudades = VehiculosList.GetCiudades(),
-                    Empresas = VehiculosList.GetEmpresas(),
-                    Usuarios = VehiculosList.GetUsuarios(),
-                    Vehiculos = VehiculosList.GetVehiculosByEmpresa(empresaId),
-                    Cuentas = VehiculosList.GetCuentas(),
-                    TiposDocumentos = VehiculosList.GetTiposDocumentos()
-                };
+                suvm = (SessionUserViewModel)Session["_UserLogged"];
             }
-            
+
+            int empresaId = 0;
+            switch (Filterby)
+            {
+                case "1":
+                    empresaId = 1; //Herramental Monterrey
+                    suvm.EmpresaId = empresaId;
+                    break;
+                case "2":
+                    empresaId = 2; //Metalisnpec
+                    suvm.EmpresaId = empresaId;
+                    break;
+                case "3":
+                    empresaId = 3; //Metalisnpec Laboratorios
+                    suvm.EmpresaId = empresaId;
+                    break;
+                case "4":
+                    empresaId = 4; //MetroLab
+                    suvm.EmpresaId = empresaId;
+                    break;
+            }
+
+            if (empresaId != 0)
+            {
+                Session["_UserLogged"] = suvm;
+            }
+
+            List<SCV_Empresa> empList = EmpresaDB.ObtieneEmpresasDB();
+
+            if (!suvm.IsHerrMty) empList.Remove(empList.FirstOrDefault(e => e.EmpresaId == 1));
+            if (!suvm.IsMetalinspec) empList.Remove(empList.FirstOrDefault(e => e.EmpresaId == 2));
+            if (!suvm.IsMetalinspecLab) empList.Remove(empList.FirstOrDefault(e => e.EmpresaId == 3));
+            if (!suvm.IsMetroLab) empList.Remove(empList.FirstOrDefault(e => e.EmpresaId == 4));
+           
+            vvm = new VehiculoViewModel
+            {
+                Ciudades = VehiculosList.GetCiudades(),
+                Empresas = VehiculosList.GetEmpresas(),
+                Usuarios = VehiculosList.GetUsuarios(),
+                Vehiculos = VehiculosList.GetVehiculosByEmpresas(empList, empresaId),
+                Cuentas = VehiculosList.GetCuentas(),
+                TiposDocumentos = VehiculosList.GetTiposDocumentos(),
+                UsuarioActivo = suvm
+            };
 
             return View(vvm);
         }
@@ -72,6 +91,23 @@ namespace DXSCV.Controllers
         [ValidateInput(false)]
         public ActionResult GridViewPartialView()
         {
+            SessionUserViewModel suvm = new SessionUserViewModel();
+            if (Session["_UserLogged"] != null)
+            {
+                suvm = (SessionUserViewModel)Session["_UserLogged"];
+            }
+
+            int empresaId = 0;
+            if (suvm.EmpresaId != 0) empresaId = suvm.EmpresaId;
+          
+            List<SCV_Empresa> empList = EmpresaDB.ObtieneEmpresasDB();
+
+            if (!suvm.IsHerrMty) empList.Remove(empList.FirstOrDefault(e => e.EmpresaId == 1));
+            if (!suvm.IsMetalinspec) empList.Remove(empList.FirstOrDefault(e => e.EmpresaId == 2));
+            if (!suvm.IsMetalinspecLab) empList.Remove(empList.FirstOrDefault(e => e.EmpresaId == 3));
+            if (!suvm.IsMetroLab) empList.Remove(empList.FirstOrDefault(e => e.EmpresaId == 4));
+
+            vvm.Vehiculos = VehiculosList.GetVehiculosByEmpresas(empList, empresaId);
             // DXCOMMENT: Pass a data model for GridView in the PartialView method's second parameter
             return PartialView("GridViewPartialView", vvm);
         }
@@ -81,6 +117,322 @@ namespace DXSCV.Controllers
         {
             GridViewEditHelper.EditMode = editMode;
             return PartialView("GridViewPartialView", vvm);
+        }
+
+        //Nueva pantalla vehiculos con filtros
+        [SessionAuthorize]
+        public ActionResult Vehiculos(string Filterby)
+        {
+            SessionUserViewModel suvm = new SessionUserViewModel();
+            if (Session["_UserLogged"] != null)
+            {
+                suvm = (SessionUserViewModel)Session["_UserLogged"];
+            }
+
+            int empresaId = 0;
+            switch (Filterby)
+            {
+                case "1":
+                    empresaId = 1; //Herramental Monterrey
+                    suvm.EmpresaId = empresaId;
+                    break;
+                case "2":
+                    empresaId = 2; //Metalisnpec
+                    suvm.EmpresaId = empresaId;
+                    break;
+                case "3":
+                    empresaId = 3; //Metalisnpec Laboratorios
+                    suvm.EmpresaId = empresaId;
+                    break;
+                case "4":
+                    empresaId = 4; //MetroLab
+                    suvm.EmpresaId = empresaId;
+                    break;
+            }
+
+            if (empresaId != 0)
+            {
+                Session["_UserLogged"] = suvm;
+            }
+
+            //List<EmpresaViewModel> empresaList = new List<EmpresaViewModel>();
+            List<SCV_Empresa> empList = EmpresaDB.ObtieneEmpresasDB();
+
+            if (!suvm.IsHerrMty)
+            {
+                empList.Remove(empList.FirstOrDefault(e => e.EmpresaId == 1));
+            }
+
+            if (!suvm.IsMetalinspec)
+            {
+                empList.Remove(empList.FirstOrDefault(e => e.EmpresaId == 2));
+            }
+
+            if (!suvm.IsMetalinspecLab)
+            {
+                empList.Remove(empList.FirstOrDefault(e => e.EmpresaId == 3));
+            }
+
+            if (!suvm.IsMetroLab)
+            {
+                empList.Remove(empList.FirstOrDefault(e => e.EmpresaId == 4));
+            }
+
+            vvm = new VehiculoViewModel
+            {
+                Ciudades = VehiculosList.GetCiudades(),
+                Empresas = VehiculosList.GetEmpresas(),
+                Usuarios = VehiculosList.GetUsuarios(),
+                Vehiculos = VehiculosList.GetVehiculosByEmpresas(empList, empresaId),
+                Cuentas = VehiculosList.GetCuentas(),
+                TiposDocumentos = VehiculosList.GetTiposDocumentos(),
+                UsuarioActivo = suvm
+            };
+
+            return View(vvm);
+        }
+
+        [SessionAuthorize]
+        [HttpGet]
+        public JsonResult FichaTecnicaVehiculo(string id)
+        {
+            int iVehiculoId = 0;
+            int.TryParse(id, out iVehiculoId);
+            
+            SCV_FichaTecnicaVehiculo ftVehiculo = new SCV_FichaTecnicaVehiculo();
+            SCV_Vehiculo vehiculo = new SCV_Vehiculo();
+            SCV_Ciudad ciudad = new SCV_Ciudad();
+            FichaTecnicaVehiculoViewModel ftvvm = new FichaTecnicaVehiculoViewModel();
+
+            if (!string.IsNullOrEmpty(id))
+            {
+                ftVehiculo = FichaTecnicaDB.ObtieneFichaTecnicaVehiculo(iVehiculoId);
+                vehiculo = VehiculoDB.ObtieneVehiculosByVehiculoIdDB(iVehiculoId);
+                
+
+                if (vehiculo != null)
+                {
+                    ciudad = CiudadDB.ObtieneCiudadeByIdDB(vehiculo.CiudadId);
+                    SCV_Usuario usr = UsuarioDB.ObtieneUsuariosByUsuarioIdDB(vehiculo.UsuarioIdAsignado);
+                    ftvvm.Modelo = vehiculo.Modelo;
+                    ftvvm.Anio = vehiculo.Anio;
+                    ftvvm.Serie = vehiculo.NoSerie;
+                    ftvvm.Placa = vehiculo.Placa;
+
+                    if (usr != null){
+                        ftvvm.Usuario = usr.Nombre + " " + usr.ApPaterno + " " + usr.ApMaterno;
+                    }
+
+                    if (ciudad != null)
+                    {
+                        ftvvm.Ciudad = ciudad.Descripcion;
+                    }
+                    
+                }
+
+                if (ftVehiculo != null)
+                {
+                    ftvvm.FechaCompra = ftVehiculo.FechaCompra;
+                    ftvvm.sFechaCompra = string.Format("{0:d}",ftVehiculo.FechaCompra);
+                    ftvvm.Factura = ftVehiculo.Factura;
+                    ftvvm.RazonSocial = ProveedorDB.ObtieneProveedorById(ftVehiculo.ProveedorId);
+                    ftvvm.ValorFactura = ftVehiculo.ValorFactura;
+                    ftvvm.ValorResidual = ftVehiculo.ValorResidual;
+                    ftvvm.TipoAdquisicion = ftVehiculo.TipoAdquisicion;
+                    ftvvm.TasaInteres = ftVehiculo.TasaInteres;
+                    ftvvm.PagoInicial = ftVehiculo.PagoInicial;
+                    ftvvm.RentaMensual = ftVehiculo.RentaMensual;
+                    ftvvm.ValorResidual = ftVehiculo.ValorResidual;
+                    ftvvm.Aseguradora = ftVehiculo.Aseguradora;
+                    ftvvm.Poliza = ftVehiculo.Poliza;
+                    ftvvm.PrimaTotal = ftVehiculo.PrimaTotal;
+                    ftvvm.Endoso = ftVehiculo.Endoso;
+                    ftvvm.Vigencia = ftVehiculo.Vigencia;
+                    ftvvm.sVigencia = string.Format("{0:d}", ftVehiculo.Vigencia);
+                    ftvvm.TarjetaCirculacion = ftVehiculo.TarjetaCirculacion;
+                }
+             
+            }
+
+            var outJson = new
+            {
+                success = "yes",
+                data = ftvvm != null ? ftvvm : null
+            };
+
+            return Json(outJson, JsonRequestBehavior.AllowGet);
+        }
+
+        [SessionAuthorize]
+        [HttpGet]
+        public JsonResult FichaTecnicaUsuario(string id)
+        {
+            long iUsuarioId = 0;
+            long.TryParse(id, out iUsuarioId);
+
+            SCV_FichaTecnicaUsuario ftUsuario = new SCV_FichaTecnicaUsuario();
+            SCV_Usuario usuario = new SCV_Usuario();
+            SCV_Ciudad ciudad = new SCV_Ciudad();
+            SCV_Documento foto = new SCV_Documento();
+            SCV_TipoDocumento tipodoc = new SCV_TipoDocumento();
+            FichaTecnicaUsuarioViewModel ftuvm = new FichaTecnicaUsuarioViewModel();
+
+            if (!string.IsNullOrEmpty(id))
+            {
+                ftUsuario = FichaTecnicaDB.ObtieneFichaTecnicaUsuario(iUsuarioId);
+
+                if (ftUsuario != null)
+                {
+                    ftuvm.NumColaborador = ftUsuario.NumColaborador;
+                    ftuvm.sFechaIngreso = string.Format("{0:d}", ftUsuario.FechaIngreso);
+                    ftuvm.Imss = ftUsuario.Imss;
+                    ftuvm.Licencia = ftUsuario.Licencia;
+                    ftuvm.Ine = ftUsuario.Ine;
+                    ftuvm.Departamento = ftUsuario.Departamento;
+                    ftuvm.NumCelular = ftUsuario.NumCelular;
+                    ftuvm.Email = ftUsuario.Email;
+
+                    usuario = UsuarioDB.ObtieneUsuariosByUsuarioIdDB(iUsuarioId);
+                    ciudad = CiudadDB.ObtieneCiudadeByIdDB(ftUsuario.CuidadId);
+                    tipodoc = TipoDocumentoDB.ObtieneTipoDocumentosDB().Where(t => t.Descripcion == "Foto de Usuario").FirstOrDefault();
+                    foto = DocumentoDB.ObtieneDocumentosByFichaTecnicaUsuarioId(ftUsuario.FichaTecnicaUsuarioId).Where(f => f.TipoDocumentoId == tipodoc.TipoDocumentoId).FirstOrDefault();
+
+                    
+                    if (foto != null)
+                    {
+                        string[] strURL = foto.URL.Split('\\');
+                        if (strURL.Count() > 0)
+                        {
+                            ftuvm.FotoUrl = "/Content/usr-profile-pics/" + strURL[strURL.Length - 1].ToString();
+                        }
+                    }
+
+
+                    if (ciudad != null)
+                    {
+                        ftuvm.Ciudad = ciudad.Descripcion;
+                    }
+
+                    if (usuario != null)
+                    {
+                        ftuvm.Nombre = usuario.Nombre + " " + usuario.ApPaterno + " " + usuario.ApMaterno;
+                    }
+                }
+
+            }
+
+            var outJson = new
+            {
+                success = "yes",
+                data = ftuvm != null ? ftuvm : null
+            };
+
+            return Json(outJson, JsonRequestBehavior.AllowGet);
+        }
+
+        [SessionAuthorize]
+        public ActionResult VehiculosFiltros(string vehiculoId, string serie, string placa)
+        {
+            SessionUserViewModel suvm = new SessionUserViewModel();
+            if (Session["_UserLogged"] != null)
+            {
+                suvm = (SessionUserViewModel)Session["_UserLogged"];
+            }
+
+            int iVehiculoId = 0;
+            int.TryParse(vehiculoId, out iVehiculoId);
+
+            //List<EmpresaViewModel> empresaList = new List<EmpresaViewModel>();
+            List<SCV_Empresa> empList = EmpresaDB.ObtieneEmpresasDB();
+
+            if (!suvm.IsHerrMty)
+            {
+                empList.Remove(empList.FirstOrDefault(e => e.EmpresaId == 1));
+            }
+
+            if (!suvm.IsMetalinspec)
+            {
+                empList.Remove(empList.FirstOrDefault(e => e.EmpresaId == 2));
+            }
+
+            if (!suvm.IsMetalinspecLab)
+            {
+                empList.Remove(empList.FirstOrDefault(e => e.EmpresaId == 3));
+            }
+
+            if (!suvm.IsMetroLab)
+            {
+                empList.Remove(empList.FirstOrDefault(e => e.EmpresaId == 4));
+            }
+
+            vvm = new VehiculoViewModel
+            {
+                Ciudades = VehiculosList.GetCiudades(),
+                Empresas = VehiculosList.GetEmpresas(),
+                Usuarios = VehiculosList.GetUsuarios(),
+                Vehiculos = VehiculosList.GetVehiculosByEmpresasAndFiltros(empList, iVehiculoId, serie, placa),
+                Cuentas = VehiculosList.GetCuentas(),
+                TiposDocumentos = VehiculosList.GetTiposDocumentos(),
+                UsuarioActivo = suvm
+            };
+
+            
+
+            return View("Vehiculos", vvm);// Json(outJson, JsonRequestBehavior.AllowGet);
+        }
+
+        
+        
+
+        [SessionAuthorize]
+        [ValidateInput(false)]
+        public ActionResult GridViewVehiculosFiltrados()
+        {
+            SessionUserViewModel suvm = new SessionUserViewModel();
+            int empresaId = 0;
+            if (Session["_UserLogged"] != null)
+            {
+                suvm = (SessionUserViewModel)Session["_UserLogged"];
+                empresaId = suvm.EmpresaId;
+                
+            }
+
+            //List<EmpresaViewModel> empresaList = new List<EmpresaViewModel>();
+            List<SCV_Empresa> empList = EmpresaDB.ObtieneEmpresasDB();
+
+            if (!suvm.IsHerrMty)
+            {
+                empList.Remove(empList.FirstOrDefault(e => e.EmpresaId == 1));
+            }
+
+            if (!suvm.IsMetalinspec)
+            {
+                empList.Remove(empList.FirstOrDefault(e => e.EmpresaId == 2));
+            }
+
+            if (!suvm.IsMetalinspecLab)
+            {
+                empList.Remove(empList.FirstOrDefault(e => e.EmpresaId == 3));
+            }
+
+            if (!suvm.IsMetroLab)
+            {
+                empList.Remove(empList.FirstOrDefault(e => e.EmpresaId == 4));
+            }
+
+            vvm = new VehiculoViewModel
+            {
+                Ciudades = VehiculosList.GetCiudades(),
+                Empresas = VehiculosList.GetEmpresas(),
+                Usuarios = VehiculosList.GetUsuarios(),
+                Vehiculos = VehiculosList.GetVehiculosByEmpresas(empList, empresaId),
+                Cuentas = VehiculosList.GetCuentas(),
+                TiposDocumentos = VehiculosList.GetTiposDocumentos(),
+                UsuarioActivo = suvm
+            };
+
+            // DXCOMMENT: Pass a data model for GridView in the PartialView method's second parameter
+            return PartialView("GridViewVehiculosFiltrados", vvm);
         }
 
         [SessionAuthorize]
@@ -175,6 +527,30 @@ namespace DXSCV.Controllers
         {
             // DXCOMMENT: Pass a data model for GridView in the PartialView method's second parameter
             return PartialView("LoadDocumentsPartialView");
+        }
+
+        [SessionAuthorize]
+        [ValidateInput(false)]
+        public PartialViewResult FichaTecnicaVehiculoPartialView(string _vehiculoID)
+        {
+            // DXCOMMENT: Pass a data model for GridView in the PartialView method's second parameter
+            return PartialView("FichaTecnicaVehiculoPartialView");
+        }
+
+        [SessionAuthorize]
+        [ValidateInput(false)]
+        public PartialViewResult DocumentosPartialView(string _vehiculoID)
+        {
+            // DXCOMMENT: Pass a data model for GridView in the PartialView method's second parameter
+            return PartialView("DocumentosPartialView");
+        }
+
+        [SessionAuthorize]
+        [ValidateInput(false)]
+        public PartialViewResult FichaTecnicaUsuarioPartialView(string _usuarioIdAsignado)
+        {
+            // DXCOMMENT: Pass a data model for GridView in the PartialView method's second parameter
+            return PartialView("FichaTecnicaUsuarioPartialView");
         }
 
         [SessionAuthorize]

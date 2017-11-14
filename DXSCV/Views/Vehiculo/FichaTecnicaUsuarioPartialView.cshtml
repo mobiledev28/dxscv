@@ -1,0 +1,34 @@
+﻿<div>
+    <table style="width:100%;">
+        <tr>
+            <td style="width:70%;">
+                @Html.DevExpress().RoundPanel(
+                settings =>
+                {
+                    settings.Name = "FilesRoundPanel2";
+                    settings.EnableClientSideAPI = true;
+                    settings.HeaderText = "Ficha Tecnica del Usuario";
+                    settings.Width = Unit.Percentage(99);
+                    settings.Height = Unit.Pixel(180);
+                    settings.ShowCollapseButton = true;
+                    settings.ContentHeight = Unit.Pixel(180);
+                }).GetHtml()
+            </td>
+            <td style="text-align:center;width:30%;vertical-align:text-top;">
+                @Html.DevExpress().Image(
+                settings => {
+                    settings.Name = "fotoUsuario";
+                    settings.ImageUrl = "~/Content/Images/administrator-16.png";
+                    settings.Properties.EnableClientSideAPI = true;
+                    settings.Properties.ClientInstanceName = "fotoUsuario";
+                    settings.Width = Unit.Pixel(250);
+                    settings.Height = Unit.Pixel(300);
+                }).GetHtml()
+               
+            </td>
+        </tr>
+    </table>
+    
+
+
+</div>

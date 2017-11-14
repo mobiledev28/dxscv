@@ -1,0 +1,140 @@
+﻿@* DXCOMMENT: Configure GridView *@
+@Html.DevExpress().GridView(
+    settings =>
+    {
+        settings.Theme = "Glass";
+        settings.Name = "GridView";
+        settings.CallbackRouteValues = new { Controller = "Vehiculo", Action = "GridViewVehiculosFiltrados" };
+        
+        settings.SettingsPopup.EditForm.Width = 600;
+        settings.Width = Unit.Percentage(100);
+
+        
+        settings.SettingsPager.PageSize = 15;
+        settings.ControlStyle.Paddings.Padding = System.Web.UI.WebControls.Unit.Pixel(0);
+        settings.ControlStyle.Border.BorderWidth = System.Web.UI.WebControls.Unit.Pixel(0);
+        settings.ControlStyle.BorderBottom.BorderWidth = System.Web.UI.WebControls.Unit.Pixel(1);
+        settings.Settings.HorizontalScrollBarMode = ScrollBarMode.Auto;
+
+        // DXCOMMENT: Specify the grid's key field name and define grid columns in accordance with data model fields
+        settings.KeyFieldName = "VehiculoId;UsuarioIdAsignado";
+        settings.Columns.Add(column =>
+        {
+
+            column.FieldName = "VehiculoId";
+            column.Caption = "Vehiculo ID";
+            column.Width = 80;
+            column.SetDataItemTemplateContent(container =>
+            {
+                string[] Ids1 = new string[2];
+                Ids1 = (container as GridViewDataItemTemplateContainer).KeyValue.ToString().Split('|');
+                Html.DevExpress().HyperLink(hlSettings1 =>
+                {
+                    hlSettings1.Name = string.Format("hl_{0}", (container as GridViewDataItemTemplateContainer).VisibleIndex + 1);
+                    hlSettings1.NavigateUrl = "javascript:void(0)";
+                    hlSettings1.Properties.ClientSideEvents.Click = string.Format("function(s,e) {{ OnHyperLinkClick('{0}'); }}", Ids1[0]);
+                    hlSettings1.Properties.Text = Ids1[0];
+
+
+                }).Render();
+
+            });
+            //var hlprop = (HyperLinkProperties)column.PropertiesEdit;
+            //hlprop.RequiredField.IsRequired = false;
+            column.EditFormSettings.Visible = DevExpress.Utils.DefaultBoolean.False;
+        });
+        //settings.KeyFieldName = "UsuarioIdAsignado";
+        settings.Columns.Add(column =>
+        {
+
+            column.FieldName = "UsuarioIdAsignado";
+            column.Caption = "Usuario ID";
+            column.Width = 80;
+            column.SetDataItemTemplateContent(container =>
+            {
+                string[] Ids = new string[2];
+                Ids = (container as GridViewDataItemTemplateContainer).KeyValue.ToString().Split('|');
+                
+                Html.DevExpress().HyperLink(hlSettings =>
+                {
+                    hlSettings.Name = string.Format("hlu_{0}", (container as GridViewDataItemTemplateContainer).VisibleIndex + 1);
+                    hlSettings.NavigateUrl = "javascript:void(0)";
+                    hlSettings.Properties.ClientSideEvents.Click = string.Format("function(s,e) {{ OnHyperLinkClickUsuario('{0}'); }}", Ids[1]);
+                    hlSettings.Properties.Text = Ids[1];
+                    
+
+                }).Render();
+
+            });
+            //var hlprop = (HyperLinkProperties)column.PropertiesEdit;
+            //hlprop.RequiredField.IsRequired = false;
+            column.EditFormSettings.Visible = DevExpress.Utils.DefaultBoolean.False;
+        });
+        
+        settings.Columns.Add(column =>
+        {
+            column.FieldName = "Marca";
+            column.Caption = "Descripción";
+            column.Width = 120;
+            
+        });
+        
+        settings.Columns.Add("Modelo");
+        settings.Columns.Add(column =>
+        {
+            column.FieldName = "Anio";
+            column.Caption = "Año";
+            column.Width = 100;
+
+        });
+        settings.Columns.Add(column =>
+        {
+            column.FieldName = "NoSerie";
+            column.Caption = "Serie";
+            column.Width = 160;
+
+        });
+        settings.Columns.Add("Placa");
+        settings.Columns.Add(column =>
+        {
+            column.FieldName = "UsuarioIdAsignado";
+            column.Caption = "Usuario";
+            column.Width = 250;
+            column.ColumnType = MVCxGridViewColumnType.ComboBox;
+            var comboBoxProperties = (ComboBoxProperties)column.PropertiesEdit;
+            comboBoxProperties.DataSource = Model.Usuarios;
+            comboBoxProperties.TextField = "NombreCompleto";
+            comboBoxProperties.ValueField = "UsuarioId";
+            comboBoxProperties.ValueType = typeof(int);
+            comboBoxProperties.DropDownStyle = DropDownStyle.DropDown;
+        });
+        settings.AutoFilterCellEditorInitialize = (sender, e) =>
+        {
+            ASPxComboBox cmb = (ASPxComboBox)e.Editor;
+            cmb.TextField = "NombreCompleto";
+            cmb.ValueField = "UsuarioId";
+            cmb.DataSource = Model.Usuarios;
+            cmb.DataBindItems();
+        };
+        settings.CellEditorInitialize = (sender, e) =>
+        {
+            ASPxComboBox cmb = (ASPxComboBox)e.Editor;
+            cmb.TextField = "NombreCompleto";
+            cmb.ValueField = "UsuarioId";
+            cmb.DataSource = Model.Usuarios;
+            cmb.DataBindItems();
+        };
+        
+        settings.Columns.Add(column =>
+        {
+            column.FieldName = "CiudadId";
+            column.Caption = "Ciduad";
+            column.ColumnType = MVCxGridViewColumnType.ComboBox;
+            var comboBoxProperties = (ComboBoxProperties)column.PropertiesEdit;
+            comboBoxProperties.DataSource = Model.Ciudades;
+            comboBoxProperties.TextField = "Descripcion";
+            comboBoxProperties.ValueField = "CiudadId";
+            comboBoxProperties.ValueType = typeof(int);
+            comboBoxProperties.DropDownStyle = DropDownStyle.DropDown;
+        });
+    }).Bind(Model.Vehiculos).GetHtml()

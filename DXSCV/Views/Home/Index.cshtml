@@ -14,15 +14,32 @@
             <td style="width:96%;">
                 <table style="width:100%;">
                     <tr>
+                        <td style="text-align:center;" colspan="4">
+                            @Html.DevExpress().HyperLink(settings =>
+                            {
+
+                                settings.NavigateUrl = "~/Vehiculo/Index";
+                                settings.Properties.Text = "Grupo Forem";
+                                settings.Properties.ImageUrl = "~/Content/Images/logo-forem-web.png";
+                                
+                                settings.ToolTip = "Haz clic para ver el listado de vehiculos de Grupo Forem";
+
+                            }).GetHtml()
+                        </td>
+                    </tr>
+                    <tr><td colspan="4" style="height:30px;"></td></tr>
+                    <tr>
                         <td style="text-align:center;">
                             @Html.DevExpress().HyperLink(settings =>
                             {
 
-                                settings.NavigateUrl = "~/Vehiculo/Index?Filterby=1";
+                                //settings.NavigateUrl = "~/Vehiculo/Index?Filterby=1";
+                                settings.NavigateUrl = "~/Vehiculo/Vehiculos?Filterby=1";
                                 settings.Properties.Text = "Herramental Monterrey";
                                 settings.Properties.ImageUrl = "~/Content/Images/logo-herramental.png";
-                                //settings.Properties.ImageWidth = 270;
-                                //settings.Properties.ImageHeight = 85;
+                                settings.Properties.ImageWidth = 180;
+                                settings.Properties.ImageHeight = 55;
+                                settings.Enabled = Model.ShowLinkHerrMty;
                                 //settings.Width = 200;
                                 //settings.Height = 40;
                                 settings.ToolTip = "Haz clic para ver el listado de vehiculos de Herramental Monterrey";
@@ -33,11 +50,13 @@
                             @Html.DevExpress().HyperLink(settings =>
                             {
 
-                                settings.NavigateUrl = "~/Vehiculo/Index?Filterby=2";
+                                //settings.NavigateUrl = "~/Vehiculo/Index?Filterby=2";
+                                settings.NavigateUrl = "~/Vehiculo/Vehiculos?Filterby=2";
                                 settings.Properties.Text = "Metalinspec";
                                 settings.Properties.ImageUrl = "~/Content/Images/MTI.png";
-                                settings.Properties.ImageWidth = 270;
-                                settings.Properties.ImageHeight = 85;
+                                settings.Properties.ImageWidth = 180;
+                                settings.Properties.ImageHeight = 55;
+                                settings.Enabled = Model.ShowLinkMetalinspec;
                                 settings.ToolTip = "Haz clic para ver el listado de vehiculos de Metalinspec";
 
                             }).GetHtml()
@@ -46,11 +65,13 @@
                             @Html.DevExpress().HyperLink(settings =>
                             {
 
-                                settings.NavigateUrl = "~/Vehiculo/Index?Filterby=3";
+                                //settings.NavigateUrl = "~/Vehiculo/Index?Filterby=3";
+                                settings.NavigateUrl = "~/Vehiculo/Vehiculos?Filterby=3";
                                 settings.Properties.Text = "Metalinspec Laboratorios";
                                 settings.Properties.ImageUrl = "~/Content/Images/MTL.png";
-                                settings.Properties.ImageWidth = 270;
-                                settings.Properties.ImageHeight = 85;
+                                settings.Properties.ImageWidth = 180;
+                                settings.Properties.ImageHeight = 55;
+                                settings.Enabled = Model.ShowLinkMetalinspecLab;
                                 settings.ToolTip = "Haz clic para ver el listado de vehiculos de Metalinspec Laboratorios";
 
                             }).GetHtml()
@@ -59,28 +80,18 @@
                             @Html.DevExpress().HyperLink(settings =>
                             {
 
-                                settings.NavigateUrl = "~/Vehiculo/Index?Filterby=4";
+                                //settings.NavigateUrl = "~/Vehiculo/Index?Filterby=4";
+                                settings.NavigateUrl = "~/Vehiculo/Vehiculos?Filterby=4";
                                 settings.Properties.Text = "MetroLab";
                                 settings.Properties.ImageUrl = "~/Content/Images/ML.png";
-                                settings.Properties.ImageWidth = 270;
-                                settings.Properties.ImageHeight = 85;
+                                settings.Properties.ImageWidth = 180;
+                                settings.Properties.ImageHeight = 55;
+                                settings.Enabled = Model.ShowLinkMetroLab;
                                 settings.ToolTip = "Haz clic para ver el listado de vehiculos de MetroLab";
 
                             }).GetHtml()
                         </td>
                     </tr>
-                    @*<tr>
-                        <td style="text-align:center;"><span>Herramental</span></td>
-                        <td style="text-align:center;"><span>Metalinspec</span></td>
-                        <td style="text-align:center;"><span>Metalinspec</span></td>
-                        <td style="text-align:center;"><span>MetroLab</span></td>
-                    </tr>
-                    <tr>
-                        <td style="text-align:center;"><span>Monterrey</span></td>
-                        <td style="text-align:center;"><span></span></td>
-                        <td style="text-align:center;"><span>Laboratorios</span></td>
-                        <td style="text-align:center;"><span></span></td>
-                    </tr>*@
                 </table>
             </td>
             <td style="width:2%;"></td>
@@ -90,12 +101,13 @@
         </tr>
         <tr>
             <td colspan="4" align="center">
-                <h2>Licencias a vencer en el mes</h2>
+                <h2>Notificaciones</h2>
             </td>
         </tr>
         <tr>
             <td colspan="4">
-                @Html.Partial("GridViewPartialView", Model)
+                @Html.Partial("SchedulerPartial", Model)
+                @*@Html.Partial("GridViewPartialView", Model)*@
             </td>
         </tr>
     </table>

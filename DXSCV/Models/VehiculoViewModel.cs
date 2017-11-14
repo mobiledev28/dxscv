@@ -18,6 +18,8 @@ namespace DXSCV.Models
         public List<SCV_Cuenta> Cuentas { get; set; }
 
         public List<SCV_TipoDocumento> TiposDocumentos { get; set; }
+
+        public SessionUserViewModel UsuarioActivo { get; set; }
     }
 
     public static class VehiculosList
@@ -29,6 +31,28 @@ namespace DXSCV.Models
             return vehList;
 
         }
+
+        public static List<SCV_Vehiculo> GetVehiculosByEmpresas(List<SCV_Empresa> empresasList, int empresaId)
+        {
+            List<SCV_Vehiculo> vehList = new List<SCV_Vehiculo>();
+            vehList = VehiculoDB.ObtieneVehiculosByEmpresasDB(empresasList, empresaId);
+            return vehList;
+        }
+
+        public static List<SCV_Vehiculo> GetVehiculosByEmpresas(List<SCV_Empresa> empresasList)
+        {
+            List<SCV_Vehiculo> vehList = new List<SCV_Vehiculo>();
+            vehList = VehiculoDB.ObtieneVehiculosByEmpresasDB(empresasList);
+            return vehList;
+        }
+
+        public static List<SCV_Vehiculo> GetVehiculosByEmpresasAndFiltros(List<SCV_Empresa> empresasList, int vehiculoId, string serie, string placa)
+        {
+            List<SCV_Vehiculo> vehList = new List<SCV_Vehiculo>();
+            vehList = VehiculoDB.ObtieneVehiculosByEmpresasAndFiltrosDB(empresasList, vehiculoId, serie, placa);
+            return vehList;
+        }
+
 
         public static List<SCV_Vehiculo> GetVehiculosByEmpresa(int empresaId)
         {
@@ -85,6 +109,12 @@ namespace DXSCV.Models
         public static List<SCV_Cuenta> GetCuentas()
         {
             List<SCV_Cuenta> cuentasList = AccountDB.ObtieneCuentasDB();
+            return cuentasList;
+        }
+
+        public static List<SCV_Cuenta> GetCuentasByEmpresa(int EmpresaId)
+        {
+            List<SCV_Cuenta> cuentasList = AccountDB.ObtieneCuentasByEmpresaDB(EmpresaId);
             return cuentasList;
         }
 

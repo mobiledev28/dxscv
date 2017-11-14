@@ -48,7 +48,29 @@
         currentVehiculoID = id;
         $("#hdVehiculoId").val(id);
 
-        UploadEvents.GetFiles(currentVehiculoID, '/Vehiculo/GetFiles', 1);
+        //UploadEvents.GetFiles(currentVehiculoID, '/Vehiculo/FichaTecnicaVehiculo', 1);
+
+        $.ajax({
+            beforeSend: function () {
+                $('.loading').show();
+            },
+            complete: function () {
+                $('.loading').hide();
+            },
+            url: '/Vehiculo/FichaTecnicaVehiculo',
+            type: 'GET',
+            dataType: 'json',
+            data: {
+                vehiculoId: id
+            },
+            contentType: 'application/json; charset=utf-8',
+            success: function (data) {
+                UploadEvents.AddInfoFileSection(data, 7);
+            },
+            error: function () {
+                alert("error");
+            }
+        });
 
         if (!popup.IsVisible()) {
             popup.Show();
@@ -65,6 +87,8 @@
             popup.Show();
         }
     }
+
+
 
 
 </script>

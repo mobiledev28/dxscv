@@ -69,11 +69,22 @@
         {
             column.FieldName = "AnioVigenciaLicencia";
             column.Caption = "Año Vigencia";
+            column.ColumnType = MVCxGridViewColumnType.SpinEdit;
+            var spinEditProperties = column.PropertiesEdit as SpinEditProperties;
+            spinEditProperties.DisplayFormatInEditMode = true;
+            spinEditProperties.MinValue = 2016;
+            spinEditProperties.MaxValue = 2100;
         });
         settings.Columns.Add(column =>
         {
             column.FieldName = "MesVigenciaLicencia";
             column.Caption = "Mes Vigencia";
+            column.ColumnType = MVCxGridViewColumnType.SpinEdit;
+            var spinEditProperties = column.PropertiesEdit as SpinEditProperties;
+            spinEditProperties.DisplayFormatInEditMode = true;
+            spinEditProperties.MinValue = 1;
+            spinEditProperties.MaxValue = 12;          
+            
         });
         settings.Columns.Add("NoINE");
         settings.Columns.Add(column =>

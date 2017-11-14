@@ -1,0 +1,27 @@
+﻿<div>
+    @Html.DevExpress().RoundPanel(
+    settings =>
+    {
+        settings.Name = "FilesRoundPanel3";
+        settings.EnableClientSideAPI = true;
+        settings.HeaderText = "Documentos relacionados a la ficha tecnica del vehículo";
+        settings.Width = Unit.Percentage(99);
+        settings.Height = Unit.Pixel(180);
+        settings.ShowCollapseButton = true;
+        settings.ContentHeight = Unit.Pixel(180);
+    }).GetHtml()
+</div>
+<br />
+<div>
+    @Html.DevExpress().Button(
+        settings =>
+        {
+            settings.Name = "btnBackFicha";
+            settings.Text = "Regresar";
+            settings.AllowFocus = false;
+            settings.Styles.Native = true;
+            settings.Width = 95;
+            settings.ClientSideEvents.Click = "GoBackFicha";
+            //settings.RouteValues = new { Controller = "Vehiculo", Action = "VehiculosFiltros", vehiculoId = "", serie = "", placa = "" };
+        }).GetHtml()
+</div>

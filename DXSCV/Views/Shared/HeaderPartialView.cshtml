@@ -1,0 +1,273 @@
+@model HeaderViewRenderMode
+
+@using DXSCV.Models
+@{SessionUserViewModel suvm = (SessionUserViewModel)Session["_UserLogged"];}
+
+@if(Model == HeaderViewRenderMode.Title) {
+    <div class="templateTitle">
+        @Html.ActionLink("Control de Vehiculos", "Index", "Home")
+    </div>
+} else { 
+    if(Model == HeaderViewRenderMode.Full) { 
+        <div class="headerTop">
+            <div class="templateTitle">
+                @Html.ActionLink("Control de Vehiculos", "Index", "Home")
+            </div>
+        </div>
+    }
+    <div class="headerMenu">
+            @* DXCOMMENT: Configure the header menu *@
+@if(suvm.TipoUsuarioId == 1) { 
+    @Html.DevExpress().Menu(settings => {
+        settings.Name = "HeaderMenu";
+        settings.ItemAutoWidth = false;
+        settings.ControlStyle.CssClass = "headerMenu";
+        settings.Width = System.Web.UI.WebControls.Unit.Percentage(100);
+        settings.Items.Add("Inicio", "inicio", "~/Content/Images/home-4-16.png", "~/Home/Index");
+        settings.Items.Add(item =>
+        {
+            item.Text = "Administración";
+            item.Image.Url = "~/Content/Images/tool-box-16.png";
+            item.Items.Add(subitem =>
+            {
+                subitem.Text = "Cuentas";
+                subitem.NavigateUrl = "~/Cuenta/Index";
+                subitem.Image.Url = "~/Content/Images/administrator-16.png";
+            });
+            item.Items.Add(subitem =>
+            {
+                subitem.Text = "Usuarios";
+                subitem.NavigateUrl = "~/Usuario/Index";
+                subitem.Image.Url = "~/Content/Images/collaborator-16.png";
+            });
+            item.Items.Add(subitem =>
+            {
+                subitem.Text = "Proveedores";
+                subitem.NavigateUrl = "~/Proveedor/Index";
+                subitem.Image.Url = "~/Content/Images/moderator-16.png";
+            });
+            item.Items.Add(subitem =>
+            {
+                subitem.Text = "Empresas";
+                subitem.NavigateUrl = "~/Empresa/Index";
+                subitem.Image.Url = "~/Content/Images/organization-16.png";
+            });
+            item.Items.Add(subitem =>
+            {
+                subitem.Text = "Ciudades";
+                subitem.NavigateUrl = "~/Ciudad/Index";
+                subitem.Image.Url = "~/Content/Images/map-marker-16.png";
+            });
+            item.Items.Add(subitem =>
+            {
+                subitem.Text = "Vehículos";
+                subitem.NavigateUrl = "~/Vehiculo/Index";
+                subitem.Image.Url = "~/Content/Images/car-4-16.png";
+            });
+            item.Items.Add(subitem =>
+            {
+                subitem.Text = "Accesorios";
+                subitem.NavigateUrl = "~/Accesorio/Index";
+                subitem.Image.Url = "~/Content/Images/volume-up-4-16.png";
+            });
+            item.Items.Add(subitem =>
+            {
+                subitem.Text = "Tipo de Eventos";
+                subitem.NavigateUrl = "~/TipoEvento/Index";
+                subitem.Image.Url = "~/Content/Images/text-file-6-16.png";
+            });
+            item.Items.Add(subitem =>
+            {
+                subitem.Text = "Tipo de Documentos";
+                subitem.NavigateUrl = "~/TipoDocumento/Index";
+                subitem.Image.Url = "~/Content/Images/planner-16.png";
+            });
+            item.Items.Add(subitem =>
+            {
+                subitem.Text = "Notificaciones";
+                subitem.NavigateUrl = "~/Notificacion/Index";
+                subitem.Image.Url = "~/Content/Images/planner-16.png";
+            });
+        });
+        settings.Items.Add("Mantenimientos", "mantenimientos", "~/Content/Images/planner-16.png", "~/Mantenimiento/Index");
+        settings.Items.Add("Eventos", "eventos", "~/Content/Images/calendar-11-16.png", "~/Evento/Index");
+        settings.Items.Add("Revisiones", "revisiones", "~/Content/Images/today-16.png", "~/Revision/Index");
+        settings.Items.Add(item =>
+        {
+            item.Text = "Reportes";
+            item.Image.Url = "~/Content/Images/report-2-16.png";
+            item.Items.Add(subitem =>
+            {
+                subitem.Text = "Vehiculos";
+                subitem.NavigateUrl = "~/Reports/RptVehiculos";
+                subitem.Image.Url = "~/Content/Images/report-2-16.png";
+            });
+            item.Items.Add(subitem =>
+            {
+                subitem.Text = "Mantenimientos";
+                subitem.NavigateUrl = "~/Reports/RptMantenimientos";
+                subitem.Image.Url = "~/Content/Images/report-2-16.png";
+            });
+            item.Items.Add(subitem =>
+            {
+                subitem.Text = "Orden Mantenimiento";
+                subitem.NavigateUrl = "~/Reports/OrdenMtto";
+                subitem.Image.Url = "~/Content/Images/report-2-16.png";
+            });
+            
+        });
+        settings.Items.Add(item =>
+        {
+            item.Text = "Ficha Tecnica";
+            item.Image.Url = "~/Content/Images/report-2-16.png";
+            item.Items.Add(subitem =>
+            {
+                subitem.Text = "Vehiculos";
+                subitem.NavigateUrl = "~/FTVehiculo/Index";
+                subitem.Image.Url = "~/Content/Images/report-2-16.png";
+            });
+            item.Items.Add(subitem =>
+            {
+                subitem.Text = "Usuarios";
+                subitem.NavigateUrl = "~/FTUsuario/Index";
+                subitem.Image.Url = "~/Content/Images/report-2-16.png";
+            });
+        });
+        //settings.Items.Add("Reportes", "reportes", "~/Content/Images/report-2-16.png", "~/Reports/Index");
+        settings.Items.Add("Salir", "salir","~/Content/Images/logout-16.png", "~/Account/Logout");
+    }).GetHtml()
+}
+else
+{
+    if (suvm.TipoUsuarioId == 2)
+    {
+        //Administrador
+        //Sin acceso a cuentas
+        @Html.DevExpress().Menu(settings => {
+            settings.Name = "HeaderMenu";
+            settings.ItemAutoWidth = false;
+            settings.ControlStyle.CssClass = "headerMenu";
+            settings.Width = System.Web.UI.WebControls.Unit.Percentage(100);
+            settings.Items.Add("Inicio", "inicio", "~/Content/Images/home-4-16.png", "~/Home/Index");
+            settings.Items.Add(item =>
+            {
+                item.Text = "Administración";
+                item.Image.Url = "~/Content/Images/calendar-11-16.png";
+                item.Items.Add(subitem =>
+                {
+                    subitem.Text = "Usuarios";
+                    subitem.NavigateUrl = "~/Usuario/Index";
+                    subitem.Image.Url = "~/Content/Images/collaborator-16.png";
+                });
+                item.Items.Add(subitem =>
+                {
+                    subitem.Text = "Proveedores";
+                    subitem.NavigateUrl = "~/Proveedor/Index";
+                    subitem.Image.Url = "~/Content/Images/moderator-16.png";
+                });
+                item.Items.Add(subitem =>
+                {
+                    subitem.Text = "Empresas";
+                    subitem.NavigateUrl = "~/Empresa/Index";
+                    subitem.Image.Url = "~/Content/Images/organization-16.png";
+                });
+                item.Items.Add(subitem =>
+                {
+                    subitem.Text = "Ciudades";
+                    subitem.NavigateUrl = "~/Ciudad/Index";
+                    subitem.Image.Url = "~/Content/Images/map-marker-16.png";
+                });
+                item.Items.Add(subitem =>
+                {
+                    subitem.Text = "Vehículos";
+                    subitem.NavigateUrl = "~/Vehiculo/Index";
+                    subitem.Image.Url = "~/Content/Images/car-4-16.png";
+                });
+                item.Items.Add(subitem =>
+                {
+                    subitem.Text = "Accesorios";
+                    subitem.NavigateUrl = "~/Accesorio/Index";
+                    subitem.Image.Url = "~/Content/Images/volume-up-4-16.png";
+                });
+                item.Items.Add(subitem =>
+                {
+                    subitem.Text = "Tipo de Eventos";
+                    subitem.NavigateUrl = "~/TipoEvento/Index";
+                    subitem.Image.Url = "~/Content/Images/text-file-6-16.png";
+                });
+                item.Items.Add(subitem =>
+                {
+                    subitem.Text = "Tipo de Documentos";
+                    subitem.NavigateUrl = "~/TipoDocumento/Index";
+                    subitem.Image.Url = "~/Content/Images/planner-16.png";
+                });
+                item.Items.Add(subitem =>
+                {
+                    subitem.Text = "Notificaciones";
+                    subitem.NavigateUrl = "~/Notificacion/Index";
+                    subitem.Image.Url = "~/Content/Images/planner-16.png";
+                });
+            });
+            settings.Items.Add("Mantenimientos", "mantenimientos", "~/Content/Images/planner-16.png", "~/Mantenimiento/Index");
+            settings.Items.Add("Eventos", "eventos", "~/Content/Images/calendar-11-16.png", "~/Evento/Index");
+            settings.Items.Add("Revisiones", "revisiones", "~/Content/Images/today-16.png", "~/Revision/Index");
+            settings.Items.Add(item =>
+            {
+                item.Text = "Reportes";
+                item.Image.Url = "~/Content/Images/report-2-16.png";
+                item.Items.Add(subitem =>
+                {
+                    subitem.Text = "Vehiculos";
+                    subitem.NavigateUrl = "~/Reports/RptVehiculos";
+                    subitem.Image.Url = "~/Content/Images/report-2-16.png";
+                });
+                item.Items.Add(subitem =>
+                {
+                    subitem.Text = "Orden Mantenimiento";
+                    subitem.NavigateUrl = "~/Reports/OrdenMtto";
+                    subitem.Image.Url = "~/Content/Images/report-2-16.png";
+                });
+            });
+
+            settings.Items.Add(item =>
+            {
+                item.Text = "Ficha Tecnica";
+                item.Image.Url = "~/Content/Images/report-2-16.png";
+                item.Items.Add(subitem =>
+                {
+                    subitem.Text = "Vehiculos";
+                    subitem.NavigateUrl = "~/FTVehiculo/Index";
+                    subitem.Image.Url = "~/Content/Images/report-2-16.png";
+                });
+                item.Items.Add(subitem =>
+                {
+                    subitem.Text = "Usuarios";
+                    subitem.NavigateUrl = "~/FTUsuario/Index";
+                    subitem.Image.Url = "~/Content/Images/report-2-16.png";
+                });
+            });
+            settings.Items.Add("Salir", "salir","~/Content/Images/logout-16.png", "~/Account/Logout");
+        }).GetHtml()
+    }
+    else
+    {
+        if (suvm.TipoUsuarioId == 3)
+        {
+            //Lectura
+            @Html.DevExpress().Menu(settings => {
+                settings.Name = "HeaderMenu";
+                settings.ItemAutoWidth = false;
+                settings.ControlStyle.CssClass = "headerMenu";
+                settings.Width = System.Web.UI.WebControls.Unit.Percentage(100);
+                settings.Items.Add("Inicio", "inicio", "~/Content/Images/home-4-16.png", "~/Home/Index");
+                settings.Items.Add("Vehículos", "vehiculos", "~/Content/Images/car-4-16.png", "~/Vehiculo/Index");
+                settings.Items.Add("Mantenimientos", "mantenimientos", "~/Content/Images/planner-16.png", "~/Mantenimiento/Index");
+                settings.Items.Add("Eventos", "eventos", "~/Content/Images/calendar-11-16.png", "~/Evento/Index");
+                settings.Items.Add("Revisiones", "revisiones", "~/Content/Images/today-16.png", "~/Revision/Index");
+                settings.Items.Add("Salir", "salir","~/Content/Images/logout-16.png", "~/Account/Logout");
+            }).GetHtml()
+        }
+    }
+}
+    </div>
+}

@@ -22,5 +22,10 @@ namespace DXSCV.Controllers
         public ActionResult OrdenMtto(){
             return View(new OrdenMtto());
         }
+
+        public ActionResult RptMantenimientos()
+        {
+            return View(new RptMantenimientos());
+        }
     }
 }

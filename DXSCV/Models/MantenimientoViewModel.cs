@@ -89,5 +89,12 @@ namespace DXSCV.Models
             tdList = TipoDocumentoDB.ObtieneTipoDocumentosDB();
             return tdList;
         }
+
+        public static List<SCV_Mantenimiento> GetMantenimientosByEmpresa(List<SCV_Empresa> empresasList, int empresaId)
+        {
+            List<SCV_Mantenimiento> mttoList = new List<SCV_Mantenimiento>();
+            mttoList = MantenimientoDB.ObtieneMantenimientosByEmpresasDB(empresasList, empresaId);
+            return mttoList;
+        }
     }
 }

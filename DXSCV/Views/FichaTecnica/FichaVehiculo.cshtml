@@ -1,0 +1,101 @@
+﻿@using DXSCV.Models;
+@model DXSCV.Models.FichaTecnicaVehiculoViewModel
+
+<h1>Ficha Tenica Vehiculo</h1>
+<table id="tblVehiculoInfo">
+    <tr>
+        <td>
+            Descripción
+        </td>
+        <td>
+            Modelo / Año
+        </td>
+        <td>
+            Serie
+        </td>
+        <td>
+            Placa
+        </td>
+        <td>
+            Usuario
+        </td>
+        <td>
+            Sucursal
+        </td>
+    </tr>
+    <tr>
+        <td colspan="6"></td>
+        @*<td>@Model.InfoVehiculo.Modelo</td>
+        <td>@Model.InfoVehiculo.Anio</td>
+        <td>@Model.InfoVehiculo.NoSerie</td>
+        <td>@Model.InfoVehiculo.Placa</td>
+        <td>@Model.InfoVehiculo.UsuarioIdAsignado</td>
+        <td>@Model.InfoVehiculo.CiudadId</td>*@
+    </tr>
+</table>
+
+<br />
+<br />
+
+<table>
+    <tr>
+        <td>Fecha de Compra</td>
+        <td>@Model.FechaCompra</td>
+    </tr>
+    <tr>
+        <td>Factura</td>
+        <td>@Model.Factura</td>
+    </tr>
+    <tr>
+        <td>Proveedor</td>
+        <td>@Model.ProveedorId</td>
+    </tr>
+    <tr>
+        <td>Valor Factura</td>
+        <td>@Model.ValorFactura</td>
+    </tr>
+    <tr>
+        <td>Tipo de Adquisición</td>
+        <td>@Model.TipoAdquisicion</td>
+    </tr>
+    <tr>
+        <td>Tasa de Interes</td>
+        <td>@Model.TasaInteres</td>
+    </tr>
+    <tr>
+        <td>Pago Inicial</td>
+        <td>@Model.PagoInicial</td>
+    </tr>
+    <tr>
+        <td>Renta Mensual</td>
+        <td>@Model.RentaMensual</td>
+    </tr>
+    <tr>
+        <td>Valor Residual / Opción a compra</td>
+        <td>@Model.ValorResidual</td>
+    </tr>
+    <tr>
+        <td>Aseguradora</td>
+        <td>@Model.Aseguradora</td>
+    </tr>
+    <tr>
+        <td>Poliza</td>
+        <td>@Model.Poliza</td>
+    </tr>
+    <tr>
+        <td>Prima Total</td>
+        <td>@Model.PrimaTotal</td>
+    </tr>
+    <tr>
+        <td>Endoso</td>
+        <td>@Model.Endoso</td>
+    </tr>
+    <tr>
+        <td>Vigencia</td>
+        <td>@Model.Vigencia</td>
+    </tr>
+    <tr>
+        <td>Tarjeta de Circulación</td>
+        <td>@Model.TarjetaCirculacion</td>
+    </tr>
+</table>

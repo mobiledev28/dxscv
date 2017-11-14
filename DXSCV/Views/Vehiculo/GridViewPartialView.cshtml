@@ -1,0 +1,236 @@
+﻿@* DXCOMMENT: Configure GridView *@
+@Html.DevExpress().GridView(
+    settings =>
+    {
+        settings.Theme = "Glass";
+        settings.Name = "GridView";
+        settings.Settings.ShowFilterRow = true;
+        settings.CallbackRouteValues = new { Controller = "Vehiculo", Action = "GridViewPartialView" };
+        settings.CustomActionRouteValues = new { Controller = "Vehiculo", Action = "ChangeEditModePartial" };
+        settings.SettingsEditing.AddNewRowRouteValues = new { Controller = "Vehiculo", Action = "AgregaVehiculo" };
+        settings.SettingsEditing.UpdateRowRouteValues = new { Controller = "Vehiculo", Action = "ActualizaVehiculo" };
+        settings.SettingsEditing.DeleteRowRouteValues = new { Controller = "Vehiculo", Action = "EliminaVehiculo" };
+        settings.SettingsEditing.Mode = GridViewEditingMode.PopupEditForm;
+        settings.SettingsBehavior.ConfirmDelete = true;
+        settings.SettingsPopup.EditForm.Width = 600;
+        settings.Width = Unit.Percentage(100);
+
+        settings.CommandColumn.Visible = true;
+        settings.CommandColumn.ShowNewButton = true;
+        settings.CommandColumn.ShowDeleteButton = true;
+        settings.CommandColumn.ShowEditButton = true;
+        settings.CommandColumn.Width = 150;
+        settings.SettingsPager.PageSize = 10;
+        settings.ControlStyle.Paddings.Padding = System.Web.UI.WebControls.Unit.Pixel(0);
+        settings.ControlStyle.Border.BorderWidth = System.Web.UI.WebControls.Unit.Pixel(0);
+        settings.ControlStyle.BorderBottom.BorderWidth = System.Web.UI.WebControls.Unit.Pixel(1);
+        settings.Settings.HorizontalScrollBarMode = ScrollBarMode.Auto;
+
+        // DXCOMMENT: Specify the grid's key field name and define grid columns in accordance with data model fields
+        settings.KeyFieldName = "Id";
+        settings.Columns.Add(column =>
+        {
+
+            column.FieldName = "VehiculoId";
+            column.Caption = "Documentos";
+            column.SetDataItemTemplateContent(container =>
+            {
+                Html.DevExpress().HyperLink(hlSettings =>
+                {
+                    hlSettings.Name = string.Format("hl_{0}", (container as GridViewDataItemTemplateContainer).VisibleIndex + 1);
+                    hlSettings.NavigateUrl = "javascript:void(0)";
+                    hlSettings.Properties.ClientSideEvents.Click = string.Format("function(s,e) {{ OnHyperLinkClick('{0}'); }}", (container as GridViewDataItemTemplateContainer).KeyValue.ToString());
+                    hlSettings.Properties.Text = "Adjuntar";
+
+
+                }).Render();
+
+            });
+            //var hlprop = (HyperLinkProperties)column.PropertiesEdit;
+            //hlprop.RequiredField.IsRequired = false;
+            column.EditFormSettings.Visible = DevExpress.Utils.DefaultBoolean.False;
+            column.Settings.AllowAutoFilter = DefaultBoolean.False;
+        });
+        settings.Columns.Add("Marca");
+        settings.Columns.Add("Modelo");
+        settings.Columns.Add("Anio");
+        settings.Columns.Add("NoSerie");
+        settings.Columns.Add("Apodo");
+        settings.Columns.Add("Placa");
+        settings.Columns.Add("NoMotor");
+        settings.Columns.Add("Color");
+        settings.Columns.Add("Engomado");
+        settings.Columns.Add("EstatusAdq");
+        settings.Columns.Add(column =>
+        {
+            column.FieldName = "CiudadId";
+            column.Caption = "Ciduad";
+            column.ColumnType = MVCxGridViewColumnType.ComboBox;
+            var comboBoxProperties = (ComboBoxProperties)column.PropertiesEdit;
+            comboBoxProperties.DataSource = Model.Ciudades;
+            comboBoxProperties.TextField = "Descripcion";
+            comboBoxProperties.ValueField = "CiudadId";
+            comboBoxProperties.ValueType = typeof(int);
+            comboBoxProperties.DropDownStyle = DropDownStyle.DropDown;
+        });
+        settings.Columns.Add(column =>
+        {
+            column.FieldName = "EmpresaId";
+            column.Caption = "Empresa";
+            column.ColumnType = MVCxGridViewColumnType.ComboBox;
+            var comboBoxProperties = (ComboBoxProperties)column.PropertiesEdit;
+            comboBoxProperties.DataSource = Model.Empresas;
+            comboBoxProperties.TextField = "Nombre";
+            comboBoxProperties.ValueField = "EmpresaId";
+            comboBoxProperties.ValueType = typeof(int);
+            comboBoxProperties.DropDownStyle = DropDownStyle.DropDown;
+        });
+        //settings.AutoFilterCellEditorInitialize = (sender, e) =>
+        //{
+        //    ASPxComboBox cmb = (ASPxComboBox)e.Editor;
+        //    cmb.TextField = "Nombre";
+        //    cmb.ValueField = "EmpresaId";
+        //    cmb.DataSource = Model.Empresas;
+        //    cmb.DataBindItems();
+        //};
+        //settings.CellEditorInitialize = (sender, e) =>
+        //{
+        //    ASPxComboBox cmb = (ASPxComboBox)e.Editor;
+        //    cmb.TextField = "Nombre";
+        //    cmb.ValueField = "EmpresaId";
+        //    cmb.DataSource = Model.Empresas;
+        //    cmb.DataBindItems();
+        //};
+        settings.Columns.Add(column =>
+        {
+            column.FieldName = "UsuarioIdAsignado";
+            column.Caption = "Asignado";
+            column.ColumnType = MVCxGridViewColumnType.ComboBox;
+            var comboBoxProperties = (ComboBoxProperties)column.PropertiesEdit;
+            comboBoxProperties.DataSource = Model.Usuarios;
+            comboBoxProperties.TextField = "NombreCompleto";
+            comboBoxProperties.ValueField = "UsuarioId";
+            comboBoxProperties.ValueType = typeof(int);
+            comboBoxProperties.DropDownStyle = DropDownStyle.DropDown;
+        });
+        //settings.AutoFilterCellEditorInitialize = (sender, e) =>
+        //{
+        //    ASPxComboBox cmb = (ASPxComboBox)e.Editor;
+        //    cmb.TextField = "NombreCompleto";
+        //    cmb.ValueField = "UsuarioId";
+        //    cmb.DataSource = Model.Usuarios;
+        //    cmb.DataBindItems();
+        //};
+        //settings.CellEditorInitialize = (sender, e) =>
+        //{
+        //    ASPxComboBox cmb = (ASPxComboBox)e.Editor;
+        //    cmb.TextField = "NombreCompleto";
+        //    cmb.ValueField = "UsuarioId";
+        //    cmb.DataSource = Model.Usuarios;
+        //    cmb.DataBindItems();
+        //};
+        
+        //settings.Columns.Add("EstatusVehiculo");
+        settings.Columns.Add(column =>
+        {
+            column.FieldName = "EstatusVehiculo";
+            column.Caption = "Estatus<br/>Vehiculo";
+            
+        });
+        settings.Columns.Add("Refrendo");
+        settings.Columns.Add("EquipoGPS", MVCxGridViewColumnType.CheckBox);
+        settings.Columns.Add("NombreGPS");
+        settings.Columns.Add(column =>
+        {
+            column.FieldName = "FechaAlta";
+            column.Caption = "Fecha Alta";
+
+            column.ColumnType = MVCxGridViewColumnType.DateEdit;
+        });
+        
+        //settings.Columns.Add("UsuarioIdAlta");
+         settings.Columns.Add(column =>
+        {
+            column.FieldName = "UsuarioIdAlta";
+            column.Caption = "Registrado<br/>Por";
+            column.ColumnType = MVCxGridViewColumnType.ComboBox;
+            var comboBoxProperties = (ComboBoxProperties)column.PropertiesEdit;
+            comboBoxProperties.DataSource = Model.Cuentas;
+            comboBoxProperties.TextField = "UserName";
+            comboBoxProperties.ValueField = "CuentaId";
+            
+                comboBoxProperties.DropDownStyle = DropDownStyle.DropDown;
+        });
+        //settings.AutoFilterCellEditorInitialize = (sender, e) =>
+        //{
+        //    ASPxComboBox cmb = (ASPxComboBox)e.Editor;
+        //    cmb.TextField = "UserName";
+        //    cmb.ValueField = "CuentaId";
+        //    cmb.DataSource = Model.Cuentas;
+        //    cmb.DataBindItems();
+        //};
+        //settings.CellEditorInitialize = (sender, e) =>
+        //{
+        //    ASPxComboBox cmb = (ASPxComboBox)e.Editor;
+        //    cmb.TextField = "UserName";
+        //    cmb.ValueField = "CuentaId";
+        //    cmb.DataSource = Model.Cuentas;
+        //    cmb.DataBindItems();
+        //};
+        settings.Columns.Add(column =>
+        {
+            column.FieldName = "FechaMod";
+            column.Caption = "Fecha Modificación";
+            column.ColumnType = MVCxGridViewColumnType.DateEdit;
+
+            var dateedit = (DateEditProperties)column.PropertiesEdit;
+            dateedit.ValidationSettings.RequiredField.IsRequired = false;
+        });
+        settings.Columns.Add(column =>
+        {
+            column.FieldName = "UsuarioIdMod";
+            column.Caption = "Actualizado Por";
+            column.ColumnType = MVCxGridViewColumnType.ComboBox;
+            var comboBoxProperties = (ComboBoxProperties)column.PropertiesEdit;
+            comboBoxProperties.DataSource = Model.Cuentas;
+            comboBoxProperties.TextField = "UserName";
+            comboBoxProperties.ValueField = "CuentaId";
+
+            comboBoxProperties.DropDownStyle = DropDownStyle.DropDown;
+            comboBoxProperties.ValidationSettings.RequiredField.IsRequired = false;
+        });
+        settings.CellEditorInitialize = (s, e) =>
+        {
+            ASPxEdit editor = (ASPxEdit)e.Editor;
+            editor.ValidationSettings.Display = Display.Dynamic;
+            MVCxGridView g = s as MVCxGridView;
+
+            if (e.Column.FieldName == "UsuarioIdAlta")
+            {
+                if (g.IsNewRowEditing)
+                {
+                    e.Editor.ReadOnly = false;
+                    e.Editor.Enabled = true;
+                }
+                else
+                {
+                    e.Editor.ReadOnly = true;
+                    e.Editor.Enabled = false;
+                }
+            }
+
+            if (e.Column.FieldName == "FechaAlta")
+            {
+                if (g.IsNewRowEditing)
+                {
+                    e.Editor.ReadOnly = false;
+                    e.Editor.Enabled = true;
+                }
+                else
+                {
+                    e.Editor.ReadOnly = true;
+                    e.Editor.Enabled = false;
+                }
+            }
+        };
+    }).Bind(Model.Vehiculos).GetHtml()

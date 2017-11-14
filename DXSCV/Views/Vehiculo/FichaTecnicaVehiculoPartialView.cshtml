@@ -1,0 +1,27 @@
+﻿<div>
+    @Html.DevExpress().RoundPanel(
+    settings =>
+    {
+        settings.Name = "FilesRoundPanel";
+        settings.EnableClientSideAPI = true;
+        settings.HeaderText = "Ficha Tecnica del Vehiculo";
+        settings.Width = Unit.Pixel(550);
+        settings.Height = Unit.Pixel(180);
+        settings.ShowCollapseButton = true;
+        settings.ContentHeight = Unit.Pixel(180);
+    }).GetHtml()
+</div>
+<br />
+<div>
+    @Html.DevExpress().Button(
+        settings =>
+        {
+            settings.Name = "btnLoadDocs";
+            settings.Text = "Documentos";
+            settings.AllowFocus = false;
+            settings.Styles.Native = true;
+            settings.Width = 95;
+            settings.ClientSideEvents.Click = "LoadAttachments";
+            //settings.RouteValues = new { Controller = "Vehiculo", Action = "VehiculosFiltros", vehiculoId = "", serie = "", placa = "" };
+        }).GetHtml()
+</div>

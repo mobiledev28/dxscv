@@ -4,6 +4,7 @@
     {
         settings.Theme = "Glass";
         settings.Name = "GridView";
+        settings.Settings.ShowFilterRow = true;
         settings.CallbackRouteValues = new { Controller = "Mantenimiento", Action = "GridViewPartialView" };
         settings.CustomActionRouteValues = new { Controller = "Mantenimiento", Action = "ChangeEditModePartial" };
         settings.SettingsEditing.AddNewRowRouteValues = new { Controller = "Mantenimiento", Action = "AgregaMantenimiento"};
@@ -28,7 +29,12 @@
         //settings.Settings.ShowFilterRowMenu = true;
         settings.Settings.HorizontalScrollBarMode = ScrollBarMode.Visible;
 
-        // DXCOMMENT: Specify the grid's key field name and define grid columns in accordance with data model fields
+        // DXCOMMENT: Specify the grid's key field name and define grid columns in accordance with data model fields        
+        settings.Columns.Add(column =>
+        {
+            column.FieldName = "MantenimientoId";
+            column.Caption = "ID";            
+        });
         settings.KeyFieldName = "MantenimientoId";
         settings.Columns.Add(column =>
         {
@@ -51,6 +57,7 @@
             //var hlprop = (HyperLinkProperties)column.PropertiesEdit;
             //hlprop.RequiredField.IsRequired = false;
             column.EditFormSettings.Visible = DevExpress.Utils.DefaultBoolean.False;
+            column.Settings.AllowAutoFilter = DefaultBoolean.False ;
         });
         //settings.Columns.Add(column =>
         //{
@@ -111,28 +118,39 @@
             comboBoxProperties.ValueType = typeof(long);
             comboBoxProperties.DropDownStyle = DropDownStyle.DropDown;
         });
-        settings.AutoFilterCellEditorInitialize = (sender, e) =>
-        {
-            ASPxComboBox cmb = (ASPxComboBox)e.Editor;
-            cmb.TextField = "RazonSocial";
-            cmb.ValueField = "ProveedorId";
-            cmb.DataSource = Model.Proveedores;
-            cmb.DataBindItems();
-        };
-        settings.CellEditorInitialize = (sender, e) =>
-        {
-            ASPxComboBox cmb = (ASPxComboBox)e.Editor;
-            cmb.TextField = "RazonSocial";
-            cmb.ValueField = "ProveedorId";
-            cmb.DataSource = Model.Proveedores;
-            cmb.DataBindItems();
-        };
+        //settings.AutoFilterCellEditorInitialize = (sender, e) =>
+        //{
+        //    ASPxComboBox cmb = (ASPxComboBox)e.Editor;
+        //    cmb.TextField = "RazonSocial";
+        //    cmb.ValueField = "ProveedorId";
+        //    cmb.DataSource = Model.Proveedores;
+        //    cmb.DataBindItems();
+        //};
+        //settings.CellEditorInitialize = (sender, e) =>
+        //{
+        //    ASPxComboBox cmb = (ASPxComboBox)e.Editor;
+        //    cmb.TextField = "RazonSocial";
+        //    cmb.ValueField = "ProveedorId";
+        //    cmb.DataSource = Model.Proveedores;
+        //    cmb.DataBindItems();
+        //};
         settings.Columns.Add(column =>
         {
             column.FieldName = "DescripcionMtto";
             column.Caption = "Descripcion Mtto.";
             column.ColumnType = MVCxGridViewColumnType.Memo;
         });
+        settings.Columns.Add(column =>
+        {
+            column.FieldName = "Kilometraje";
+            column.Caption = "Kilometraje";
+            column.ColumnType = MVCxGridViewColumnType.SpinEdit;
+            var spinEditProperties = column.PropertiesEdit as SpinEditProperties;
+            spinEditProperties.DisplayFormatInEditMode = true;
+            spinEditProperties.MinValue = 0;
+            spinEditProperties.MaxValue = 99999999;
+        });
+
         settings.Columns.Add(column =>
         {
             column.FieldName = "CiudadId";
@@ -145,22 +163,7 @@
             comboBoxProperties.ValueType = typeof(long);
             comboBoxProperties.DropDownStyle = DropDownStyle.DropDown;
         });
-        //settings.AutoFilterCellEditorInitialize = (sender, e) =>
-        //{
-        //    ASPxComboBox cmb = (ASPxComboBox)e.Editor;
-        //    cmb.TextField = "Descripcion";
-        //    cmb.ValueField = "CiudadId";
-        //    cmb.DataSource = Model.Ciudades;
-        //    cmb.DataBindItems();
-        //};
-        //settings.CellEditorInitialize = (sender, e) =>
-        //{
-        //    ASPxComboBox cmb = (ASPxComboBox)e.Editor;
-        //    cmb.TextField = "Descripcion";
-        //    cmb.ValueField = "CiudadId";
-        //    cmb.DataSource = Model.Ciudades;
-        //    cmb.DataBindItems();
-        //};
+       
         settings.Columns.Add(column =>
         {
             column.FieldName = "EmpresaId";
@@ -173,22 +176,22 @@
             comboBoxProperties.ValueType = typeof(int);
             comboBoxProperties.DropDownStyle = DropDownStyle.DropDown;
         });
-        settings.AutoFilterCellEditorInitialize = (sender, e) =>
-        {
-            ASPxComboBox cmb = (ASPxComboBox)e.Editor;
-            cmb.TextField = "Nombre";
-            cmb.ValueField = "EmpresaId";
-            cmb.DataSource = Model.Empresas;
-            cmb.DataBindItems();
-        };
-        settings.CellEditorInitialize = (sender, e) =>
-        {
-            ASPxComboBox cmb = (ASPxComboBox)e.Editor;
-            cmb.TextField = "Nombre";
-            cmb.ValueField = "EmpresaId";
-            cmb.DataSource = Model.Empresas;
-            cmb.DataBindItems();
-        };
+        //settings.AutoFilterCellEditorInitialize = (sender, e) =>
+        //{
+        //    ASPxComboBox cmb = (ASPxComboBox)e.Editor;
+        //    cmb.TextField = "Nombre";
+        //    cmb.ValueField = "EmpresaId";
+        //    cmb.DataSource = Model.Empresas;
+        //    cmb.DataBindItems();
+        //};
+        //settings.CellEditorInitialize = (sender, e) =>
+        //{
+        //    ASPxComboBox cmb = (ASPxComboBox)e.Editor;
+        //    cmb.TextField = "Nombre";
+        //    cmb.ValueField = "EmpresaId";
+        //    cmb.DataSource = Model.Empresas;
+        //    cmb.DataBindItems();
+        //};
         settings.Columns.Add(column =>
         {
             column.FieldName = "UsuarioIdAsignado";
@@ -201,22 +204,22 @@
             comboBoxProperties.ValueType = typeof(int);
             comboBoxProperties.DropDownStyle = DropDownStyle.DropDown;
         });
-        settings.AutoFilterCellEditorInitialize = (sender, e) =>
-        {
-            ASPxComboBox cmb = (ASPxComboBox)e.Editor;
-            cmb.TextField = "NombreCompleto";
-            cmb.ValueField = "UsuarioId";
-            cmb.DataSource = Model.Usuarios;
-            cmb.DataBindItems();
-        };
-        settings.CellEditorInitialize = (sender, e) =>
-        {
-            ASPxComboBox cmb = (ASPxComboBox)e.Editor;
-            cmb.TextField = "NombreCompleto";
-            cmb.ValueField = "UsuarioId";
-            cmb.DataSource = Model.Usuarios;
-            cmb.DataBindItems();
-        };
+        //settings.AutoFilterCellEditorInitialize = (sender, e) =>
+        //{
+        //    ASPxComboBox cmb = (ASPxComboBox)e.Editor;
+        //    cmb.TextField = "NombreCompleto";
+        //    cmb.ValueField = "UsuarioId";
+        //    cmb.DataSource = Model.Usuarios;
+        //    cmb.DataBindItems();
+        //};
+        //settings.CellEditorInitialize = (sender, e) =>
+        //{
+        //    ASPxComboBox cmb = (ASPxComboBox)e.Editor;
+        //    cmb.TextField = "NombreCompleto";
+        //    cmb.ValueField = "UsuarioId";
+        //    cmb.DataSource = Model.Usuarios;
+        //    cmb.DataBindItems();
+        //};
         settings.Columns.Add(column =>
         {
             column.FieldName = "VehiculoId";
@@ -224,7 +227,7 @@
             column.ColumnType = MVCxGridViewColumnType.ComboBox;
             var comboBoxProperties = (ComboBoxProperties)column.PropertiesEdit;
             comboBoxProperties.DataSource = Model.Vehiculos;
-            comboBoxProperties.TextField = "Apodo";
+            comboBoxProperties.TextField = "Placa";
             comboBoxProperties.ValueField = "VehiculoId";
             comboBoxProperties.ValueType = typeof(int);
             comboBoxProperties.DropDownStyle = DropDownStyle.DropDown;
@@ -357,6 +360,21 @@
                 else
                 {
                     e.Editor.ReadOnly = true;
+                    e.Editor.Enabled = false;
+                }
+            }
+            if (e.Column.FieldName == "MantenimientoId")
+            {
+                if (g.IsNewRowEditing)
+                {
+                    e.Editor.ReadOnly = true;
+                    e.Editor.Enabled = false;
+                    e.Editor.Visible = false;
+                }
+                else
+                {
+                    e.Editor.ReadOnly = true;
+                    e.Editor.Visible = false;
                     e.Editor.Enabled = false;
                 }
             }

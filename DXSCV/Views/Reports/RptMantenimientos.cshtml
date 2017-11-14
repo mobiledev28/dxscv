@@ -1,0 +1,12 @@
+﻿@{
+    ViewBag.Title = "RptMantenimientos";
+    Layout = "~/Views/Shared/_mainLayout.cshtml";
+}
+
+<h2>Reporte de Vehiculos</h2>
+
+@Html.DevExpress().WebDocumentViewer(settings =>
+{
+    settings.Name = "WebDocumentViewer";
+}).Bind(new RptMantenimientos()).GetHtml()
+

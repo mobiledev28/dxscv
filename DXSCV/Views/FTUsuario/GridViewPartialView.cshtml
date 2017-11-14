@@ -1,0 +1,160 @@
+﻿@* DXCOMMENT: Configure GridView *@
+@Html.DevExpress().GridView(
+    settings =>
+    {
+        settings.Theme = "Glass";
+        settings.Name = "GridView";
+        settings.CallbackRouteValues = new { Controller = "FTUsuario", Action = "GridViewPartialView" };
+        settings.CustomActionRouteValues = new { Controller = "FTUsuario", Action = "ChangeEditModePartial" };
+        settings.SettingsEditing.AddNewRowRouteValues = new { Controller = "FTUsuario", Action = "AgregaFTUsuario" };
+        settings.SettingsEditing.UpdateRowRouteValues = new { Controller = "FTUsuario", Action = "ActualizaFTUsuario" };
+        settings.SettingsEditing.DeleteRowRouteValues = new { Controller = "FTUsuario", Action = "EliminaFTUsuario" };
+        settings.SettingsEditing.Mode = GridViewEditingMode.PopupEditForm;
+        settings.SettingsBehavior.ConfirmDelete = true;
+        settings.SettingsPopup.EditForm.Width = 600;
+        settings.Width = Unit.Percentage(100);
+
+        settings.CommandColumn.Visible = true;
+        settings.CommandColumn.ShowNewButton = true;
+        settings.CommandColumn.ShowDeleteButton = true;
+        settings.CommandColumn.ShowEditButton = true;
+        settings.CommandColumn.Width = 150;
+        settings.SettingsPager.PageSize = 10;
+        settings.ControlStyle.Paddings.Padding = System.Web.UI.WebControls.Unit.Pixel(0);
+        settings.ControlStyle.Border.BorderWidth = System.Web.UI.WebControls.Unit.Pixel(0);
+        settings.ControlStyle.BorderBottom.BorderWidth = System.Web.UI.WebControls.Unit.Pixel(1);
+
+        settings.Settings.HorizontalScrollBarMode = ScrollBarMode.Visible;
+
+        // DXCOMMENT: Specify the grid's key field name and define grid columns in accordance with data model fields
+        settings.KeyFieldName = "FichaTecnicaUsuarioId;Email";
+        settings.Columns.Add(column =>
+        {
+
+            column.FieldName = "FichaTecnicaUsuarioId";
+            column.Caption = "Documentos";
+            column.SetDataItemTemplateContent(container =>
+            {
+                string[] Ids1 = new string[2];
+                Ids1 = (container as GridViewDataItemTemplateContainer).KeyValue.ToString().Split('|');
+                Html.DevExpress().HyperLink(hlSettings =>
+                {
+                    hlSettings.Name = string.Format("hl_{0}", (container as GridViewDataItemTemplateContainer).VisibleIndex + 1);
+                    hlSettings.NavigateUrl = "javascript:void(0)";
+                    hlSettings.Properties.ClientSideEvents.Click = string.Format("function(s,e) {{ OnHyperLinkClick('{0}'); }}", Ids1[0]);//(container as GridViewDataItemTemplateContainer).KeyValue.ToString());
+                    hlSettings.Properties.Text = "Adjuntar";
+
+
+                }).Render();
+
+            });
+            //var hlprop = (HyperLinkProperties)column.PropertiesEdit;
+            //hlprop.RequiredField.IsRequired = false;
+            column.EditFormSettings.Visible = DevExpress.Utils.DefaultBoolean.False;
+        });
+        settings.Columns.Add(column =>
+        {
+            column.FieldName = "NumColaborador";
+            column.Caption = "Núm. Colaborador";
+        });
+        settings.Columns.Add(column =>
+        {
+            column.FieldName = "FechaIngreso";
+            column.Caption = "Fecha Ingreso";
+
+            column.ColumnType = MVCxGridViewColumnType.DateEdit;
+
+        });
+        settings.Columns.Add(column =>
+        {
+            column.FieldName = "Imss";
+            column.Caption = "IMSS";
+        });
+        settings.Columns.Add(column =>
+        {
+            column.FieldName = "Ine";
+            column.Caption = "INE";
+        });
+        settings.Columns.Add(column =>
+        {
+            column.FieldName = "Licencia";
+            column.Caption = "Licencia";
+        });
+        settings.Columns.Add(column =>
+        {
+            column.FieldName = "UsuarioId";
+            column.Caption = "Usuario";
+            column.ColumnType = MVCxGridViewColumnType.ComboBox;
+            var comboBoxProperties = (ComboBoxProperties)column.PropertiesEdit;
+            comboBoxProperties.DataSource = Model.Usuarios;
+            comboBoxProperties.TextField = "Nombre";
+            comboBoxProperties.ValueField = "UsuarioId";
+            comboBoxProperties.ValueType = typeof(long);
+            comboBoxProperties.DropDownStyle = DropDownStyle.DropDown;
+        });
+
+        settings.Columns.Add(column =>
+        {
+            column.FieldName = "Email";
+            column.Caption = "Correo";
+        });
+
+        //////settings.Columns.Add(column =>
+        //////{
+        //////    column.FieldName = "Email";
+        //////    column.Caption = "Correo";
+        //////    column.SetDataItemTemplateContent(container =>
+        //////    {
+        //////        string[] Ids2 = new string[2];
+        //////        Ids2 = (container as GridViewDataItemTemplateContainer).KeyValue.ToString().Split('|');
+        //////        Html.DevExpress().HyperLink(hlSettings =>
+        //////        {
+        //////            hlSettings.Name = string.Format("hlem_{0}", (container as GridViewDataItemTemplateContainer).VisibleIndex + 1);
+        //////            hlSettings.NavigateUrl = "mailto:" + Ids2[1] + "?Subject=Sistema%20de%20Control%20de%20Vehículos";
+        //////            //hlSettings.Properties.ClientSideEvents.Click = string.Format("function(s,e) {{ OnHyperLinkClick('{0}'); }}", Ids2[0]);//(container as GridViewDataItemTemplateContainer).KeyValue.ToString());
+        //////            hlSettings.Properties.Text = Ids2[1];
+
+
+        //////        }).Render();
+
+        //////    });
+        //////    //var hlprop = (HyperLinkProperties)column.PropertiesEdit;
+        //////    //hlprop.RequiredField.IsRequired = false;
+        //////    column.EditFormSettings.Visible = DevExpress.Utils.DefaultBoolean.False;
+        //////});
+        
+        //settings.Columns.Add(column =>
+        //{
+        //    column.FieldName = "Email";
+        //    column.Caption = "Correo";
+        //});
+        settings.Columns.Add(column =>
+        {
+            column.FieldName = "CuidadId";
+            column.Caption = "Ciudad";
+            column.ColumnType = MVCxGridViewColumnType.ComboBox;
+            var comboBoxProperties = (ComboBoxProperties)column.PropertiesEdit;
+            comboBoxProperties.DataSource = Model.Ciudades;
+            comboBoxProperties.TextField = "Descripcion";
+            comboBoxProperties.ValueField = "CiudadId";
+            comboBoxProperties.ValueType = typeof(long);
+            comboBoxProperties.DropDownStyle = DropDownStyle.DropDown;
+        });
+
+        
+
+        settings.Columns.Add(column =>
+        {
+            column.FieldName = "Departamento";
+            column.Caption = "Departamento";
+        });
+
+        settings.Columns.Add(column =>
+        {
+            column.FieldName = "NumCelular";
+            column.Caption = "Celular";
+        });
+
+        
+
+    }).Bind(Model.FichasTecnicasUsuarios).GetHtml()

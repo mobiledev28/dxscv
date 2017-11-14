@@ -105,7 +105,7 @@ namespace DXSCV.Helpers
                 string fileName = Path.ChangeExtension(Path.GetRandomFileName(), ".jpg");
                 string resultFilePath = UploadDirectory + fileName;
                 using (Image original = Image.FromStream(e.UploadedFile.FileContent))
-                using (Image thumbnail = ImageUtils.CreateThumbnailImage((Bitmap)original, ImageSizeMode.ActualSizeOrFit, new Size(350, 350)))
+                using (Image thumbnail = new ImageThumbnailCreator(original).CreateImageThumbnail(new Size(350, 350)))
                 {
                     ImageUtils.SaveToJpeg((Bitmap)thumbnail, HttpContext.Current.Request.MapPath(resultFilePath));
                 }

@@ -1,7 +1,3 @@
-@using SCVData;
-
-@model DXSCV.Models.UsuarioViewModel
-
 
 @Html.DevExpress().GridView(
     settings =>
@@ -52,57 +48,91 @@
         //    //hlprop.RequiredField.IsRequired = false;
         //    column.EditFormSettings.Visible = DevExpress.Utils.DefaultBoolean.False;
         //});
-        settings.Columns.Add("Nombre");
-        settings.Columns.Add("ApPaterno");
-        settings.Columns.Add("ApMaterno");
+        settings.KeyFieldName = "NotificacionId";
 
+        settings.Columns.Add("Descripcion");
         settings.Columns.Add(column =>
         {
-            column.FieldName = "FechaNac";
-            column.Caption = "Fecha Nac";
-
+            column.FieldName = "FechaNotificacion";
+            column.Caption = "Fecha Notificación";
             column.ColumnType = MVCxGridViewColumnType.DateEdit;
-        });
-        settings.Columns.Add("NoLicencia");
-        settings.Columns.Add("EstatusLicencia");
-        settings.Columns.Add(column =>
-        {
-            column.FieldName = "AnioVigenciaLicencia";
-            column.Caption = "Año Vigencia";
+
+            var dateedit = (DateEditProperties)column.PropertiesEdit;
+            dateedit.ValidationSettings.RequiredField.IsRequired = false;
         });
         settings.Columns.Add(column =>
         {
-            column.FieldName = "MesVigenciaLicencia";
-            column.Caption = "Mes Vigencia";
-        });
-        settings.Columns.Add("NoINE");
-        settings.Columns.Add(column =>
-        {
-            column.FieldName = "EmpresaId";
-            column.Caption = "Sucursal";
+            column.FieldName = "NotificacionEstatusId";
+            column.Caption = "Estatus";
             column.ColumnType = MVCxGridViewColumnType.ComboBox;
             var comboBoxProperties = (ComboBoxProperties)column.PropertiesEdit;
-            comboBoxProperties.DataSource = Model.Sucursales;
-            comboBoxProperties.TextField = "Nombre";
-            comboBoxProperties.ValueField = "EmpresaId";
-            comboBoxProperties.ValueType = typeof(int);
+            comboBoxProperties.DataSource = Model.Estatus;
+            comboBoxProperties.TextField = "Descripcion";
+            comboBoxProperties.ValueField = "NotificacionEstatusId";
             comboBoxProperties.DropDownStyle = DropDownStyle.DropDown;
         });
-        settings.AutoFilterCellEditorInitialize = (sender, e) =>
+        settings.Columns.Add(column =>
         {
-            ASPxComboBox cmb = (ASPxComboBox)e.Editor;
-            cmb.TextField = "Nombre";
-            cmb.ValueField = "EmpresaId";
-            cmb.DataSource = Model.Sucursales;
-            cmb.DataBindItems();
-        };
-        settings.CellEditorInitialize = (sender, e) =>
+            column.FieldName = "CuentaId";
+            column.Caption = "Registrado Por";
+            column.ColumnType = MVCxGridViewColumnType.ComboBox;
+            var comboBoxProperties = (ComboBoxProperties)column.PropertiesEdit;
+            comboBoxProperties.DataSource = Model.Cuentas;
+            comboBoxProperties.TextField = "UserName";
+            comboBoxProperties.ValueField = "CuentaId";
+            comboBoxProperties.DropDownStyle = DropDownStyle.DropDown;
+        });
+        settings.Columns.Add("Correo");
+        settings.Columns.Add(column =>
         {
-            ASPxComboBox cmb = (ASPxComboBox)e.Editor;
-            cmb.TextField = "Nombre";
-            cmb.ValueField = "EmpresaId";
-            cmb.DataSource = Model.Sucursales;
-            cmb.DataBindItems();
+            column.FieldName = "FechaAlta";
+            column.Caption = "Fecha Alta";
+            column.ColumnType = MVCxGridViewColumnType.DateEdit;
+
+            var dateedit = (DateEditProperties)column.PropertiesEdit;
+            dateedit.ValidationSettings.RequiredField.IsRequired = false;
+        });
+        settings.Columns.Add(column =>
+        {
+            column.FieldName = "FechaMod";
+            column.Caption = "Fecha Modificación";
+            column.ColumnType = MVCxGridViewColumnType.DateEdit;
+
+            var dateedit = (DateEditProperties)column.PropertiesEdit;
+            dateedit.ValidationSettings.RequiredField.IsRequired = false;
+        });
+        settings.CellEditorInitialize = (s, e) =>
+        {
+            ASPxEdit editor = (ASPxEdit)e.Editor;
+            editor.ValidationSettings.Display = Display.Dynamic;
+            MVCxGridView g = s as MVCxGridView;
+
+            if (e.Column.FieldName == "CuentaId")
+            {
+                if (g.IsNewRowEditing)
+                {
+                    e.Editor.ReadOnly = false;
+                    e.Editor.Enabled = true;
+                }
+                else
+                {
+                    e.Editor.ReadOnly = true;
+                    e.Editor.Enabled = false;
+                }
+            }
+
+            if (e.Column.FieldName == "FechaAlta")
+            {
+                if (g.IsNewRowEditing)
+                {
+                    e.Editor.ReadOnly = false;
+                    e.Editor.Enabled = true;
+                }
+                else
+                {
+                    e.Editor.ReadOnly = true;
+                    e.Editor.Enabled = false;
+                }
+            }
         };
-        
-    }).Bind(Model.Usuarios).GetHtml()
+    }).Bind(Model.Notificaciones).GetHtml()

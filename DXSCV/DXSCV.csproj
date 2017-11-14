@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+<Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
@@ -13,7 +13,7 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>DXSCV</RootNamespace>
     <AssemblyName>DXSCV</AssemblyName>
-    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
     <MvcBuildViews>false</MvcBuildViews>
     <FileUpgradeFlags>
     </FileUpgradeFlags>
@@ -24,6 +24,7 @@
     <IISExpressWindowsAuthentication />
     <IISExpressUseClassicPipelineMode />
     <UpgradeBackupLocation />
+    <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -33,6 +34,7 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -41,6 +43,7 @@
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="EntityFramework">
@@ -56,6 +59,7 @@
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
+    <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="System.Data.Entity" />
     <Reference Include="System.Drawing" />
     <Reference Include="System.Net.Http" />
@@ -67,8 +71,7 @@
     <Reference Include="System.Web.Entity" />
     <Reference Include="System.Web.ApplicationServices" />
     <Reference Include="System.ComponentModel.DataAnnotations" />
-    <Reference Include="System.Core" />
-    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="System.Web.Extensions" />
     <Reference Include="System.Web.Helpers, Version=2.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <Private>True</Private>
       <HintPath>..\packages\Microsoft.AspNet.WebPages.2.0.30506.0\lib\net40\System.Web.Helpers.dll</HintPath>
@@ -99,120 +102,131 @@
       <Private>True</Private>
       <HintPath>..\packages\Microsoft.AspNet.WebPages.2.0.30506.0\lib\net40\System.Web.WebPages.Razor.dll</HintPath>
     </Reference>
-    <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Web" />
-    <Reference Include="System.Web.Extensions" />
     <Reference Include="System.Web.Abstractions" />
     <Reference Include="System.Web.Routing" />
     <Reference Include="System.Xml" />
     <Reference Include="System.Configuration" />
     <Reference Include="System.Web.Services" />
     <Reference Include="System.EnterpriseServices" />
-    <Reference Include="DevExpress.Data.v15.2, Version=15.2.9.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a">
+    <Reference Include="DevExpress.Data.v16.2, Version=16.2.10.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a">
       <Private>True</Private>
     </Reference>
-    <Reference Include="DevExpress.Web.v15.2, Version=15.2.9.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a">
+    <Reference Include="DevExpress.Web.v16.2, Version=16.2.10.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a">
       <Private>True</Private>
     </Reference>
-    <Reference Include="DevExpress.Web.ASPxHtmlEditor.v15.2, Version=15.2.9.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a">
+    <Reference Include="DevExpress.Web.ASPxHtmlEditor.v16.2, Version=16.2.10.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a">
       <Private>True</Private>
     </Reference>
-    <Reference Include="DevExpress.Web.ASPxSpellChecker.v15.2, Version=15.2.9.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a">
+    <Reference Include="DevExpress.Web.ASPxSpellChecker.v16.2, Version=16.2.10.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a">
       <Private>True</Private>
     </Reference>
-    <Reference Include="DevExpress.Web.ASPxTreeList.v15.2, Version=15.2.9.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a">
+    <Reference Include="DevExpress.Web.ASPxTreeList.v16.2, Version=16.2.10.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a">
       <Private>True</Private>
     </Reference>
-    <Reference Include="DevExpress.Web.ASPxThemes.v15.2, Version=15.2.9.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a">
+    <Reference Include="DevExpress.Web.ASPxThemes.v16.2, Version=16.2.10.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a">
       <Private>True</Private>
     </Reference>
-    <Reference Include="DevExpress.Web.ASPxPivotGrid.v15.2, Version=15.2.9.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a">
+    <Reference Include="DevExpress.Web.ASPxPivotGrid.v16.2, Version=16.2.10.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a">
       <Private>True</Private>
     </Reference>
-    <Reference Include="DevExpress.Utils.v15.2, Version=15.2.9.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a">
+    <Reference Include="DevExpress.Utils.v16.2, Version=16.2.10.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a">
       <Private>True</Private>
     </Reference>
-    <Reference Include="DevExpress.Office.v15.2.Core, Version=15.2.9.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a">
+    <Reference Include="DevExpress.Office.v16.2.Core, Version=16.2.10.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a">
       <Private>True</Private>
     </Reference>
-    <Reference Include="DevExpress.SpellChecker.v15.2.Core, Version=15.2.9.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a">
+    <Reference Include="DevExpress.SpellChecker.v16.2.Core, Version=16.2.10.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a">
       <Private>True</Private>
     </Reference>
-    <Reference Include="DevExpress.Charts.v15.2.Core, Version=15.2.9.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a">
+    <Reference Include="DevExpress.Charts.v16.2.Core, Version=16.2.10.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a">
       <Private>True</Private>
     </Reference>
-    <Reference Include="DevExpress.XtraCharts.v15.2, Version=15.2.9.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a">
+    <Reference Include="DevExpress.XtraCharts.v16.2, Version=16.2.10.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a">
       <Private>True</Private>
     </Reference>
-    <Reference Include="DevExpress.XtraGauges.v15.2.Core, Version=15.2.9.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a">
+    <Reference Include="DevExpress.XtraGauges.v16.2.Core, Version=16.2.10.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a">
       <Private>True</Private>
     </Reference>
-    <Reference Include="DevExpress.XtraGauges.v15.2.Presets, Version=15.2.9.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a">
+    <Reference Include="DevExpress.XtraGauges.v16.2.Presets, Version=16.2.10.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a">
       <Private>True</Private>
     </Reference>
-    <Reference Include="DevExpress.Web.ASPxGauges.v15.2, Version=15.2.9.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a">
+    <Reference Include="DevExpress.Web.ASPxGauges.v16.2, Version=16.2.10.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a">
       <Private>True</Private>
     </Reference>
-    <Reference Include="DevExpress.XtraCharts.v15.2.Web, Version=15.2.9.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a">
+    <Reference Include="DevExpress.XtraCharts.v16.2.Web, Version=16.2.10.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a">
       <Private>True</Private>
     </Reference>
-    <Reference Include="DevExpress.Printing.v15.2.Core, Version=15.2.9.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a">
+    <Reference Include="DevExpress.Pdf.v16.2.Core, Version=16.2.10.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a">
       <Private>True</Private>
     </Reference>
-    <Reference Include="DevExpress.Sparkline.v15.2.Core, Version=15.2.9.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a">
+    <Reference Include="DevExpress.Printing.v16.2.Core, Version=16.2.10.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a">
       <Private>True</Private>
     </Reference>
-    <Reference Include="DevExpress.CodeParser.v15.2, Version=15.2.9.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a">
+    <Reference Include="DevExpress.Sparkline.v16.2.Core, Version=16.2.10.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a">
       <Private>True</Private>
     </Reference>
-    <Reference Include="DevExpress.XtraReports.v15.2, Version=15.2.9.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a">
+    <Reference Include="DevExpress.CodeParser.v16.2, Version=16.2.10.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a">
       <Private>True</Private>
     </Reference>
-    <Reference Include="DevExpress.XtraReports.v15.2.Web, Version=15.2.9.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a">
+    <Reference Include="DevExpress.XtraReports.v16.2, Version=16.2.10.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a">
       <Private>True</Private>
     </Reference>
-    <Reference Include="DevExpress.XtraPivotGrid.v15.2, Version=15.2.9.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a">
+    <Reference Include="DevExpress.XtraReports.v16.2.Web, Version=16.2.10.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a">
       <Private>True</Private>
     </Reference>
-    <Reference Include="DevExpress.PivotGrid.v15.2.Core, Version=15.2.9.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a">
+    <Reference Include="DevExpress.XtraPivotGrid.v16.2, Version=16.2.10.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a">
       <Private>True</Private>
     </Reference>
-    <Reference Include="DevExpress.XtraScheduler.v15.2.Core, Version=15.2.9.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a">
+    <Reference Include="DevExpress.PivotGrid.v16.2.Core, Version=16.2.10.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a">
       <Private>True</Private>
     </Reference>
-    <Reference Include="DevExpress.Web.ASPxScheduler.v15.2, Version=15.2.9.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a">
+    <Reference Include="DevExpress.XtraScheduler.v16.2.Core, Version=16.2.10.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a">
       <Private>True</Private>
     </Reference>
-    <Reference Include="DevExpress.Spreadsheet.v15.2.Core, Version=15.2.9.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a">
+    <Reference Include="DevExpress.Web.ASPxScheduler.v16.2, Version=16.2.10.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a">
       <Private>True</Private>
     </Reference>
-    <Reference Include="DevExpress.Web.ASPxSpreadsheet.v15.2, Version=15.2.9.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a">
+    <Reference Include="DevExpress.Spreadsheet.v16.2.Core, Version=16.2.10.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a">
       <Private>True</Private>
     </Reference>
-    <Reference Include="DevExpress.RichEdit.v15.2.Core, Version=15.2.9.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a">
+    <Reference Include="DevExpress.Web.ASPxSpreadsheet.v16.2, Version=16.2.10.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a">
       <Private>True</Private>
     </Reference>
-    <Reference Include="DevExpress.Web.ASPxRichEdit.v15.2, Version=15.2.9.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a">
+    <Reference Include="DevExpress.RichEdit.v16.2.Core, Version=16.2.10.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a">
       <Private>True</Private>
     </Reference>
-    <Reference Include="DevExpress.Xpo.v15.2, Version=15.2.9.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a">
+    <Reference Include="DevExpress.Web.ASPxRichEdit.v16.2, Version=16.2.10.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a">
       <Private>True</Private>
     </Reference>
-    <Reference Include="DevExpress.DataAccess.v15.2, Version=15.2.9.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a">
+    <Reference Include="DevExpress.Xpo.v16.2, Version=16.2.10.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a">
       <Private>True</Private>
     </Reference>
-    <Reference Include="DevExpress.Dashboard.v15.2.Core, Version=15.2.9.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a">
+    <Reference Include="DevExpress.DataAccess.v16.2, Version=16.2.10.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a">
       <Private>True</Private>
     </Reference>
-    <Reference Include="DevExpress.Dashboard.v15.2.Web, Version=15.2.9.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a">
+    <Reference Include="DevExpress.TreeMap.v16.2.Core, Version=16.2.10.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a">
       <Private>True</Private>
     </Reference>
-    <Reference Include="DevExpress.Dashboard.v15.2.Web.Mvc, Version=15.2.9.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a">
+    <Reference Include="DevExpress.XtraTreeMap.v16.2, Version=16.2.10.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a">
       <Private>True</Private>
     </Reference>
-    <Reference Include="DevExpress.Web.Mvc.v15.2, Version=15.2.9.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a">
+    <Reference Include="DevExpress.Dashboard.v16.2.Core, Version=16.2.10.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a">
       <Private>True</Private>
     </Reference>
+    <Reference Include="DevExpress.Web.Resources.v16.2, Version=16.2.10.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a">
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="DevExpress.Dashboard.v16.2.Web, Version=16.2.10.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a">
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="DevExpress.Dashboard.v16.2.Web.Mvc, Version=16.2.10.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a">
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="DevExpress.Web.Mvc.v16.2, Version=16.2.10.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a">
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Xml.Linq" />
     <Reference Include="WebMatrix.Data, Version=2.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <Private>True</Private>
       <HintPath>..\packages\Microsoft.AspNet.WebPages.Data.2.0.20710.0\lib\net40\WebMatrix.Data.dll</HintPath>
@@ -438,7 +452,9 @@
     <Content Include="Views\Web.config" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Web.config" />
+    <Content Include="Web.config">
+      <SubType>Designer</SubType>
+    </Content>
   </ItemGroup>
   <ItemGroup>
     <Content Include="Views\_ViewStart.cshtml" />
@@ -490,6 +506,23 @@
     <Content Include="Views\Reports\Index.cshtml" />
     <None Include="Scripts\jquery.validate-vsdoc.js" />
     <Content Include="Views\Reports\OrdenMtto.cshtml" />
+    <Content Include="Views\Vehiculo\Vehiculos.cshtml" />
+    <Content Include="Views\Vehiculo\FichaTecnicaVehiculoPartialView.cshtml" />
+    <Content Include="Views\Vehiculo\GridViewVehiculosFiltrados.cshtml" />
+    <Content Include="Views\Vehiculo\FichaTecnicaUsuarioPartialView.cshtml" />
+    <Content Include="Views\FichaTecnica\FichaVehiculo.cshtml" />
+    <Content Include="Views\FichaTecnica\FichaUsuario.cshtml" />
+    <Content Include="Views\FTVehiculo\Index.cshtml" />
+    <Content Include="Views\FTVehiculo\GridViewPartialView.cshtml" />
+    <Content Include="Views\FTUsuario\Index.cshtml" />
+    <Content Include="Views\FTVehiculo\LoadDocumentsPartialView.cshtml" />
+    <Content Include="Views\FTUsuario\GridViewPartialView.cshtml" />
+    <Content Include="Views\FTUsuario\LoadDocumentsPartialView.cshtml" />
+    <Content Include="Views\Vehiculo\DocumentosPartialView.cshtml" />
+    <Content Include="Views\Notificacion\GridViewPartialView.cshtml" />
+    <Content Include="Views\Notificacion\Index.cshtml" />
+    <Content Include="Views\Home\SchedulerPartial.cshtml" />
+    <Content Include="Views\Reports\RptMantenimientos.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
@@ -509,8 +542,11 @@
     <Compile Include="Controllers\CuentaController.cs" />
     <Compile Include="Controllers\EmpresaController.cs" />
     <Compile Include="Controllers\EventoController.cs" />
+    <Compile Include="Controllers\FTVehiculoController.cs" />
+    <Compile Include="Controllers\FTUsuarioController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\MantenimientoController.cs" />
+    <Compile Include="Controllers\NotificacionController.cs" />
     <Compile Include="Controllers\ProveedorController.cs" />
     <Compile Include="Controllers\ReportsController.cs" />
     <Compile Include="Controllers\RevisionController.cs" />
@@ -523,6 +559,7 @@
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Helpers\GridViewEditHelper.cs" />
+    <Compile Include="Helpers\SchedulerDataHelper.cs" />
     <Compile Include="Helpers\UCHelper.cs" />
     <Compile Include="Helpers\UploadControlHelper.cs" />
     <Compile Include="Helpers\UploadingUtils.cs" />
@@ -531,18 +568,26 @@
     <Compile Include="Models\BitacoraEventoViewModel.cs" />
     <Compile Include="Models\CiudadViewModel.cs" />
     <Compile Include="Models\EmpresaViewModel.cs" />
+    <Compile Include="Models\FichaTecnicaUsuarioViewModel.cs" />
+    <Compile Include="Models\FichaTecnicaVehiculoViewModel.cs" />
     <Compile Include="Models\MantenimientoViewModel.cs" />
+    <Compile Include="Models\NotificacionViewModel.cs" />
     <Compile Include="Models\OrdenMttoViewModel.cs" />
     <Compile Include="Models\ProveedorViewModel.cs" />
     <Compile Include="Models\RevisionViewModel.cs" />
+    <Compile Include="Models\SchedulerStorageProvider.cs" />
     <Compile Include="Models\SessionUserViewModel.cs" />
     <Compile Include="Models\SucursalViewModel.cs" />
     <Compile Include="Models\TipoDocumentoViewModel.cs" />
     <Compile Include="Models\TipoEventoViewModel.cs" />
     <Compile Include="Models\UsuarioViewModel.cs" />
     <Compile Include="Models\VehiculoViewModel.cs" />
+    <Compile Include="Models\VehiculoVM.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Reports\OrdenMtto.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Reports\RptMantenimientos.cs">
       <SubType>Component</SubType>
     </Compile>
     <Compile Include="Reports\RptVehiculo.cs">
@@ -554,19 +599,22 @@
     <Folder Include="Content\Documents\" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\SCVData\SCVData.csproj">
-      <Project>{8a271098-c535-4ca5-8ea8-a6ca8c925b14}</Project>
-      <Name>SCVData</Name>
-    </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
     <EmbeddedResource Include="Properties\licenses.licx" />
     <EmbeddedResource Include="Reports\OrdenMtto.resx">
       <DependentUpon>OrdenMtto.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Reports\RptMantenimientos.resx">
+      <DependentUpon>RptMantenimientos.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Reports\RptVehiculo.resx">
       <DependentUpon>RptVehiculo.cs</DependentUpon>
     </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\SCVData\SCVData.csproj">
+      <Project>{8a271098-c535-4ca5-8ea8-a6ca8c925b14}</Project>
+      <Name>SCVData</Name>
+    </ProjectReference>
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

@@ -40,10 +40,30 @@
             //comboBoxProperties.ValueType = typeof(int);
         });
         settings.Columns.Add("Activo", MVCxGridViewColumnType.CheckBox);
-        //settings.PreRender = (sender, e) =>
-        //    {
-        //        ((MVCxGridView)sender).StartEdit(1);
-        //    };
+        settings.Columns.Add(column => {
+            column.FieldName = "IsHerrMty";
+            column.Caption = "Acceso HMT";
+            column.ColumnType = MVCxGridViewColumnType.CheckBox;
+        });
+        settings.Columns.Add(column =>
+        {
+            column.FieldName = "IsMetalinspec";
+            column.Caption = "Acceso ML";
+            column.ColumnType = MVCxGridViewColumnType.CheckBox;
+        });
+        settings.Columns.Add(column =>
+        {
+            column.FieldName = "IsMetalinspecLab";
+            column.Caption = "Acceso MLL";
+            column.ColumnType = MVCxGridViewColumnType.CheckBox;
+        });
+        settings.Columns.Add(column =>
+        {
+            column.FieldName = "IsMetroLab";
+            column.Caption = "Acceso MTL";
+            column.ColumnType = MVCxGridViewColumnType.CheckBox;
+        });
+        
         settings.CellEditorInitialize = (s, e) =>
         {
             ASPxEdit editor = (ASPxEdit)e.Editor;

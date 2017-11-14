@@ -1,0 +1,1008 @@
+﻿<!DOCTYPE html>
+
+<html>
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, user-scalable=no, maximum-scale=1.0, minimum-scale=1.0" />
+    <title>@ViewBag.Title</title>
+    <link href="@Url.Content("~/Content/Site.css")" rel="stylesheet" type="text/css" />
+
+    
+    @Html.DevExpress().GetStyleSheets( 
+    new StyleSheet { ExtensionSuite = ExtensionSuite.NavigationAndLayout },
+            new StyleSheet { ExtensionSuite = ExtensionSuite.Editors },
+            new StyleSheet { ExtensionSuite = ExtensionSuite.HtmlEditor },
+            new StyleSheet { ExtensionSuite = ExtensionSuite.GridView},
+            new StyleSheet { ExtensionSuite = ExtensionSuite.CardView },
+            new StyleSheet { ExtensionSuite = ExtensionSuite.PivotGrid },
+            new StyleSheet { ExtensionSuite = ExtensionSuite.Chart },
+            new StyleSheet { ExtensionSuite = ExtensionSuite.Report },
+            new StyleSheet { ExtensionSuite = ExtensionSuite.Scheduler },
+            new StyleSheet { ExtensionSuite = ExtensionSuite.TreeList },
+            new StyleSheet { ExtensionSuite = ExtensionSuite.RichEdit },
+            new StyleSheet { ExtensionSuite = ExtensionSuite.Spreadsheet },
+            new StyleSheet { ExtensionSuite = ExtensionSuite.SpellChecker },
+            new StyleSheet { ExtensionType = ExtensionType.WebDocumentViewer }
+)
+@Html.DevExpress().GetScripts( 
+    new Script { ExtensionSuite = ExtensionSuite.NavigationAndLayout }, 
+    new Script { ExtensionSuite = ExtensionSuite.HtmlEditor }, 
+    new Script { ExtensionSuite = ExtensionSuite.GridView },
+    new Script { ExtensionSuite = ExtensionSuite.CardView },
+    new Script { ExtensionSuite = ExtensionSuite.PivotGrid },
+    new Script { ExtensionSuite = ExtensionSuite.Editors }, 
+    new Script { ExtensionSuite = ExtensionSuite.Chart },
+    new Script { ExtensionSuite = ExtensionSuite.Report },
+    new Script { ExtensionSuite = ExtensionSuite.Scheduler },
+    new Script { ExtensionSuite = ExtensionSuite.TreeList },
+    new Script { ExtensionSuite = ExtensionSuite.RichEdit },
+    new Script { ExtensionSuite = ExtensionSuite.Spreadsheet },
+    new Script { ExtensionSuite = ExtensionSuite.SpellChecker },
+    new Script { ExtensionType = ExtensionType.WebDocumentViewer }
+)
+    <style>
+        /* Absolute Center CSS Spinner */
+        .loading {
+            position: fixed;
+            z-index: 999;
+            height: 2em;
+            width: 2em;
+            overflow: show;
+            margin: auto;
+            top: 0;
+            left: 0;
+            bottom: 0;
+            right: 0;
+        }
+        /* Transparent Overlay */
+        .loading:before {
+            content: '';
+            display: block;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0,0,0,0.3);
+        }
+
+        /* :not(:required) hides these rules from IE9 and below */
+        .loading:not(:required) {
+            /* hide "loading..." text */
+            font: 0/0 a;
+            color: transparent;
+            text-shadow: none;
+            background-color: transparent;
+            border: 0;
+        }
+
+            .loading:not(:required):after {
+                content: '';
+                display: block;
+                font-size: 10px;
+                width: 1em;
+                height: 1em;
+                margin-top: -0.5em;
+                -webkit-animation: spinner 1500ms infinite linear;
+                -moz-animation: spinner 1500ms infinite linear;
+                -ms-animation: spinner 1500ms infinite linear;
+                -o-animation: spinner 1500ms infinite linear;
+                animation: spinner 1500ms infinite linear;
+                border-radius: 0.5em;
+                -webkit-box-shadow: rgba(0, 0, 0, 0.75) 1.5em 0 0 0, rgba(0, 0, 0, 0.75) 1.1em 1.1em 0 0, rgba(0, 0, 0, 0.75) 0 1.5em 0 0, rgba(0, 0, 0, 0.75) -1.1em 1.1em 0 0, rgba(0, 0, 0, 0.5) -1.5em 0 0 0, rgba(0, 0, 0, 0.5) -1.1em -1.1em 0 0, rgba(0, 0, 0, 0.75) 0 -1.5em 0 0, rgba(0, 0, 0, 0.75) 1.1em -1.1em 0 0;
+                box-shadow: rgba(0, 0, 0, 0.75) 1.5em 0 0 0, rgba(0, 0, 0, 0.75) 1.1em 1.1em 0 0, rgba(0, 0, 0, 0.75) 0 1.5em 0 0, rgba(0, 0, 0, 0.75) -1.1em 1.1em 0 0, rgba(0, 0, 0, 0.75) -1.5em 0 0 0, rgba(0, 0, 0, 0.75) -1.1em -1.1em 0 0, rgba(0, 0, 0, 0.75) 0 -1.5em 0 0, rgba(0, 0, 0, 0.75) 1.1em -1.1em 0 0;
+            }
+    </style>
+</head>
+<body>
+    <div class="loading" style="display: none; z-index: 99999999;">Loading&#8230;</div>
+    @Html.DevExpress().Panel(settings => {
+        settings.Name = "HeaderPane";
+        settings.FixedPosition = PanelFixedPosition.WindowTop;
+        settings.Collapsible = true;
+        settings.SettingsAdaptivity.CollapseAtWindowInnerWidth = 500;
+        settings.ControlStyle.CssClass = "headerPane";
+        settings.Styles.Panel.CssClass = "panel";
+        settings.Styles.ExpandedPanel.CssClass = "expandedPanel";
+        settings.Styles.ExpandBar.CssClass = "bar";
+        settings.SetContent(() => {
+            Html.RenderPartial("HeaderPartialView", HeaderViewRenderMode.Full);
+        });
+        settings.SetExpandBarTemplateContent((c) => {
+            Html.RenderPartial("HeaderPartialView", HeaderViewRenderMode.Title);
+        });
+    }).GetHtml()
+
+    <script type="text/javascript">
+        var FichaTecnica = {
+            GetFTVehiculoFiles: function (id, actionurl, modulo, tipo) {
+                $.ajax({
+                    beforeSend: function () {
+                        $('.loading').show();
+                    },
+                    complete: function () {
+                        $('.loading').hide();
+                    },
+                    url: actionurl,
+                    type: 'GET',
+                    dataType: 'json',
+                    data: {
+                        id: id,
+                        tipo: tipo
+                    },
+                    contentType: 'application/json; charset=utf-8',
+                    success: function (data) {
+                        if (tipo == "vehiculo") {
+                            FichaTecnica.AddInfoFileSection(data, modulo);
+                        } else if (tipo == "fichatecnica") {
+                            UploadEvents.AddInfoFileSection(data, modulo);
+                        } else if (tipo == "usuario") {
+                            FichaTecnica.AddInfoFileSection(data, modulo);
+                        }
+                        
+                    },
+                    error: function () {
+                        alert("error");
+                    }
+                });
+            },
+            AddInfoFileSection: function (data, modulo) {
+                //Create new section for file uploaded
+                contendorDocs.Clear();
+                switch (modulo) {
+                    case 7: //"Ficha Tecnica Vehiculos":
+                        for (x = 0; x <= data.data.length - 1; x++) {
+                            contendorDocs.AddFile(data.data[x].FileName, data.data[x].URL, '', data.data[x].DocumentoId, data.data[x].FichaTecnicaVehiculoId, modulo);
+                           
+                        }
+                        break;
+                    case 8: //"Ficha Tecnica Vehiculos to Print"
+                        //DXUploadedFilesContainer.AddRowFTV(data, modulo);
+                        break;
+                    case 9://"Ficha Tecnica Usuarios":
+                        //for (x = 0; x <= data.data.length - 1; x++) {
+                       
+                        contenedorFTUsuario.AddRowFTU(data, modulo);
+                        if (data.data.FotoUrl != "") {
+                            fotoUsuario.SetImageUrl = data.data.FotoUrl;
+                        }
+                        
+                        //}
+                        break;
+                }
+            },
+            
+        };
+
+        //Contenedor Documentos Ficha Tecnica
+        var contendorDocs = {
+            nameCellStyle: "",
+            sizeCellStyle: "",
+            useExtendedPopup: false,
+
+            AddFile: function (fileName, fileUrl, fileSize, fileId, revisionId, modulo) {
+                var self = contendorDocs;
+                var builder = ["<tr id='tr-" + fileId + "'>"];
+
+                builder.push("<td style='height:25px;' class='nameCell'");
+                if (self.nameCellStyle)
+                    builder.push(" style='" + self.nameCellStyle + "'");
+                builder.push(">");
+
+                self.BuildLink(builder, fileName, fileUrl, fileId);
+                builder.push("</td>");
+                builder.push("<td>&nbsp;&nbsp;&nbsp;</td>");
+                builder.push("<td class='sizeCell'");
+                ///Delete functionality
+                builder.push(" style='" + self.sizeCellStyle + "'");
+                builder.push(">");
+                self.BuildLinkDelete(builder, fileUrl, fileId, revisionId, modulo)
+                builder.push("</td>");
+
+                builder.push("</tr>");
+
+                var html = builder.join("");
+                contendorDocs.AddHtml(html);
+            },
+            Clear: function () {
+                contendorDocs.ReplaceHtml("");
+            },
+            BuildLink: function (builder, text, url, fileId) {
+                builder.push("<a href='/Revision/DownloadFile?id=" + fileId + "'");
+                builder.push(" href='" + url + "'>");
+                builder.push(text);
+                builder.push("</a>");
+            },
+            BuildLinkDelete: function (builder, url, fileId, id, modulo) {
+                //builder.push("<button type='button' style='font-size=8px;' title='Eliminar Documento' onclick='UploadEvents.DeleteFile(" + fileId + "," + id + "," + modulo + ");'>x</button>");
+            },
+            AddHtml: function (html) {
+                var fileContainer = document.getElementById("docsContainer"),
+                    fullHtml = html;
+                if (fileContainer) {
+                    var containerBody = fileContainer.tBodies[0];
+                    fullHtml = containerBody.innerHTML + html;
+                }
+                contendorDocs.ReplaceHtml(fullHtml);
+            },
+            ReplaceHtml: function (html) {
+                var builder = ["<table id='docsContainer' class='docsContainer'><tbody>"];
+                builder.push(html);
+                builder.push("</tbody></table>");
+                var contentHtml = builder.join("");
+                FilesRoundPanel3.SetContentHtml(contentHtml);
+            },
+            ApplySettings: function (nameCellStyle, sizeCellStyle, useExtendedPopup) {
+                var self = FilesRoundPanel3;
+                self.nameCellStyle = nameCellStyle;
+                self.sizeCellStyle = sizeCellStyle;
+                self.useExtendedPopup = useExtendedPopup;
+            }
+        };
+
+        //Contenedor Ficha Tecnica Usuario
+        var contenedorFTUsuario = {
+            nameCellStyle: "",
+            sizeCellStyle: "",
+            useExtendedPopup: false,
+
+            AddFile: function (fileName, fileUrl, fileSize, fileId, revisionId, modulo) {
+                var self = contenedorFTUsuario;
+                var builder = ["<tr id='tr-" + fileId + "'>"];
+
+                builder.push("<td style='height:25px;' class='nameCell'");
+                if (self.nameCellStyle)
+                    builder.push(" style='" + self.nameCellStyle + "'");
+                builder.push(">");
+
+                self.BuildLink(builder, fileName, fileUrl, fileId);
+                builder.push("</td>");
+                builder.push("<td>&nbsp;&nbsp;&nbsp;</td>");
+                builder.push("<td class='sizeCell'");
+                ///Delete functionality
+                builder.push(" style='" + self.sizeCellStyle + "'");
+                builder.push(">");
+                self.BuildLinkDelete(builder, fileUrl, fileId, revisionId, modulo)
+                builder.push("</td>");
+
+                builder.push("</tr>");
+
+                var html = builder.join("");
+                contenedorFTUsuario.AddHtml(html);
+            },
+            Clear: function () {
+                contenedorFTUsuario.ReplaceHtml("");
+            },
+            BuildLink: function (builder, text, url, fileId) {
+                builder.push("<a href='/Revision/DownloadFile?id=" + fileId + "'");
+                builder.push(" href='" + url + "'>");
+                builder.push(text);
+                builder.push("</a>");
+            },
+            BuildLinkDelete: function (builder, url, fileId, id, modulo) {
+                //builder.push("<button type='button' style='font-size=8px;' title='Eliminar Documento' onclick='UploadEvents.DeleteFile(" + fileId + "," + id + "," + modulo + ");'>x</button>");
+            },
+            AddHtml: function (html) {
+                var fileContainer = document.getElementById("usrContainer"),
+                    fullHtml = html;
+                if (fileContainer) {
+                    var containerBody = fileContainer.tBodies[0];
+                    fullHtml = containerBody.innerHTML + html;
+                }
+                contenedorFTUsuario.ReplaceHtml(fullHtml);
+            },
+            ReplaceHtml: function (html) {
+                var builder = ["<table id='usrContainer' class='usrContainer'><tbody>"];
+                builder.push(html);
+                builder.push("</tbody></table>");
+                var contentHtml = builder.join("");
+                FilesRoundPanel2.SetContentHtml(contentHtml);
+            },
+            ApplySettings: function (nameCellStyle, sizeCellStyle, useExtendedPopup) {
+                var self = FilesRoundPanel3;
+                self.nameCellStyle = nameCellStyle;
+                self.sizeCellStyle = sizeCellStyle;
+                self.useExtendedPopup = useExtendedPopup;
+            },
+            AddRowFTU: function (data, modulo) {
+                var self = contenedorFTUsuario;
+                var builder = ["<tr id='tr-ftv-" + data.data.FichaTecnicaUsuarioId + "'>"];
+
+
+                //////Fecha de Compra
+                //builder.push("<tr>");
+                //Numero de Colaborador
+                builder.push("<td nowrap style='height:25px;text-align:left;' class='nameCell'");
+                if (self.nameCellStyle)
+                    builder.push(" style='" + self.nameCellStyle + "'");
+                builder.push("><b>Numero colaborador</b>&nbsp;&nbsp;&nbsp;&nbsp;");
+                builder.push("</td>");
+
+                builder.push("<td nowrap style='height:25px;text-align:left;' class='nameCell'");
+                if (self.nameCellStyle)
+                    builder.push(" style='" + self.nameCellStyle + "'");
+                builder.push(">" + data.data.NumColaborador);
+                builder.push("</td>");
+                builder.push("</tr>");
+
+                //#Factura
+                builder.push("<tr>");
+                builder.push("<td nowrap style='height:25px;text-align:left;' class='nameCell'");
+                if (self.nameCellStyle)
+                    builder.push(" style='" + self.nameCellStyle + "'");
+                builder.push("><b>Nombre</b>");
+                builder.push("</td>");
+
+                builder.push("<td nowrap style='height:25px;text-align:left;' class='nameCell'");
+                if (self.nameCellStyle)
+                    builder.push(" style='" + self.nameCellStyle + "'");
+                builder.push(">" + data.data.Nombre);
+                builder.push("</td>");
+                builder.push("</tr>");
+
+                //Proveedor
+                builder.push("<tr>");
+                builder.push("<td nowrap style='height:25px;text-align:left;' class='nameCell'");
+                if (self.nameCellStyle)
+                    builder.push(" style='" + self.nameCellStyle + "'");
+                builder.push("><b>Fecha de Ingreso</b>");
+                builder.push("</td>");
+
+                builder.push("<td nowrap style='height:25px;text-align:left;' class='nameCell'");
+                if (self.nameCellStyle)
+                    builder.push(" style='" + self.nameCellStyle + "'");
+                builder.push(">" + data.data.sFechaIngreso);
+                builder.push("</td>");
+                builder.push("</tr>");
+
+                //Valor Factura
+                builder.push("<tr>");
+                builder.push("<td nowrap style='height:25px;text-align:left;' class='nameCell'");
+                if (self.nameCellStyle)
+                    builder.push(" style='" + self.nameCellStyle + "'");
+                builder.push("><b>Imss</b>");
+                builder.push("</td>");
+
+                builder.push("<td nowrap style='height:25px;text-align:left;' class='nameCell'");
+                if (self.nameCellStyle)
+                    builder.push(" style='" + self.nameCellStyle + "'");
+                builder.push(">" + data.data.Imss);
+                builder.push("</td>");
+                builder.push("</tr>");
+
+                //Tipo de Adquisicion
+                builder.push("<tr>");
+                builder.push("<td nowrap style='height:25px;text-align:left;' class='nameCell'");
+                if (self.nameCellStyle)
+                    builder.push(" style='" + self.nameCellStyle + "'");
+                builder.push("><b>Licencia</b>");
+                builder.push("</td>");
+
+                builder.push("<td nowrap style='height:25px;text-align:left;' class='nameCell'");
+                if (self.nameCellStyle)
+                    builder.push(" style='" + self.nameCellStyle + "'");
+                builder.push(">" + data.data.Licencia);
+                builder.push("</td>");
+                builder.push("</tr>");
+
+                //Tasa de Interes
+                builder.push("<tr>");
+                builder.push("<td nowrap style='height:25px;text-align:left;' class='nameCell'");
+                if (self.nameCellStyle)
+                    builder.push(" style='" + self.nameCellStyle + "'");
+                builder.push("><b>INE</b>");
+                builder.push("</td>");
+
+                builder.push("<td nowrap style='height:25px;text-align:left;' class='nameCell'");
+                if (self.nameCellStyle)
+                    builder.push(" style='" + self.nameCellStyle + "'");
+                builder.push(">" + data.data.Ine);
+                builder.push("</td>");
+                builder.push("</tr>");
+
+                //Pago Inicial
+                builder.push("<tr>");
+                builder.push("<td nowrap style='height:25px;text-align:left;' class='nameCell'");
+                if (self.nameCellStyle)
+                    builder.push(" style='" + self.nameCellStyle + "'");
+                builder.push("><b>Sucursal</b>");
+                builder.push("</td>");
+
+                builder.push("<td nowrap style='height:25px;text-align:left;' class='nameCell'");
+                if (self.nameCellStyle)
+                    builder.push(" style='" + self.nameCellStyle + "'");
+                builder.push(">" + data.data.Ciudad);
+                builder.push("</td>");
+                builder.push("</tr>");
+
+                //Renta Mensual
+                builder.push("<tr>");
+                builder.push("<td nowrap style='height:25px;text-align:left;' class='nameCell'");
+                if (self.nameCellStyle)
+                    builder.push(" style='" + self.nameCellStyle + "'");
+                builder.push("><b>Departamento</b>");
+                builder.push("</td>");
+
+                builder.push("<td nowrap style='height:25px;text-align:left;' class='nameCell'");
+                if (self.nameCellStyle)
+                    builder.push(" style='" + self.nameCellStyle + "'");
+                builder.push(">" + data.data.Departamento);
+                builder.push("</td>");
+                builder.push("</tr>");
+
+                //Valor Residual
+                builder.push("<tr>");
+                builder.push("<td nowrap style='height:25px;text-align:left;' class='nameCell'");
+                if (self.nameCellStyle)
+                    builder.push(" style='" + self.nameCellStyle + "'");
+                builder.push("><b>Celular</b>");
+                builder.push("</td>");
+
+                builder.push("<td nowrap style='height:25px;text-align:left;' class='nameCell'");
+                if (self.nameCellStyle)
+                    builder.push(" style='" + self.nameCellStyle + "'");
+                builder.push(">" + data.data.NumCelular);
+                builder.push("</td>");
+                builder.push("</tr>");
+
+                //Aseguradora
+                builder.push("<tr>");
+                builder.push("<td nowrap style='height:25px;text-align:left;' class='nameCell'");
+                if (self.nameCellStyle)
+                    builder.push(" style='" + self.nameCellStyle + "'");
+                builder.push("><b>Correo</b>");
+                builder.push("</td>");
+
+                builder.push("<td nowrap style='height:25px;text-align:left;' class='nameCell'");
+                if (self.nameCellStyle)
+                    builder.push(" style='" + self.nameCellStyle + "'");
+                builder.push(">" + data.data.Email);
+                builder.push("</td>");
+                builder.push("</tr>");
+
+                var html = builder.join("");
+                contenedorFTUsuario.AddHtml(html);
+            },
+        };
+        var VehiculosSearch = {
+            GetVehiculos: function (vehiculoId, serie, placa, actionurl) {
+                $.ajax({
+                    beforeSend: function () {
+                        $('.loading').show();
+                    },
+                    complete: function () {
+                        $('.loading').hide();
+                    },
+                    url: actionurl,
+                    type: 'GET',
+                    dataType: 'json',
+                    data: {
+                        vehiculoId: vehiculoId,
+                        serie: serie,
+                        placa: placa
+                    },
+                    contentType: 'application/json; charset=utf-8',
+                    success: function (data) {
+                        //UploadEvents.AddInfoFileSection(data, modulo);
+                    },
+                    error: function () {
+                        alert("error");
+                    }
+                });
+            },
+        };
+
+        var UploadEvents = {
+            SaveInfoFile: function (id, url, actionurl, tipodoc) {
+                $.ajax({
+                    beforeSend: function () {
+                        $('.loading').show();
+                    },
+                    complete: function () {
+                        $('.loading').hide();
+                    },
+                    url: actionurl,
+                    type: 'GET',
+                    dataType: 'json',
+                    data: {
+                        id: id,
+                        url: url,
+                        tipodoc: tipodoc
+                    },
+                    contentType: 'application/json; charset=utf-8',
+                    success: function (data) {
+                        UploadEvents.AddInfoFileSection(data, data.modulo);
+                    },
+                    error: function () {
+                        alert("error");
+                    }
+                });
+            },
+            AddInfoFileSection: function (data, modulo) {
+                //Create new section for file uploaded
+                DXUploadedFilesContainer.Clear();
+                switch (modulo) {
+                    case 0://"Revision":
+                        for (x = 0; x <= data.data.length - 1; x++) {
+                            DXUploadedFilesContainer.AddFile(data.data[x].FileName, data.data[x].URL, '', data.data[x].DocumentoId, data.data[x].RevisionId, modulo);
+                        }
+                        break;
+                    case 1: //"Vehiculo":
+                        for (x = 0; x <= data.data.length - 1; x++) {
+                            DXUploadedFilesContainer.AddFile(data.data[x].FileName, data.data[x].URL, '', data.data[x].DocumentoId, data.data[x].VehiculoId, modulo);
+                        }
+                        break;
+                    case 2: //"Usuario":
+                        for (x = 0; x <= data.data.length - 1; x++) {
+                            DXUploadedFilesContainer.AddFile(data.data[x].FileName, data.data[x].URL, '', data.data[x].DocumentoId, data.data[x].UsuarioId, modulo);
+                        }
+                        break;
+                    case 3: //"Evento":
+                        for (x = 0; x <= data.data.length - 1; x++) {
+                            DXUploadedFilesContainer.AddFile(data.data[x].FileName, data.data[x].URL, '', data.data[x].DocumentoId, data.data[x].BitacoraEventoId, modulo);
+                        }
+                        break;
+                    case 4: //"Accesorio":
+                        for (x = 0; x <= data.data.length - 1; x++) {
+                            DXUploadedFilesContainer.AddFile(data.data[x].FileName, data.data[x].URL, '', data.data[x].DocumentoId, data.data[x].AccesorioId, modulo);
+                        }
+                        break;
+                    case 5: //"Mantenimiento":
+                        for (x = 0; x <= data.data.length - 1; x++) {
+                            DXUploadedFilesContainer.AddFile(data.data[x].FileName, data.data[x].URL, '', data.data[x].DocumentoId, data.data[x].MatenimientoId, modulo);
+                        }
+                        break;
+                    case 6: //"Proveedor":
+                        for (x = 0; x <= data.data.length - 1; x++) {
+                            DXUploadedFilesContainer.AddFile(data.data[x].FileName, data.data[x].URL, '', data.data[x].DocumentoId, data.data[x].ProveedorId, modulo);
+                        }
+                        break;
+                    case 7: //"Ficha Tecnica Vehiculos":
+                        for (x = 0; x <= data.data.length - 1; x++) {
+                            DXUploadedFilesContainer.AddFile(data.data[x].FileName, data.data[x].URL, '', data.data[x].DocumentoId, data.data[x].FichaTecnicaVehiculoId, modulo);
+                        }
+                        break;
+                    case 8: //"Ficha Tecnica Vehiculos to Print"
+                        DXUploadedFilesContainer.AddRowFTV(data, modulo);
+                        break;
+                    case 9://"Ficha Tecnica Usuarios":
+                        for (x = 0; x <= data.data.length - 1; x++) {
+                            DXUploadedFilesContainer.AddFile(data.data[x].FileName, data.data[x].URL, '', data.data[x].DocumentoId, data.data[x].FichaTecnicaUsuarioId, modulo);
+                        }
+                        break;
+                    case 10://"Ficha Tecnica Usuarios to Print":
+                        contenedorFTUsuario.Clear();
+                        contenedorFTUsuario.AddRowFTU(data, modulo);
+                        if (data.data.FotoUrl != "") {
+                            $('#fotoUsuario').attr('src', data.data.FotoUrl);
+                            //fotoUsuario.SetImageUrl = data.data.FotoUrl;
+                        }
+                        break;
+                }
+                
+
+            },
+            GetFiles: function (id, actionurl, modulo) {
+                $.ajax({
+                    beforeSend: function () {
+                        $('.loading').show();
+                    },
+                    complete: function () {
+                        $('.loading').hide();
+                    },
+                    url: actionurl,
+                    type: 'GET',
+                    dataType: 'json',
+                    data: {
+                        id: id
+                    },
+                    contentType: 'application/json; charset=utf-8',
+                    success: function (data) {
+                        UploadEvents.AddInfoFileSection(data, modulo);
+                    },
+                    error: function () {
+                        alert("error");
+                    }
+                });
+            },
+            DeleteFile: function (fileId, id, modulo) {
+                var controller;
+
+                switch (modulo) {
+                    case 0:
+                        controller = "Revision";
+                        break;
+                    case 1:
+                        controller = "Vehiculo";
+                        break;
+                    case 2:
+                        controller = "Usuario";
+                        break;
+                    case 3:
+                        controller = "Accesorio";
+                        break;
+                    case 4:
+                        controller = "Mantenimiento";
+                        break;
+                    case 7:
+                        controller = "FTVehiculo";
+                        break;
+                    case 9:
+                        controller = "FTUsuario";
+                        break;
+
+                }
+
+
+
+                $.ajax({
+                    beforeSend: function () {
+                        $('.loading').show();
+                    },
+                    complete: function () {
+                        $('.loading').hide();
+                    },
+                    url: '/' + controller + '/DeleteFile',
+                    type: 'GET',
+                    dataType: 'json',
+                    data: {
+                        docId: fileId,
+                        id: id
+                    },
+                    contentType: 'application/json; charset=utf-8',
+                    success: function (data) {
+                        UploadEvents.AddInfoFileSection(data, modulo);
+                    },
+                    error: function () {
+                        alert("error");
+                    }
+                });
+            }
+        };
+
+        function updateHeaderMenuOrientation(){
+            var orientation = HeaderPane.IsExpandable() ? 'Vertical' : 'Horizontal';
+            if(orientation !== HeaderMenu.GetOrientation())
+                HeaderMenu.SetOrientation(orientation);
+        }
+        var collection = ASPxClientControl.GetControlCollection();
+        collection.ControlsInitialized.AddHandler(updateHeaderMenuOrientation);
+        collection.BrowserWindowResized.AddHandler(updateHeaderMenuOrientation);
+
+        
+
+        var DXUploadedFilesContainer = {
+            nameCellStyle: "",
+            sizeCellStyle: "",
+            useExtendedPopup: false,
+
+            AddFile: function (fileName, fileUrl, fileSize, fileId, revisionId, modulo) {
+                var self = DXUploadedFilesContainer;
+                var builder = ["<tr id='tr-" + fileId + "'>"];
+
+                builder.push("<td style='height:25px;' class='nameCell'");
+                if (self.nameCellStyle)
+                    builder.push(" style='" + self.nameCellStyle + "'");
+                builder.push(">");
+
+                self.BuildLink(builder, fileName, fileUrl, fileId);
+                builder.push("</td>");
+                builder.push("<td>&nbsp;&nbsp;&nbsp;</td>");
+                builder.push("<td class='sizeCell'");
+                ///Delete functionality
+                builder.push(" style='" + self.sizeCellStyle + "'");
+                builder.push(">");
+                self.BuildLinkDelete(builder, fileUrl, fileId, revisionId, modulo)
+                builder.push("</td>");
+
+                builder.push("</tr>");
+
+                var html = builder.join("");
+                DXUploadedFilesContainer.AddHtml(html);
+            },
+            Clear: function () {
+                DXUploadedFilesContainer.ReplaceHtml("");
+            },
+            BuildLink: function (builder, text, url, fileId) {
+                builder.push("<a href='/Revision/DownloadFile?id=" + fileId + "'");
+                //builder.push("<a download id='download' hidden ");
+                builder.push(" href='" + url + "'>");
+                builder.push(text);
+                builder.push("</a>");
+                //<a href="https://docs.google.com/uc?id=0B0jH18Lft7ypSmRjdWg1c082Y2M" download id="download" hidden></a>
+            },
+            BuildLinkDelete: function (builder, url, fileId, id, modulo) {
+                builder.push("<button type='button' style='font-size=8px;' title='Eliminar Documento' onclick='UploadEvents.DeleteFile(" + fileId +"," + id + "," + modulo + ");'>x</button>");
+                //builder.push("<a href='/Revision/DeleteFile?id=" + fileId + "'");
+                ////builder.push("<a download id='download' hidden ");
+                //builder.push(" href='" + url + "'>");
+                //builder.push("Eliminar");
+                //builder.push("</a>");
+                //<a href="https://docs.google.com/uc?id=0B0jH18Lft7ypSmRjdWg1c082Y2M" download id="download" hidden></a>
+            },
+            AddHtml: function (html) {
+                var fileContainer = document.getElementById("uploadedFilesContainer"),
+                    fullHtml = html;
+                if (fileContainer) {
+                    var containerBody = fileContainer.tBodies[0];
+                    fullHtml = containerBody.innerHTML + html;
+                }
+                DXUploadedFilesContainer.ReplaceHtml(fullHtml);
+            },
+            ReplaceHtml: function (html) {
+                var builder = ["<table id='uploadedFilesContainer' class='uploadedFilesContainer'><tbody>"];
+                builder.push(html);
+                builder.push("</tbody></table>");
+                var contentHtml = builder.join("");
+                FilesRoundPanel.SetContentHtml(contentHtml);
+            },
+            ApplySettings: function (nameCellStyle, sizeCellStyle, useExtendedPopup) {
+                var self = DXUploadedFilesContainer;
+                self.nameCellStyle = nameCellStyle;
+                self.sizeCellStyle = sizeCellStyle;
+                self.useExtendedPopup = useExtendedPopup;
+            },
+            AddRowFTV: function (data, modulo) {
+                var self = DXUploadedFilesContainer;
+                var builder = ["<tr id='tr-ftv-" + data.data.FichaTecnicaVehiculoId + "'>"];
+
+                builder.push("<td nowrap style='text-align:left;' colspan='2' class='nameCell'>");
+                builder.push("<table border='1' width='500px'>");
+                builder.push("<tr style='background-color:#85e085;'>");
+                builder.push("<td ><b>Descripción</b></td><td><b>Modelo/Año</b></td><td><b>Serie</b></td><td><b>Placa</b></td><td><b>Usuario</b></td><td><b>Ciudad</b></td>");
+                builder.push("</tr>");
+                builder.push("<tr>");
+                builder.push("<td>" + data.data.Modelo + "</td>");
+                builder.push("<td>" + data.data.Anio + "</td>");
+                builder.push("<td>" + data.data.Serie + "</td>");
+                builder.push("<td>" + data.data.Placa + "</td>");
+                builder.push("<td>" + data.data.Usuario + "</td>");
+                builder.push("<td>" + data.data.Ciudad + "</td>");
+                builder.push("</tr>");
+                builder.push("</table>");
+                builder.push("<br/>");
+                builder.push("</td>");
+                builder.push("</tr>");
+
+                ////Fecha de Compra
+                builder.push("<tr>");
+                builder.push("<td nowrap style='height:25px;text-align:left;' class='nameCell'");
+                if (self.nameCellStyle)
+                    builder.push(" style='" + self.nameCellStyle + "'");
+                builder.push("><b>Fecha Compra</b>&nbsp;&nbsp;&nbsp;&nbsp;");
+                builder.push("</td>");
+
+                builder.push("<td nowrap style='height:25px;text-align:left;' class='nameCell'");
+                if (self.nameCellStyle)
+                    builder.push(" style='" + self.nameCellStyle + "'");
+                builder.push(">" +  data.data.sFechaCompra);
+                builder.push("</td>");
+                builder.push("</tr>");
+
+                //#Factura
+                builder.push("<tr>");
+                builder.push("<td nowrap style='height:25px;text-align:left;' class='nameCell'");
+                if (self.nameCellStyle)
+                    builder.push(" style='" + self.nameCellStyle + "'");
+                builder.push("><b># Factura</b>");
+                builder.push("</td>");
+
+                builder.push("<td nowrap style='height:25px;text-align:left;' class='nameCell'");
+                if (self.nameCellStyle)
+                    builder.push(" style='" + self.nameCellStyle + "'");
+                builder.push(">" + data.data.Factura);
+                builder.push("</td>");
+                builder.push("</tr>");
+
+                //Proveedor
+                builder.push("<tr>");
+                builder.push("<td nowrap style='height:25px;text-align:left;' class='nameCell'");
+                if (self.nameCellStyle)
+                    builder.push(" style='" + self.nameCellStyle + "'");
+                builder.push("><b>Proveedor</b>");
+                builder.push("</td>");
+
+                builder.push("<td nowrap style='height:25px;text-align:left;' class='nameCell'");
+                if (self.nameCellStyle)
+                    builder.push(" style='" + self.nameCellStyle + "'");
+                builder.push(">" + data.data.RazonSocial);
+                builder.push("</td>");
+                builder.push("</tr>");
+
+                //Valor Factura
+                builder.push("<tr>");
+                builder.push("<td nowrap style='height:25px;text-align:left;' class='nameCell'");
+                if (self.nameCellStyle)
+                    builder.push(" style='" + self.nameCellStyle + "'");
+                builder.push("><b>Valor Factura</b>");
+                builder.push("</td>");
+
+                builder.push("<td nowrap style='height:25px;text-align:left;' class='nameCell'");
+                if (self.nameCellStyle)
+                    builder.push(" style='" + self.nameCellStyle + "'");
+                builder.push(">" + data.data.ValorFactura);
+                builder.push("</td>");
+                builder.push("</tr>");
+
+                //Tipo de Adquisicion
+                builder.push("<tr>");
+                builder.push("<td nowrap style='height:25px;text-align:left;' class='nameCell'");
+                if (self.nameCellStyle)
+                    builder.push(" style='" + self.nameCellStyle + "'");
+                builder.push("><b>Tipo de Adquisición</b>");
+                builder.push("</td>");
+
+                builder.push("<td nowrap style='height:25px;text-align:left;' class='nameCell'");
+                if (self.nameCellStyle)
+                    builder.push(" style='" + self.nameCellStyle + "'");
+                builder.push(">" + data.data.TipoAdquisicion);
+                builder.push("</td>");
+                builder.push("</tr>");
+
+                //Tasa de Interes
+                builder.push("<tr>");
+                builder.push("<td nowrap style='height:25px;text-align:left;' class='nameCell'");
+                if (self.nameCellStyle)
+                    builder.push(" style='" + self.nameCellStyle + "'");
+                builder.push("><b>Tasa de Interes</b>");
+                builder.push("</td>");
+
+                builder.push("<td nowrap style='height:25px;text-align:left;' class='nameCell'");
+                if (self.nameCellStyle)
+                    builder.push(" style='" + self.nameCellStyle + "'");
+                builder.push(">" + data.data.TasaInteres);
+                builder.push("</td>");
+                builder.push("</tr>");
+
+                //Pago Inicial
+                builder.push("<tr>");
+                builder.push("<td nowrap style='height:25px;text-align:left;' class='nameCell'");
+                if (self.nameCellStyle)
+                    builder.push(" style='" + self.nameCellStyle + "'");
+                builder.push("><b>Pago Inicial</b>");
+                builder.push("</td>");
+
+                builder.push("<td nowrap style='height:25px;text-align:left;' class='nameCell'");
+                if (self.nameCellStyle)
+                    builder.push(" style='" + self.nameCellStyle + "'");
+                builder.push(">" + data.data.PagoInicial);
+                builder.push("</td>");
+                builder.push("</tr>");
+
+                //Renta Mensual
+                builder.push("<tr>");
+                builder.push("<td nowrap style='height:25px;text-align:left;' class='nameCell'");
+                if (self.nameCellStyle)
+                    builder.push(" style='" + self.nameCellStyle + "'");
+                builder.push("><b>Renta Mensual</b>");
+                builder.push("</td>");
+
+                builder.push("<td nowrap style='height:25px;text-align:left;' class='nameCell'");
+                if (self.nameCellStyle)
+                    builder.push(" style='" + self.nameCellStyle + "'");
+                builder.push(">" + data.data.RentaMensual);
+                builder.push("</td>");
+                builder.push("</tr>");
+
+                //Valor Residual
+                builder.push("<tr>");
+                builder.push("<td nowrap style='height:25px;text-align:left;' class='nameCell'");
+                if (self.nameCellStyle)
+                    builder.push(" style='" + self.nameCellStyle + "'");
+                builder.push("><b>Valor Residual</b>");
+                builder.push("</td>");
+
+                builder.push("<td nowrap style='height:25px;text-align:left;' class='nameCell'");
+                if (self.nameCellStyle)
+                    builder.push(" style='" + self.nameCellStyle + "'");
+                builder.push(">" + data.data.ValorResidual);
+                builder.push("</td>");
+                builder.push("</tr>");
+
+                //Aseguradora
+                builder.push("<tr>");
+                builder.push("<td nowrap style='height:25px;text-align:left;' class='nameCell'");
+                if (self.nameCellStyle)
+                    builder.push(" style='" + self.nameCellStyle + "'");
+                builder.push("><b>Aseguradora</b>");
+                builder.push("</td>");
+
+                builder.push("<td nowrap style='height:25px;text-align:left;' class='nameCell'");
+                if (self.nameCellStyle)
+                    builder.push(" style='" + self.nameCellStyle + "'");
+                builder.push(">" + data.data.Aseguradora);
+                builder.push("</td>");
+                builder.push("</tr>");
+
+                //Poliza
+                builder.push("<tr>");
+                builder.push("<td nowrap style='height:25px;text-align:left;' class='nameCell'");
+                if (self.nameCellStyle)
+                    builder.push(" style='" + self.nameCellStyle + "'");
+                builder.push("><b>Poliza</b>");
+                builder.push("</td>");
+
+                builder.push("<td nowrap style='height:25px;text-align:left;' class='nameCell'");
+                if (self.nameCellStyle)
+                    builder.push(" style='" + self.nameCellStyle + "'");
+                builder.push(">" + data.data.Poliza);
+                builder.push("</td>");
+                builder.push("</tr>");
+
+                //Prima Total
+                builder.push("<tr>");
+                builder.push("<td nowrap style='height:25px;text-align:left;' class='nameCell'");
+                if (self.nameCellStyle)
+                    builder.push(" style='" + self.nameCellStyle + "'");
+                builder.push("><b>Prima Total</b>");
+                builder.push("</td>");
+
+                builder.push("<td nowrap style='height:25px;text-align:left;' class='nameCell'");
+                if (self.nameCellStyle)
+                    builder.push(" style='" + self.nameCellStyle + "'");
+                builder.push(">" + data.data.PrimaTotal);
+                builder.push("</td>");
+                builder.push("</tr>");
+
+                //Endoso
+                builder.push("<tr>");
+                builder.push("<td nowrap style='height:25px;text-align:left;' class='nameCell'");
+                if (self.nameCellStyle)
+                    builder.push(" style='" + self.nameCellStyle + "'");
+                builder.push("><b>Endoso</b>");
+                builder.push("</td>");
+
+                builder.push("<td nowrap style='height:25px;text-align:left;' class='nameCell'");
+                if (self.nameCellStyle)
+                    builder.push(" style='" + self.nameCellStyle + "'");
+                builder.push(">" + data.data.Endoso);
+                builder.push("</td>");
+                builder.push("</tr>");
+
+                //Vigencia
+                builder.push("<tr>");
+                builder.push("<td nowrap style='height:25px;text-align:left;' class='nameCell'");
+                if (self.nameCellStyle)
+                    builder.push(" style='" + self.nameCellStyle + "'");
+                builder.push("><b>Vigencia</b>");
+                builder.push("</td>");
+
+                builder.push("<td nowrap style='height:25px;text-align:left;' class='nameCell'");
+                if (self.nameCellStyle)
+                    builder.push(" style='" + self.nameCellStyle + "'");
+                builder.push(">" + data.data.sVigencia);
+                builder.push("</td>");
+                builder.push("</tr>");
+
+                //Tarjeta de Circulación
+                builder.push("<tr>");
+                builder.push("<td nowrap style='height:25px;text-align:left;' class='nameCell'");
+                if (self.nameCellStyle)
+                    builder.push(" style='" + self.nameCellStyle + "'");
+                builder.push("><b>Tarjeta de Circulación</b>&nbsp;&nbsp;&nbsp;&nbsp;");
+                builder.push("</td>");
+
+                builder.push("<td nowrap style='height:25px;text-align:left;' class='nameCell'");
+                if (self.nameCellStyle)
+                    builder.push(" style='" + self.nameCellStyle + "'");
+                builder.push(">" + data.data.TarjetaCirculacion);
+                builder.push("</td>");
+                builder.push("</tr>");
+                
+                var html = builder.join("");
+                DXUploadedFilesContainer.AddHtml(html);
+            },
+        };
+
+        window.DXUploadedFilesContainer = DXUploadedFilesContainer;
+    </script>
+
+    @Html.DevExpress().Panel(settings => {
+        settings.Name = "MainPane";
+        settings.ControlStyle.CssClass = "mainContentPane";
+        settings.SetContent(RenderBody().ToHtmlString());
+    }).GetHtml()
+
+
+</body>
+</html>

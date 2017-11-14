@@ -1,0 +1,12 @@
+﻿@using SCVData;
+@model DXSCV.Models.NotificacionViewModel
+
+@{
+    ViewBag.Title = "Notificaciones";
+    Layout = "~/Views/Shared/_rootLayout.cshtml";
+}
+
+<div style="width:100%;position:relative;margin-bottom:10px;margin-top:10px;font-size:2em;">Notificaciones</div>
+@Html.Partial("GridViewPartialView", Model)
+
+@Html.Hidden("hdNotificacionId")

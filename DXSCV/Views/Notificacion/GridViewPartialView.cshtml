@@ -1,0 +1,114 @@
+﻿@* DXCOMMENT: Configure GridView *@
+@Html.DevExpress().GridView(
+    settings =>
+    {
+        settings.Theme = "Glass";
+        settings.Name = "GridView";
+        settings.CallbackRouteValues = new { Controller = "Notificacion", Action = "GridViewPartialView" };
+        settings.CustomActionRouteValues = new { Controller = "Notificacion", Action = "ChangeEditModePartial" };
+        settings.SettingsEditing.AddNewRowRouteValues = new { Controller = "Notificacion", Action = "AgregaNotificacion" };
+        settings.SettingsEditing.UpdateRowRouteValues = new { Controller = "Notificacion", Action = "ActualizaNotificacion" };
+        settings.SettingsEditing.DeleteRowRouteValues = new { Controller = "Notificacion", Action = "EliminaNotificacion" };
+        settings.SettingsEditing.Mode = GridViewEditingMode.PopupEditForm;
+        settings.SettingsBehavior.ConfirmDelete = true;
+        settings.SettingsPopup.EditForm.Width = 600;
+        settings.Width = Unit.Percentage(100);
+
+        settings.CommandColumn.Visible = true;
+        settings.CommandColumn.ShowNewButton = true;
+        settings.CommandColumn.ShowDeleteButton = true;
+        settings.CommandColumn.ShowEditButton = true;
+        settings.SettingsPager.PageSize = 10;
+        settings.ControlStyle.Paddings.Padding = System.Web.UI.WebControls.Unit.Pixel(0);
+        settings.ControlStyle.Border.BorderWidth = System.Web.UI.WebControls.Unit.Pixel(0);
+        settings.ControlStyle.BorderBottom.BorderWidth = System.Web.UI.WebControls.Unit.Pixel(1);
+
+        // DXCOMMENT: Specify the grid's key field name and define grid columns in accordance with data model fields
+        settings.KeyFieldName = "NotificacionId";
+        
+        settings.Columns.Add("Descripcion");
+        settings.Columns.Add(column =>
+        {
+            column.FieldName = "FechaNotificacion";
+            column.Caption = "Fecha Notificación";
+            column.ColumnType = MVCxGridViewColumnType.DateEdit;
+
+            var dateedit = (DateEditProperties)column.PropertiesEdit;
+            dateedit.ValidationSettings.RequiredField.IsRequired = false;
+        });
+        settings.Columns.Add(column =>
+        {
+            column.FieldName = "NotificacionEstatusId";
+            column.Caption = "Estatus";
+            column.ColumnType = MVCxGridViewColumnType.ComboBox;
+            var comboBoxProperties = (ComboBoxProperties)column.PropertiesEdit;
+            comboBoxProperties.DataSource = Model.Estatus;
+            comboBoxProperties.TextField = "Descripcion";
+            comboBoxProperties.ValueField = "NotificacionEstatusId";
+            comboBoxProperties.DropDownStyle = DropDownStyle.DropDown;
+        });
+        settings.Columns.Add(column =>
+        {
+            column.FieldName = "CuentaId";
+            column.Caption = "Registrado Por";
+            column.ColumnType = MVCxGridViewColumnType.ComboBox;
+            var comboBoxProperties = (ComboBoxProperties)column.PropertiesEdit;
+            comboBoxProperties.DataSource = Model.Cuentas;
+            comboBoxProperties.TextField = "UserName";
+            comboBoxProperties.ValueField = "CuentaId";
+            comboBoxProperties.DropDownStyle = DropDownStyle.DropDown;
+        });
+        settings.Columns.Add("Correo");
+        settings.Columns.Add(column =>
+        {
+            column.FieldName = "FechaAlta";
+            column.Caption = "Fecha Alta";
+            column.ColumnType = MVCxGridViewColumnType.DateEdit;
+
+            var dateedit = (DateEditProperties)column.PropertiesEdit;
+            dateedit.ValidationSettings.RequiredField.IsRequired = false;
+        });
+        settings.Columns.Add(column =>
+        {
+            column.FieldName = "FechaMod";
+            column.Caption = "Fecha Modificación";
+            column.ColumnType = MVCxGridViewColumnType.DateEdit;
+
+            var dateedit = (DateEditProperties)column.PropertiesEdit;
+            dateedit.ValidationSettings.RequiredField.IsRequired = false;
+        });
+        settings.CellEditorInitialize = (s, e) =>
+        {
+            ASPxEdit editor = (ASPxEdit)e.Editor;
+            editor.ValidationSettings.Display = Display.Dynamic;
+            MVCxGridView g = s as MVCxGridView;
+
+            if (e.Column.FieldName == "UsuarioIdAlta")
+            {
+                if (g.IsNewRowEditing)
+                {
+                    e.Editor.ReadOnly = false;
+                    e.Editor.Enabled = true;
+                }
+                else
+                {
+                    e.Editor.ReadOnly = true;
+                    e.Editor.Enabled = false;
+                }
+            }
+
+            if (e.Column.FieldName == "FechaAlta")
+            {
+                if (g.IsNewRowEditing)
+                {
+                    e.Editor.ReadOnly = false;
+                    e.Editor.Enabled = true;
+                }
+                else
+                {
+                    e.Editor.ReadOnly = true;
+                    e.Editor.Enabled = false;
+                }
+            }
+        };
+    }).Bind(Model.Notificaciones).GetHtml()

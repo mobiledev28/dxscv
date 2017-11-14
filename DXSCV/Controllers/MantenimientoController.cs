@@ -22,7 +22,7 @@ namespace DXSCV.Controllers
 
         MantenimientoViewModel vvm = new MantenimientoViewModel
         {
-            Mantenimientos = MantenimientoList.GetMantenimientos(),
+            Mantenimientos = new List<SCV_Mantenimiento>(),
             Usuarios = MantenimientoList.GetUsuarios(),
             Vehiculos = MantenimientoList.GetVehiculos(),
             Ciudades = MantenimientoList.GetCiudades(),
@@ -32,9 +32,31 @@ namespace DXSCV.Controllers
             TiposDocumentos = MantenimientoList.GetTiposDocumentos()
         };
 
+        private void GetMantenimientos()
+        {
+            SessionUserViewModel suvm = new SessionUserViewModel();
+            if (Session["_UserLogged"] != null)
+            {
+                suvm = (SessionUserViewModel)Session["_UserLogged"];
+            }
+
+            int empresaId = 0;
+            if (suvm.EmpresaId != 0) empresaId = suvm.EmpresaId;
+
+            List<SCV_Empresa> empList = EmpresaDB.ObtieneEmpresasDB();
+
+            if (!suvm.IsHerrMty) empList.Remove(empList.FirstOrDefault(e => e.EmpresaId == 1));
+            if (!suvm.IsMetalinspec) empList.Remove(empList.FirstOrDefault(e => e.EmpresaId == 2));
+            if (!suvm.IsMetalinspecLab) empList.Remove(empList.FirstOrDefault(e => e.EmpresaId == 3));
+            if (!suvm.IsMetroLab) empList.Remove(empList.FirstOrDefault(e => e.EmpresaId == 4));
+
+            vvm.Mantenimientos = MantenimientoList.GetMantenimientosByEmpresa(empList, empresaId);
+        }
+
         [SessionAuthorize]
         public ActionResult Index()
         {
+            this.GetMantenimientos();
             return View(vvm);
         }
 
@@ -43,6 +65,7 @@ namespace DXSCV.Controllers
         public ActionResult GridViewPartialView()
         {
             // DXCOMMENT: Pass a data model for GridView in the PartialView method's second parameter
+            this.GetMantenimientos();
             return PartialView("GridViewPartialView", vvm);
         }
 
@@ -71,17 +94,20 @@ namespace DXSCV.Controllers
             else
                 ViewData["EditError"] = "Please, correct all errors.";
 
-            vvm = new MantenimientoViewModel
-            {
-                Mantenimientos = MantenimientoList.GetMantenimientos(),
-                Usuarios = MantenimientoList.GetUsuarios(),
-                Vehiculos = MantenimientoList.GetVehiculos(),
-                Ciudades = MantenimientoList.GetCiudades(),
-                Cuentas = MantenimientoList.GetCuentas(),
-                Proveedores = MantenimientoList.GetProveedores(),
-                Empresas = MantenimientoList.GetEmpresas(),
-                TiposDocumentos = MantenimientoList.GetTiposDocumentos()
-            };
+            //vvm = new MantenimientoViewModel
+            //{
+            //    Mantenimientos = MantenimientoList.GetMantenimientos(),
+            //    Usuarios = MantenimientoList.GetUsuarios(),
+            //    Vehiculos = MantenimientoList.GetVehiculos(),
+            //    Ciudades = MantenimientoList.GetCiudades(),
+            //    Cuentas = MantenimientoList.GetCuentas(),
+            //    Proveedores = MantenimientoList.GetProveedores(),
+            //    Empresas = MantenimientoList.GetEmpresas(),
+            //    TiposDocumentos = MantenimientoList.GetTiposDocumentos()
+            //};
+
+            this.GetMantenimientos();
+
             return PartialView("GridViewPartialView", vvm);
         }
 
@@ -103,17 +129,18 @@ namespace DXSCV.Controllers
             else
                 ViewData["EditError"] = "Please, correct all errors.";
 
-            vvm = new MantenimientoViewModel
-            {
-                Mantenimientos = MantenimientoList.GetMantenimientos(),
-                Usuarios = MantenimientoList.GetUsuarios(),
-                Vehiculos = MantenimientoList.GetVehiculos(),
-                Ciudades = MantenimientoList.GetCiudades(),
-                Cuentas = MantenimientoList.GetCuentas(),
-                Proveedores = MantenimientoList.GetProveedores(),
-                Empresas = MantenimientoList.GetEmpresas(),
-                TiposDocumentos = MantenimientoList.GetTiposDocumentos()
-            };
+            //vvm = new MantenimientoViewModel
+            //{
+            //    Mantenimientos = MantenimientoList.GetMantenimientos(),
+            //    Usuarios = MantenimientoList.GetUsuarios(),
+            //    Vehiculos = MantenimientoList.GetVehiculos(),
+            //    Ciudades = MantenimientoList.GetCiudades(),
+            //    Cuentas = MantenimientoList.GetCuentas(),
+            //    Proveedores = MantenimientoList.GetProveedores(),
+            //    Empresas = MantenimientoList.GetEmpresas(),
+            //    TiposDocumentos = MantenimientoList.GetTiposDocumentos()
+            //};
+            this.GetMantenimientos();
             return PartialView("GridViewPartialView", vvm);
         }
 
@@ -133,17 +160,18 @@ namespace DXSCV.Controllers
                 }
             }
 
-            vvm = new MantenimientoViewModel
-            {
-                Mantenimientos = MantenimientoList.GetMantenimientos(),
-                Usuarios = MantenimientoList.GetUsuarios(),
-                Vehiculos = MantenimientoList.GetVehiculos(),
-                Ciudades = MantenimientoList.GetCiudades(),
-                Cuentas = MantenimientoList.GetCuentas(),
-                Proveedores = MantenimientoList.GetProveedores(),
-                Empresas = MantenimientoList.GetEmpresas(),
-                TiposDocumentos = MantenimientoList.GetTiposDocumentos()
-            };
+            //vvm = new MantenimientoViewModel
+            //{
+            //    Mantenimientos = MantenimientoList.GetMantenimientos(),
+            //    Usuarios = MantenimientoList.GetUsuarios(),
+            //    Vehiculos = MantenimientoList.GetVehiculos(),
+            //    Ciudades = MantenimientoList.GetCiudades(),
+            //    Cuentas = MantenimientoList.GetCuentas(),
+            //    Proveedores = MantenimientoList.GetProveedores(),
+            //    Empresas = MantenimientoList.GetEmpresas(),
+            //    TiposDocumentos = MantenimientoList.GetTiposDocumentos()
+            //};
+            this.GetMantenimientos();
             return PartialView("GridViewPartialView", vvm);
         }
 

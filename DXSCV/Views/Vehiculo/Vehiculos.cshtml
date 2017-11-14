@@ -1,0 +1,299 @@
+﻿@using SCVData;
+
+@model DXSCV.Models.VehiculoViewModel
+@{
+    ViewBag.Title = "Vehiculos";
+    Layout = "~/Views/Shared/_mainLayout.cshtml";
+    string userName = Model.UsuarioActivo.UserName;
+    
+}
+
+<script type="text/javascript">
+
+    function TipoDocSelected(s, e) {
+        var value = s.GetValue();//document.getElementById("cmbTipoDocumento");
+        $("#hdnTipoDoc").val(value);
+        //alert(value);
+    }
+    function OnClick(s, e) {
+        var tipodoc = $("#hdnTipoDoc").val();
+
+        //El tipo de documento es requerido
+        if (tipoc == "0") {
+            alert("No se cargo el documento, debes seleccionar el tipo de documento.");
+            return;
+        }
+
+        uc.Upload();
+    }
+
+    function OnFileUploadComplete(s, e) {
+        if (e.callbackData !== "") {
+            var tipodoc = $("#hdnTipoDoc").val();
+            //El tipo de documento el requerido
+            if (tipodoc == "0") {
+                return;
+            }
+
+            var vehiculoId = $("#hdVehiculoId").val();
+            var url = e.callbackData;
+
+            UploadEvents.SaveInfoFile(vehiculoId, url, '/Vehiculo/AddInfoFile', tipodoc);
+        } else {
+            alert("El archivo no pudo ser cargado.");
+        }
+    }
+
+    function GetVehiculoInfo() {
+        var vehiculoId = '0';
+        var serie = '';
+        var placa = '';
+        
+        vehiculoId = txtVehiculoID.GetValue();
+        serie = txtSerie.GetValue();
+        placa = txtPlaca.GetValue();
+
+        $.ajax({
+            beforeSend: function () {
+                $('.loading').show();
+            },
+            complete: function () {
+                $('.loading').hide();
+            },
+            url: '/Vehiculo/VehiculosFiltros',
+            type: 'GET',
+            dataType: 'json',
+            data: {
+                vehiculoId: vehiculoId,
+                serie: serie,
+                placa: placa
+            },
+            contentType: 'application/json; charset=utf-8',
+            success: function (data) {
+                GridView.Refresh(); //UploadEvents.AddInfoFileSection(data, modulo);
+            },
+            error: function () {
+                alert("error");
+            }
+        });
+    }
+
+    //Show popup for updload documents
+    var currentVehiculoID;
+    function OnHyperLinkClick(id) {
+        currentVehiculoID = id;
+        $("#hdVehiculoId").val(id);
+
+        UploadEvents.GetFiles(currentVehiculoID, '/Vehiculo/FichaTecnicaVehiculo', 8);
+
+        if (!popup.IsVisible()) {
+            popup.Show();
+        }
+    }
+
+    var fichaTecnicaUsuario;
+    function OnHyperLinkClickUsuario(id) {
+        fichaTecnicaUsuario = id;
+        $("#hdnUsuarioIdAsignado").val(id);
+
+        UploadEvents.GetFiles(fichaTecnicaUsuario, '/Vehiculo/FichaTecnicaUsuario', 10);
+
+        if (!popup2.IsVisible()) {
+            popup2.Show();
+        }
+    }
+
+    function OnDetailGridBeginCallback(s, e) {
+        e.customArgs["_vehiculoID"] = currentvehiculoID;
+    }
+
+    function OnDetailGridEndCallback(s, e) {
+
+        if (!popup.IsVisible()) {
+            popup.Show();
+        }
+    }
+
+    function OnClick(s, e) {
+        //$("#vehiculoId").val(1);//txtVehiculoID.GetText());
+        //$("#serie").val(txtSerie.GetText());
+        //$("#placa").val(txtPlaca.GetText());
+        //$("form").submit();
+
+        var targetUrl = s.submitUrl + "/?vehiculoId=" + txtVehiculoID.GetText() + "&serie=" + txtSerie.GetText() + "&placa=" + txtPlaca.GetText();
+        s.submitUrl = targetUrl;
+    }
+
+    var currentVehiculoId;
+    function LoadAttachments() {
+        if (popup.IsVisible()) {
+            popup.Hide();
+        }
+
+        currentVehiculoId =  $("#hdVehiculoId").val();
+        //$("#hdVehiculoId").val(id);
+
+        FichaTecnica.GetFTVehiculoFiles(currentVehiculoId, '/FTVehiculo/GetFiles', 7, "vehiculo");
+
+        if (!popup3.IsVisible()) {
+            popup3.Show();
+        }
+    }
+
+  
+
+    function GoBackFicha() {
+        if (popup3.IsVisible()) {
+            popup3.Hide();
+        }
+
+        if (!popup.IsVisible()) {
+            popup.Show();
+        }
+
+        
+    }
+
+
+</script>
+
+
+
+<div style="width:100%;position:relative;margin-bottom:10px;margin-top:10px;font-size:2em;">
+    Vehiculos
+</div>
+
+<span>Usuario:</span><span>@userName</span>
+<br />
+<br />
+@using (Html.BeginForm("VehiculosFiltros", "Vehiculo"))
+{
+
+    @Html.Hidden("vehiculoId")
+    @Html.Hidden("serie")
+    @Html.Hidden("placa")
+
+    <!--Filtros-->
+    <table>
+        <tr>
+            <td style="width:110px; height:30px;">Vehiculo ID</td>
+            <td>
+                @Html.DevExpress().TextBox(
+                settings =>
+                {
+                    settings.Name = "txtVehiculoID";
+                    settings.Width = 170;
+                    settings.Properties.NullText = "Captura el Id del Vehiculo";
+
+                }
+            ).GetHtml()
+            </td>
+        </tr>
+        <tr>
+            <td style="width: 110px; height: 30px;">Serie</td>
+            <td>
+                @Html.DevExpress().TextBox(
+                settings =>
+                {
+                    settings.Name = "txtSerie";
+                    settings.Width = 170;
+                    settings.Properties.NullText = "Captura la serie";
+                }
+            ).GetHtml()
+            </td>
+        </tr>
+        <tr>
+            <td style="width: 110px; height: 30px;">Placa</td>
+            <td>
+                @Html.DevExpress().TextBox(
+                settings =>
+                {
+                    settings.Name = "txtPlaca";
+                    settings.Width = 170;
+                    settings.Properties.NullText = "Captura la placa";
+                }
+            ).GetHtml()
+            </td>
+        </tr>
+        <tr>
+            <td colspan="2" style="text-align:right;height:30px;">
+                @Html.DevExpress().Button(
+                settings =>
+                {
+                    settings.Name = "btnBuscar";
+                    settings.Text = "Buscar";
+                    settings.AllowFocus = false;
+                    settings.Styles.Native = true;
+                    settings.Width = 85;
+                    settings.ClientSideEvents.Click = "OnClick";
+                    settings.RouteValues = new { Controller = "Vehiculo", Action = "VehiculosFiltros", vehiculoId = "", serie = "", placa = "" };
+                }).GetHtml()
+
+                @Html.DevExpress().Button(
+                settings =>
+                {
+                    settings.Name = "btnTodos";
+                    settings.Text = "Todos";
+                    settings.AllowFocus = false;
+                    settings.Styles.Native = true;
+                    settings.Width = 85;
+                    settings.RouteValues = new { Controller = "Vehiculo", Action = "Vehiculos"};
+                }).GetHtml()
+            </td>
+        </tr>
+    </table>
+}
+
+<br />
+<br />
+@Html.Partial("GridViewVehiculosFiltrados", Model)
+@Html.Hidden("hdVehiculoId")
+@Html.Hidden("hdnUsuarioIdAsignado")
+
+
+@Html.DevExpress().PopupControl(settings =>
+{
+    settings.Name = "popup";
+    settings.PopupVerticalAlign = PopupVerticalAlign.WindowCenter;
+    settings.PopupHorizontalAlign = PopupHorizontalAlign.WindowCenter;
+    settings.Width = System.Web.UI.WebControls.Unit.Pixel(600);
+    settings.Height = System.Web.UI.WebControls.Unit.Pixel(450);
+    settings.HeaderText = "Ficha Tecnica";
+    settings.SetContent(() =>
+    {
+        Html.RenderPartial("FichaTecnicaVehiculoPartialView", Model);
+    });
+
+}).GetHtml()
+
+
+@Html.DevExpress().PopupControl(settings =>
+{
+    settings.Name = "popup2";
+    settings.PopupVerticalAlign = PopupVerticalAlign.WindowCenter;
+    settings.PopupHorizontalAlign = PopupHorizontalAlign.WindowCenter;
+    settings.Width = System.Web.UI.WebControls.Unit.Pixel(600);
+    settings.Height = System.Web.UI.WebControls.Unit.Pixel(450);
+    settings.HeaderText = "Ficha Tecnica";
+    settings.SetContent(() =>
+    {
+        Html.RenderPartial("FichaTecnicaUsuarioPartialView", Model);
+    });
+
+}).GetHtml()
+
+@Html.DevExpress().PopupControl(settings =>
+{
+    settings.Name = "popup3";
+    settings.PopupVerticalAlign = PopupVerticalAlign.WindowCenter;
+    settings.PopupHorizontalAlign = PopupHorizontalAlign.WindowCenter;
+    settings.Width = System.Web.UI.WebControls.Unit.Pixel(600);
+    settings.Height = System.Web.UI.WebControls.Unit.Pixel(450);
+    settings.HeaderText = "Documentos";
+    settings.SetContent(() =>
+    {
+        Html.RenderPartial("DocumentosPartialView", Model);
+    });
+
+}).GetHtml()
+
